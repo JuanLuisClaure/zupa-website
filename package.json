@@ -1,0 +1,56 @@
+{
+  "name": "zupa_website",
+  "version": "2",
+  "description": "Website de zupa.delivery",
+  "main": "./www/index.js",
+  "author": "JuanLuisClaure",
+  "license": "MIT",
+  "scripts": {
+    "now-start": "node ./www/index.js",
+    "start": "gulp default"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "now": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.2.2",
+    "css-loader": "latest",
+    "del": "latest",
+    "extract-text-webpack-plugin": "latest",
+    "file-loader": "latest",
+    "gulp": "latest",
+    "gulp-babel": "latest",
+    "gulp-nodemon": "latest",
+    "gulp-riot": "latest",
+    "gulp-sass": "latest",
+    "riot": "latest",
+    "riot-route": "latest",
+    "style-loader": "latest",
+    "url-loader": "latest",
+    "webpack": "latest",
+    "webpack-stats-plugin": "latest",
+    "webpack-stream": "latest"
+  },
+  "dependencies": {
+    "babel-polyfill": "latest",
+    "firebase": "^4.1.3",
+    "http2": "latest",
+    "koa": "next",
+    "koa-router": "next",
+    "koa-static": "next",
+    "node-pre-gyp": "latest",
+    "pug": "latest",
+    "riot-animore": "^0.0.3",
+    "socket.io": "latest",
+    "socket.io-client": "latest"
+  }
+}
