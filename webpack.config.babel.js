@@ -4,7 +4,6 @@ const path = require('path')
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin
 
 export default {
-
   resolve: {
     modules: [
       'node_modules',
@@ -25,6 +24,7 @@ export default {
   },
 
   devtool: 'source-map',
+  watch: true,
 
   module: {
     rules: [
@@ -100,7 +100,7 @@ export default {
     }),
     new ExtractTextPlugin({
       filename: '[name].css',
-      disable: false,
+      disable: true,
       allChunks: true,
     }),
     new StatsWriterPlugin({
