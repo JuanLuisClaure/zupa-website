@@ -5,6 +5,12 @@ import '../../componentes/onboarding/onboarding'
     <div if={ !estar }>
 
       <onboarding/>
+      <onboarding/>
+      <onboarding/>
+      <onboarding/>
+
+      <onboarding/>
+      <onboarding/>
 
     </div>
     <script>
