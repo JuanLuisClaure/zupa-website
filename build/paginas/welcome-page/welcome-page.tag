@@ -11,6 +11,18 @@ import '../../componentes/onboarding/onboarding'
 
       <onboarding/>
       <onboarding/>
+      <onboarding/>
+      <onboarding/>
+      <onboarding/>
+
+      <onboarding/>
+      <onboarding/>
+      <onboarding/>
+      <onboarding/>
+      <onboarding/>
+
+      <onboarding/>
+      <onboarding/>
 
     </div>
     <script>
