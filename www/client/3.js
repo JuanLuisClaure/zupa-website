@@ -10,7 +10,7 @@ __webpack_require__(190);
 
 const riot = __webpack_require__(15);
 
-riot.tag2('welcome', '<div if="{!estar}"> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> </div>', '', '', function (opts) {
+riot.tag2('welcome', '<div if="{!estar}"> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> </div>', '', '', function (opts) {
   this.estar = false;
 
   this.abrirEstar = () => {
