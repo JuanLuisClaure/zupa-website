@@ -1,27 +1,20 @@
 webpackJsonp([3],{
 
-/***/ 180:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(190);
+__webpack_require__(162);
 
 const riot = __webpack_require__(15);
 
-riot.tag2('welcome', '<div if="{!estar}"> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> <onboarding></onboarding> </div>', '', '', function (opts) {
-  this.estar = false;
-
-  this.abrirEstar = () => {
-    this.estar = !this.estar;
-    this.update();
-  };
-});
+riot.tag2('welcome', '<onboarding></onboarding>', '', '', function (opts) {});
 
 /***/ }),
 
-/***/ 190:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35,13 +28,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const riot = __webpack_require__(15);
 
-riot.tag2('onboarding', '<div class="flexContainer flexCenter itemCenter fullHeight centerImage"> <div class="flexContainer header "> <p>hola</p> </div> <div class="flexContainer flexCenter itemCenter fullHeight"> <a href="/#/conoces?" class="homeButton">Return Home</a> </div> <div class="flexContainer footer "> <p>adios!</p> </div> </div>', 'onboarding .flexi-container,[data-is="onboarding"] .flexi-container{ display: flex; flex-direction:column; height: 100%; } onboarding .header,[data-is="onboarding"] .header{ background-color: red; } onboarding .footer,[data-is="onboarding"] .footer{ background-color: green; } onboarding .flexContainer,[data-is="onboarding"] .flexContainer{ display: flex; flex-direction:column; } onboarding .flexCenter,[data-is="onboarding"] .flexCenter{ justify-content: center; } onboarding .fullHeight,[data-is="onboarding"] .fullHeight{ height: 100vh; } onboarding .itemCenter,[data-is="onboarding"] .itemCenter{ align-items: center; } onboarding .centerImage,[data-is="onboarding"] .centerImage{ background: url(\'./client/assets/img/backThree.jpg\') center; background-size: cover; }', '', function (opts) {
+riot.tag2('onboarding', '<div class="flexContainer"> <div class="header"> <p>hola</p> <p>hola</p> </div> <div class="content flexCenter"> <a href="/#/conoces?" class="homeButton" onclick="{entrarWeb}">Return Home</a> </div> <div class="footer"> <button type="button" name="button" onclick="{openSub}"></button> <div class="aaa" if="{abierto}"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="submit" name="" value="aaaaaaaaaaaaaaaaa"> </div> </div> </div>', 'onboarding .flexContainer,[data-is="onboarding"] .flexContainer{ display: flex; flex-direction:column; position: absolute; height: 100vh; width: 100vw; z-index: -1; background-color: rgba(229, 25, 25, 0) !important; } onboarding .flexCenter,[data-is="onboarding"] .flexCenter{ justify-content: center; align-items: stretch; } onboarding .header,[data-is="onboarding"] .header{ background-color: rgba(9, 29, 213, 1); flex: 0 1 auto; order: 1; } onboarding .footer,[data-is="onboarding"] .footer{ background-color: rgba(9, 29, 213, 1); flex: 0 1 auto; order: 3; } onboarding .content,[data-is="onboarding"] .content{ background-color: rgba(9, 29, 213, 0.77); flex: 51 1 auto; order:2; }', '', function (opts) {
+  this.abierto = false;
+
+  this.openSub = () => {
+    this.abierto = !this.abierto;
+  };
+
   this.entrarWeb = () => {
-    this.parent.abrirEstar();
+    let el = document.getElementById('myCanvas');
+    let elId = el.classList.add('none');
     let data = 'Entrando a la website yeah';
 
     _dispatcher2.default.trigger('crear_toast', data);
   };
+
+  this.on('mount', () => {
+    let el = document.getElementById('myCanvas');
+    el.setAttribute('style', 'background-color: rgba(229, 25, 25, 0) !important;');
+    let elId = el.classList.remove('none');
+  });
 });
 
 /***/ })

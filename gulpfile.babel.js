@@ -16,13 +16,14 @@ import { paths } from './src/config.paths'
 gulp.task('browsersync', browsersync)
 gulp.task('nodemon', iniciarNodemon)
 gulp.task('iniciar', iniciarTodo)
-gulp.task('default', gulp.parallel( 'nodemon', 'browsersync', gulp.series('iniciar', (done)=>{
+gulp.task('default', gulp.parallel('browsersync', gulp.series('iniciar', 'nodemon', (done)=>{
 promesasG().then(()=>{
   gulp.watch(['./build/componentes/**/**.tag', './build/paginas/**/**.tag', './build/theme/**/**.scss', './src/server/**/**.js'], (done)=>{
         promsesasCreacionTodo().then(()=>{
-          done()
+          promesasG().then(()=>{done()})
         })
     })
+
 })
 done()
 })))
@@ -43,23 +44,31 @@ let sta =  nodemon({
   ignore: [
   'gulpfile.babel.js',
   'webpack-config.babel.js',
-  'node_modules/'
+  'node_modules/',
+  'src/',
+  'build/',
+  'package.json',
+  'README.md',
+  'webpack.config.babel.js',
+  'gulpfile.babel.js'
+
   ]
 }).on('start', function () {
   if (!started) {
                   started = true
                   browserSync.reload()
-                  browserSync.notify('Reload....')
+                  browserSync.notify('[RELOAD][RELOAD][RELOAD][RELOAD][RELOAD][RELOAD][RELOAD][RELOAD][RELOAD][RELOAD]')
                   done()
   }
 }).on('crash', function () {
     // browserSync.exit()
     started = false
-    browserSync.notify('CRASH!!!!')
+    browserSync.notify('[CRASH][CRASH][CRASH][CRASH][CRASH][CRASH][CRASH][CRASH][CRASH]')
 }).on('restart', function () {
     // browserSync.exit()
+
     started = false
-    browserSync.notify('Restart!!!!')
+    browserSync.notify('Espere un segundo mientras todos los archivos son contruidos')
 })
 
 return sta
@@ -131,13 +140,13 @@ function iniciarTodo(done){
   limpiarFolder().then(()=>{
     promsesasCreacionTodo().then(()=>{
       console.log('realizado-copiar')
+      done()
     })
   })
-  done()
 }
 function promesasG(){
-    console.log('realizado-webpack')
     let yes = new Promise((resolve)=>{resolve(webpackstream(webpackConfig, webpack).pipe(gulp.dest(paths.clntDir)))})
+    console.log('realizado-webpack')
     return yes
 }
 function limpiarFolder(){
