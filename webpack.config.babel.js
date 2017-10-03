@@ -24,7 +24,6 @@ export default {
   },
 
   devtool: 'source-map',
-  watch: true,
 
   module: {
     rules: [
@@ -101,7 +100,7 @@ export default {
     new ExtractTextPlugin({
       filename: '[name].css',
       disable: true,
-      allChunks: true,
+      allChunks: false,
     }),
     new StatsWriterPlugin({
       filename: 'stats.json', // Default

@@ -32,31 +32,31 @@
 // --------------------------------------------------
 
 
-
-@mixin fontFace($family,$src,$style: normal,$weight: normal) {
-  @font-face {
-    font-family: $family;
-    src: url('#{$src}.eot'); // IE9 compat
-    src: url('#{$src}.eot?#iefix') format('embedded-opentype'), // IE8 and below
-      url('#{$src}.woff') format('woff'), // standards
-      url('#{$src}.ttf') format('truetype'), // Safari, Android, iOS
-      url('#{$src}.svg##{$family}') format('svg'); // legacy iOS
-    font-style: $style;
-    font-weight: $weight;
-
-  }
-};
-
-
-@include fontFace(superBold, "../assets/fonts/Montserrat-Black");
-@include fontFace(Bold, "../assets/fonts/Montserrat-Bold");
-@include fontFace(extraBold, "../assets/fonts/Montserrat-ExtraBold");
-@include fontFace(light, "../assets/fonts/Montserrat-Light");
-@include fontFace(regular, "../assets/fonts/Montserrat-Regular");
-@include fontFace(semiBold , "../assets/fonts/Montserrat-SemiBold");
-@include fontFace(ultraLight , "../assets/fonts/Montserrat-UltraLight");
-
-
+// 
+// @mixin fontFace($family,$src,$style: normal,$weight: normal) {
+//   @font-face {
+//     font-family: $family;
+//     src: url('#{$src}.eot'); // IE9 compat
+//     src: url('#{$src}.eot?#iefix') format('embedded-opentype'), // IE8 and below
+//       url('#{$src}.woff') format('woff'), // standards
+//       url('#{$src}.ttf') format('truetype'), // Safari, Android, iOS
+//       url('#{$src}.svg##{$family}') format('svg'); // legacy iOS
+//     font-style: $style;
+//     font-weight: $weight;
+//
+//   }
+// };
+//
+//
+// @include fontFace(superBold, "../assets/fonts/Montserrat-Black");
+// @include fontFace(Bold, "../assets/fonts/Montserrat-Bold");
+// @include fontFace(extraBold, "../assets/fonts/Montserrat-ExtraBold");
+// @include fontFace(light, "../assets/fonts/Montserrat-Light");
+// @include fontFace(regular, "../assets/fonts/Montserrat-Regular");
+// @include fontFace(semiBold , "../assets/fonts/Montserrat-SemiBold");
+// @include fontFace(ultraLight , "../assets/fonts/Montserrat-UltraLight");
+//
+//
 
 
 
@@ -76,6 +76,12 @@
 }
 
 
+
+
+
+body{
+  background-color:transparent!important;
+}
 
 
 
