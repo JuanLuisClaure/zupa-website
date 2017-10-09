@@ -9,7 +9,7 @@ import dispatcher from '../../app/dispatcher'
     position: absolute;
     height: 100vh;
     width: 100vw;
-    z-index: -1;
+    z-index: 1;
     background-color: rgba(229, 25, 25, 0) !important;
 
   }
@@ -35,7 +35,7 @@ import dispatcher from '../../app/dispatcher'
 </style>
 
 
-<div class="flexContainer">
+<div class="flexContainer" id="super">
 
   <div class="header" >
     <p>hola</p>
@@ -72,6 +72,7 @@ this.abierto = false
 this.openSub = () => {
   this.abierto = !this.abierto
 }
+
 this.entrarWeb = () => {
   let el = document.getElementById('myCanvas')
   let elId = el.classList.add('none')
@@ -79,14 +80,23 @@ this.entrarWeb = () => {
   dispatcher.trigger('crear_toast', data)
 }
 
+
+
 this.on('mount', ()=>{
   let el = document.getElementById('myCanvas')
+  let tabla = document.getElementById('super')
+  el.setAttribute('style', 'background-color: rgba(229, 25, 25, 0) !important;pointer-events: none!important;')
 
-  el.setAttribute('style', 'background-color: rgba(229, 25, 25, 0) !important;')
-
+  tabla.addEventListener('click', (e)=>{
+    socket.emit('consultas', e)
+    this.update()
+  })
 
   let elId = el.classList.remove('none')
 })
+
+
+
 
 
 </script>

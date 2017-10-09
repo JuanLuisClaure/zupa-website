@@ -36,6 +36,7 @@ api.get('/', function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(ctx, next) {
+    var esto;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -46,25 +47,30 @@ api.get('/', function () {
 
           case 3:
             ctx.body = _context.sent;
-            _context.next = 9;
-            break;
+            _context.next = 6;
+            return init.setup(io);
 
           case 6:
-            _context.prev = 6;
-            _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
+            esto = _context.sent;
+            _context.next = 12;
+            break;
 
           case 9:
             _context.prev = 9;
-            console.log('final');
-            return _context.finish(9);
+            _context.t0 = _context["catch"](0);
+            console.log(_context.t0);
 
           case 12:
+            _context.prev = 12;
+            console.log('INICIANDO >>');
+            return _context.finish(12);
+
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, this, [[0, 6, 9, 12]]);
+    }, _callee, this, [[0, 9, 12, 15]]);
   }));
 
   return function (_x, _x2) {

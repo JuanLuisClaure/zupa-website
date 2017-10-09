@@ -31,15 +31,15 @@ app.use((ctx, next) => {(ctx.status === 404)? ctx.body = pug.renderFile(__dirnam
 
 
 api.get('/', async(ctx, next) => {
-  //  init.setup(io)
+
   //
   try {
      ctx.body = await pug.renderFile(__dirname + '/server/2V/inicio.pug')
-    // let esto = await console.log(riot.render())
+     let esto = await init.setup(io)
   } catch (e) {
     console.log(e);
   } finally {
-    console.log('final');
+    console.log('INICIANDO >>');
   }
 
 })
