@@ -1,5 +1,5 @@
 import { on, off } from './3C/conectar'
-import { obvio } from './canvasCtrl/dinamicSvg'
+// import { iniciar, test, dibujarCirculo } from './canvasCtrl/dinamicSvg'
 
 
 
@@ -12,14 +12,19 @@ function setup(io) {
 
     io.on('connection', (socket)=>{
 
-      socket.on('join', (person_name)=>{
-        console.log(person_name);
-        // allClients.push(socket.conn.id)
-      });
+      socket.emit('solicitud', 'tu nombre?')
 
-      socket.on('del', (person_name)=>{
-        console.log(allClients);
-      });
+      socket.on('join', (canvas)=>{
+        //allClients.push(socket.conn.id)
+        // let yeas = iniciar(canvas)
+        // console.log(yeas);
+
+    });
+
+
+      // socket.on('consultas', mandarCanvas);
+
+
 
     })
 
@@ -50,6 +55,22 @@ function setup(io) {
     //   })
     // })
 }
+
+
+
+// function mandarCanvas(x){
+//   // let yeas = dibujarCirculo()
+//   console.log(yeas);
+// }
+
+
+
+
+
+
+
+
+
 
 
 

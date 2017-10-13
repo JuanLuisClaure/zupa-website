@@ -1,68 +1,56 @@
 "use strict";
 
-//   // Get a reference to the canvas object
-//   let canvas = document.getElementById('myCanvas');
-//   // Create an empty project and a view for the canvas:
-//   paper.setup(canvas);
-//   // Create a Paper.js Path to draw a line into it
-//
-//   canvas.width = window.innerWidth
-//   canvas.height = window.innerHeight
-//   let transX = window.innerWidth * 0.5
-//   let transY = window.innerHeight * 0.5
-//
-//
-//   paper.view.translate(transX, transY);
-//
-//
-//   let ejeX = new paper.Path();
-//   let ejeY = new paper.Path();
-//   let gridX = new paper.Path();
-//   let gridY = new paper.Path();
-//
-//
-//
-//   // Give the stroke a color
-//   ejeX.strokeColor = 'white';
-//   ejeX.strokeWidth = 0.5;
-//   ejeY.strokeColor = 'white';
-//   ejeY.strokeWidth = 0.5;
-//   gridX.strokeColor = 'white';
-//   gridX.strokeWidth = 0.5;
-//   gridY.strokeColor = 'white';
-//   gridY.strokeWidth = 0.5;
-//
-//
-//   let xA = new paper.Point(-window.innerWidth/2, 0)
-//   let xB = new paper.Point( window.innerWidth/2, 0)
-//   ejeY.add(xA, xB)
-//
-//   let yA = new paper.Point(0, -window.innerHeight/2);
-//   let yB = new paper.Point(0,  window.innerHeight/2);
-//   ejeX.add(yA, yB)
-//
-//
-//
-// let s = 0
-// let z = 0
-//
-//
-// let cir = new paper.Path.Circle({
-//     center: [s, z],
-//     radius: 30,
-//     strokeColor: 'green',
-//     strokeWidth:  1.5,
-//     fillColor: 'red'
-// });
+var _paper = require("paper");
+
+function iniciar(canvas) {
+  var si = _paper.paper.setup(canvas); // Get a reference to the canvas object
+  // Create an empty project and a view for the canvas:
+  // Create a Paper.js Path to draw a line into it
+  // let transX = canvas.width * 0.5
+  // let transY = canvas.height * 0.5
+  // //
+  //
+  // paper.view.translate(transX, transY);
+  //
+  //
+  // let ejeX = new paper.Path();
+  // let ejeY = new paper.Path();
+  // //
+  // //
+  // // //
+  // // // Give the stroke a color
+  // ejeX.strokeColor = 'black';
+  // ejeX.strokeWidth = 5;
+  // ejeY.strokeColor = 'black';
+  // ejeY.strokeWidth = 5;
+  // //
+  // // //
+  // let xA = new paper.Point(100, 0)
+  // let xB = new paper.Point(200, 0)
+  //
+  //
+  // let yea = ejeX.add(xA, xB)
+  // let yA = new paper.Point(0, -canvas.height/2);
+  // let yB = new paper.Point(0,  canvas.height/2);
+  // ejeX.add(yA, yB)
+  // console.log(paper.view);
+  //
+  //
+
+}
+
+function dibujarCirculo() {
+  var ejeX = new _paper.paper.Path();
+  ejeX.strokeColor = 'black';
+  ejeX.strokeWidth = 5;
+  var xA = new _paper.paper.Point(100, 100);
+  var xB = new _paper.paper.Point(200, 200);
+  var sea = ejeX.add(xA, xB);
+  return sea;
+} //
 //
 //
 //
-//
-// canvas.onmousemove = function(e) {
-//     let pos = getMousePos(canvas, e)
-//     cir.position = pos
-//     console.log(pos);
-// }
 // paper.view.onFrame = (e)=>{
 //
 //   let dx = Math.random() * 2
@@ -80,6 +68,9 @@
 //
 // }
 //
+//
+
+
 function getMousePos(canvas, evt) {
   var rect = canvas.getBoundingClientRect();
   return {
@@ -90,10 +81,72 @@ function getMousePos(canvas, evt) {
 
 ;
 
-function setupCanvas(a) {
-  return console.log('yeah elmensaje', a);
+function test(e) {
+  var s = 200;
+  var z = 200;
+  var cir = new _paper.paper.Path.Circle({
+    center: [s, z],
+    radius: 30,
+    strokeColor: 'green',
+    strokeWidth: 1.5,
+    fillColor: 'red'
+  });
+  return cir;
 }
 
 module.exports = {
-  obvio: setupCanvas
+  iniciar: iniciar,
+  dibujarCirculo: dibujarCirculo,
+  test: test //
+  // PaperScope {
+  //   settings:
+  //    Base {
+  //      applyMatrix: true,
+  //      insertItems: true,
+  //      handleSize: 4,
+  //      hitTolerance: 0 },
+  //   project:
+  //    Project {
+  //      _scope: [Circular],
+  //      _index: 0,
+  //      _children: [],
+  //      _namedChildren: {},
+  //      _activeLayer: null,
+  //      _currentStyle:
+  //       Style {
+  //         _values: {},
+  //         _owner: null,
+  //         _project: [Circular],
+  //         _defaults: [Object] },
+  //      _view:
+  //       View {
+  //         _project: [Circular],
+  //         _scope: [Circular],
+  //         _element: null,
+  //         _pixelRatio: 1,
+  //         _viewSize: [Object],
+  //         _matrix: [Object],
+  //         _frameItems: {},
+  //         _frameItemCount: 0,
+  //         _itemEvents: [Object],
+  //         _autoUpdate: false,
+  //         _needsUpdate: false },
+  //      _selectionItems: {},
+  //      _selectionCount: 0,
+  //      _updateVersion: 0 },
+  //   projects:
+  //    [ Project {
+  //        _scope: [Circular],
+  //        _index: 0,
+  //        _children: [],
+  //        _namedChildren: {},
+  //        _activeLayer: null,
+  //        _currentStyle: [Object],
+  //        _view: [Object],
+  //        _selectionItems: {},
+  //        _selectionCount: 0,
+  //        _updateVersion: 0 } ],
+  //   tools: [],
+  //   _id: 0 }
+
 };
