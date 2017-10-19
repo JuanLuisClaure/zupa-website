@@ -1,5 +1,7 @@
 const riot = require('riot')
 import dispatcher from '../../app/dispatcher'
+import intlTelInput from '../intCountry/intinput'
+
 <onboarding>
 <style media="screen">
 
@@ -16,7 +18,7 @@ import dispatcher from '../../app/dispatcher'
      flex-direction:column;
      align-items: center;
      justify-content: center;
-     margin: 0 auto;
+     margin: 17% auto;
    }
    .flexContainer-cabezera{
      display: flex;
@@ -44,6 +46,7 @@ import dispatcher from '../../app/dispatcher'
     margin: 0 auto;
     width: 100%;
   }
+
 </style>
 
 
@@ -54,10 +57,10 @@ import dispatcher from '../../app/dispatcher'
 
     <div class="flexContainer-cabezera">
       <div class="supuestamente text-left">
-        <p><a href="/#/conoces?">The app!</a></p>
+        <p><button type="button" name="button" onclick={ openDes.bind(this, 'conoces?') }>The app!</button></p>
       </div>
       <div class="supuestamente text-right">
-        <p><a href="/#/presentacion">the shops</a></p>
+        <p><button type="button" name="button" onclick={ openDes.bind(this, 'presentacion')}>the shops</button></p>
       </div>
     </div>
 
@@ -68,38 +71,29 @@ import dispatcher from '../../app/dispatcher'
 
     <div class="flexContainer-center">
 
+      <legend>
+        <h3 if={ listo } id="mensaje"></h3>
+      </legend>
 
 
-
-        <h1 id="mensaje"></h1>
-
-        <div class="mdl-card mdl-shadow--4dp" if={ !abierto } style="background-color:rgb(222, 222, 222)!important;">
+        <div class="mdl-card mdl-shadow--4dp text-center"  style="background-color:rgba(210, 210, 210, 0.47)!important;width:92%;">
           <div class="mdl-card__supporting-text" style="word-wrap: break-word;">
 
             <h3 id="sobre"></h3>
 
+            <hr>
+
           </div>
-          <div class="mdl-card__supporting-text">
+          <div class="mdl-card__supporting-text" if={ abierto }>
             <button type="button" name="button" onclick={ openSub  }>subscribe</button>
-            <button type="button" name="button" onclick={ entrarWeb }>Comprar Web</button>
+            <button type="button" name="button" onclick={ entrarWeb }>Comprar(BETA)</button>
+          </div>
+          <div class="mdl-card__supporting-text" if={ !abierto }>
+
+            <intlTelInput/>
+
           </div>
         </div>
-
-        <div class="mdl-card mdl-shadow--4dp" if={ abierto } style="background-color:rgb(222, 222, 222)!important;">
-          <!-- <div class="mdl-card__media"><img src="./client/assets/img/zupa.png" width="173" height="157" border="0"
-           alt="" style="padding:10px;">
-          </div> -->
-          <div class="mdl-card__supporting-text" style="word-wrap: break-word;">
-            <h3 id="sobre"></h3>
-          </div>
-          <div class="mdl-card__supporting-text">
-            <input type="text" name="" value="aaaaaaaaaaaaaaaaa">
-            <input type="text" name="" value="aaaaaaaaaaaaaaaaa">
-            <button type="button" name="button" onclick={ openSub  }>summit</button>
-          </div>
-        </div>
-
-
 
 
   </div>
@@ -111,10 +105,10 @@ import dispatcher from '../../app/dispatcher'
   <div class="piedepagina ">
     <div class="flexContainer-cabezera">
       <div class="supuestamente text-left">
-      <p><a href="/#/contacto">Contact Us</a></p>
+      <p><button type="button" name="button" onclick={ openDes.bind(this, 'contacto') }>Contact Us</button></p>
       </div>
       <div class="supuestamente text-right">
-        <p><a href="/#/contacto">Want to work?</a></p>
+        <p><button type="button" name="button" onclick={ openDes.bind(this, 'contacto') }>Want to work?</button></p>
       </div>
     </div>
   </div>
@@ -125,27 +119,68 @@ import dispatcher from '../../app/dispatcher'
 
 <script>
 this.abierto = false
+this.listo = true
+this.imgBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backTwo.jpg)'
 
 this.openSub = () => {
   this.abierto = !this.abierto
+}
+this.ahorateDescargamos = () => {
+  alert('lo logramos')
+}
+
+this.openDes = (sub) => {
+
+if (sub === 'conoces?') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'Conoce mas sobre la app')
+
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+
+} else if (sub === 'presentacion') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'Aumenta tus ventas junto a Zupa')
+
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+
+} else if (sub === 'contacto') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'Incrementa tus ingresos trabajando desde tu auto')
+
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+
+} else if (sub === 'contacto') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'contactanos para cualquier duda')
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+} else {
+
+}
+
+
+
+
 }
 
 this.entrarWeb = () => {
   // let el = document.getElementById('myCanvas')
   // let elId = el.classList.add('none')
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'DESCARGA LA APP')
 
-  let data = 'Entrando a la website yeah'
+  let data = 'Estamos en Beta'
   dispatcher.trigger('crear_toast', data)
 
 
 }
 this.on('mount', ()=>{
 
+
     let el = document.getElementById('fondo');
-    let app = document.getElementById('mensaje');
-
-    this.isFuncionarMensajero(app, 'Hola como estas epseramos que tengas un hermoso dia')
-
+    this.isMensajero(document.getElementById('mensaje'), 'Bienvenidos a Zupa')
 
 
     el.addEventListener('click', (e) => {
@@ -169,26 +204,20 @@ this.mandarEsto = (esto) => {
   if(esto.posX <= esto.ejeX/2 && esto.posY <= esto.ejeY/2){
     // Yo soy el tab de losque quiere conocer
     let soy = 'quieroconocerzupa'
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
+
     this.preguntar(soy)
   } else if (esto.posX <= esto.ejeX/2 && esto.posY >= esto.ejeY/2) {
     let soy = 'quieroContactarme'
 
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
+
     this.preguntar(soy)
   } else if (esto.posX >= esto.ejeX/2 && esto.posY <= esto.ejeY/2) {
     let soy = 'soyunatienda'
 
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
     this.preguntar(soy)
   }  else if (esto.posX >= esto.ejeX/2 && esto.posY >= esto.ejeY/2) {
     let soy = 'quierotrabajardeRepartidor'
 
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
     this.preguntar(soy)
   } else {
 
@@ -225,28 +254,6 @@ this.preguntar = (a) => {
   }
 
 
-  //
-  // switch (a) {
-  //   case ():
-  //
-  //     break;
-  //     case ():
-  //
-  //       console.log('c');
-  //       break;
-  //       case :
-  //
-  //         console.log('b');
-  //         break;
-  //         case :
-  //
-  //           console.log('d');
-  //           break;
-  //   default:
-  //     this.imgBackground = null
-  // }
-
-
 }
 
 
@@ -254,26 +261,41 @@ this.preguntar = (a) => {
 this.isFuncionarMensajero = (domElement, mensaje) => {
 
 
+  let typewriter = new Typewriter(domElement);
 
 
+    typewriter.deleteAll()
+        .pauseFor(1000)
+        .typeString(mensaje)
+        .pauseFor(3000)
+        .start();
 
+}
+
+this.isMensajero = (domElement, mensaje) => {
 
 
   let typewriter = new Typewriter(domElement, {
         loop: true
     });
 
-    typewriter.typeString(mensaje)
-        .pauseFor(2500)
+
+    typewriter.deleteAll()
+        .pauseFor(1000)
         .deleteAll()
-        .typeString('saving...')
-        .pauseFor(2500)
-        .deleteChars(7)
-        .typeString('saving...')
-        .pauseFor(2500)
+        .typeString('Compra rapido y facil')
+        .pauseFor(3000)
+        .deleteAll()
+        .typeString('Descarga la app')
+        .pauseFor(3000)
+        .deleteAll()
+        .typeString('yeahasha')
+        .pauseFor(3000)
+        .deleteAll()
         .start();
 
 }
+
 // this.on('mount', ()=>{
 //   // let el = document.getElementById('myCanvas')
 //   let tabla = document.getElementById('super')

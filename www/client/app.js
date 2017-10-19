@@ -2586,7 +2586,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.attachDummyErrorHandler = exports.Deferred = exports.PromiseImpl = undefined;
 
-var _globalScope = __webpack_require__(37);
+var _globalScope = __webpack_require__(38);
 
 var PromiseImpl = exports.PromiseImpl = _globalScope.globalScope.Promise || __webpack_require__(76);
 /**
@@ -9031,6 +9031,33 @@ exports.RepoManager = RepoManager;
 /***/ }),
 /* 36 */,
 /* 37 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9073,34 +9100,7 @@ if (typeof global !== 'undefined') {
 var globalScope = exports.globalScope = scope;
 //# sourceMappingURL=globalScope.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)))
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)))
 
 /***/ }),
 /* 39 */
@@ -14721,7 +14721,7 @@ const OptsMixins = {
   }
 };
 (0, _riotRoute2.default)('/', () => {
-  __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 152)).then(module => {
+  __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 153)).then(module => {
     renderHere.innerHTML = '<welcome></welcome>';
     riot.mount('welcome');
     riot.mixin(OptsMixins);
@@ -14730,7 +14730,7 @@ const OptsMixins = {
   });
 });
 (0, _riotRoute2.default)('/conoces?', () => {
-  __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 153)).then(module => {
+  __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 154)).then(module => {
     renderHere.innerHTML = '<index></index>';
     riot.mount('index');
     riot.mixin(OptsMixins);
@@ -14739,7 +14739,7 @@ const OptsMixins = {
   });
 });
 (0, _riotRoute2.default)('/presentacion', () => {
-  __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 154)).then(module => {
+  __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 155)).then(module => {
     renderHere.innerHTML = '<slides></slides>';
     riot.mount('slides');
   }).catch(err => {
@@ -14747,7 +14747,7 @@ const OptsMixins = {
   });
 });
 (0, _riotRoute2.default)('/contacto', () => {
-  __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 155)).then(module => {
+  __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 156)).then(module => {
     renderHere.innerHTML = '<contactPage></contactPage>';
     riot.mount('contactPage');
     riot.mixin(OptsMixins);
@@ -16533,7 +16533,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38), __webpack_require__(39)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37), __webpack_require__(39)))
 
 /***/ }),
 /* 79 */
@@ -16750,7 +16750,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.base64 = undefined;
 
-var _globalScope = __webpack_require__(37);
+var _globalScope = __webpack_require__(38);
 
 var stringToByteArray = function stringToByteArray(str) {
     var output = [],

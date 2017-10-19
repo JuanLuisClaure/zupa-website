@@ -1,24 +1,65 @@
 const riot = require('riot')
 import dispatcher from '../../app/dispatcher'
-riot.tag2('onboarding', '<div class="flexContainer-main" riot-style="background-attachment:fixed;background-position: center;background-repeat: no-repeat;background-size: cover;background-blend-mode: color;background-image:{imgBackground};" id="fondo"> <div class="cabezera"> <div class="flexContainer-cabezera"> <div class="supuestamente text-left"> <p><a href="/#/conoces?">The app!</a></p> </div> <div class="supuestamente text-right"> <p><a href="/#/presentacion">the shops</a></p> </div> </div> </div> <div class="contenido"> <div class="flexContainer-center"> <h1 id="mensaje"></h1> <div class="mdl-card mdl-shadow--4dp" if="{!abierto}" style="background-color:rgb(222, 222, 222)!important;"> <div class="mdl-card__supporting-text" style="word-wrap: break-word;"> <h3 id="sobre"></h3> </div> <div class="mdl-card__supporting-text"> <button type="button" name="button" onclick="{openSub}">subscribe</button> <button type="button" name="button" onclick="{entrarWeb}">Comprar Web</button> </div> </div> <div class="mdl-card mdl-shadow--4dp" if="{abierto}" style="background-color:rgb(222, 222, 222)!important;"> <div class="mdl-card__supporting-text" style="word-wrap: break-word;"> <h3 id="sobre"></h3> </div> <div class="mdl-card__supporting-text"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <input type="text" name="" value="aaaaaaaaaaaaaaaaa"> <button type="button" name="button" onclick="{openSub}">summit</button> </div> </div> </div> </div> <div class="piedepagina "> <div class="flexContainer-cabezera"> <div class="supuestamente text-left"> <p><a href="/#/contacto">Contact Us</a></p> </div> <div class="supuestamente text-right"> <p><a href="/#/contacto">Want to work?</a></p> </div> </div> </div> </div>', 'onboarding .flexContainer-main,[data-is="onboarding"] .flexContainer-main{ position: absolute; display: flex; flex-direction:column; height: 100vh; width: 100vw; } onboarding .flexContainer-center,[data-is="onboarding"] .flexContainer-center{ display: flex; flex-direction:column; align-items: center; justify-content: center; margin: 0 auto; } onboarding .flexContainer-cabezera,[data-is="onboarding"] .flexContainer-cabezera{ display: flex; flex-direction: row; justify-content: space-around; align-items: baseline; } onboarding .cabezera,[data-is="onboarding"] .cabezera{ background-color: transparent; flex: 0 1 auto; order: 1; } onboarding .piedepagina,[data-is="onboarding"] .piedepagina{ background-color: transparent; flex: 0 1 auto; order: 3; } onboarding .contenido,[data-is="onboarding"] .contenido{ background-color: transparent; flex: 51 1 auto; order:2; } onboarding .supuestamente,[data-is="onboarding"] .supuestamente{ margin: 0 auto; width: 100%; }', '', function(opts) {
+import intlTelInput from '../intCountry/intinput'
+
+riot.tag2('onboarding', '<div class="flexContainer-main" riot-style="background-attachment:fixed;background-position: center;background-repeat: no-repeat;background-size: cover;background-blend-mode: color;background-image:{imgBackground};" id="fondo"> <div class="cabezera"> <div class="flexContainer-cabezera"> <div class="supuestamente text-left"> <p><button type="button" name="button" onclick="{openDes.bind(this, \'conoces?\')}">The app!</button></p> </div> <div class="supuestamente text-right"> <p><button type="button" name="button" onclick="{openDes.bind(this, \'presentacion\')}">the shops</button></p> </div> </div> </div> <div class="contenido"> <div class="flexContainer-center"> <legend> <h3 if="{listo}" id="mensaje"></h3> </legend> <div class="mdl-card mdl-shadow--4dp text-center" style="background-color:rgba(210, 210, 210, 0.47)!important;width:92%;"> <div class="mdl-card__supporting-text" style="word-wrap: break-word;"> <h3 id="sobre"></h3> <hr> </div> <div class="mdl-card__supporting-text" if="{abierto}"> <button type="button" name="button" onclick="{openSub}">subscribe</button> <button type="button" name="button" onclick="{entrarWeb}">Comprar(BETA)</button> </div> <div class="mdl-card__supporting-text" if="{!abierto}"> <intltelinput></intltelinput> </div> </div> </div> </div> <div class="piedepagina "> <div class="flexContainer-cabezera"> <div class="supuestamente text-left"> <p><button type="button" name="button" onclick="{openDes.bind(this, \'contacto\')}">Contact Us</button></p> </div> <div class="supuestamente text-right"> <p><button type="button" name="button" onclick="{openDes.bind(this, \'contacto\')}">Want to work?</button></p> </div> </div> </div> </div>', 'onboarding .flexContainer-main,[data-is="onboarding"] .flexContainer-main{ position: absolute; display: flex; flex-direction:column; height: 100vh; width: 100vw; } onboarding .flexContainer-center,[data-is="onboarding"] .flexContainer-center{ display: flex; flex-direction:column; align-items: center; justify-content: center; margin: 17% auto; } onboarding .flexContainer-cabezera,[data-is="onboarding"] .flexContainer-cabezera{ display: flex; flex-direction: row; justify-content: space-around; align-items: baseline; } onboarding .cabezera,[data-is="onboarding"] .cabezera{ background-color: transparent; flex: 0 1 auto; order: 1; } onboarding .piedepagina,[data-is="onboarding"] .piedepagina{ background-color: transparent; flex: 0 1 auto; order: 3; } onboarding .contenido,[data-is="onboarding"] .contenido{ background-color: transparent; flex: 51 1 auto; order:2; } onboarding .supuestamente,[data-is="onboarding"] .supuestamente{ margin: 0 auto; width: 100%; }', '', function(opts) {
 this.abierto = false
+this.listo = true
+this.imgBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backTwo.jpg)'
 
 this.openSub = () => {
   this.abierto = !this.abierto
 }
+this.ahorateDescargamos = () => {
+  alert('lo logramos')
+}
+
+this.openDes = (sub) => {
+
+if (sub === 'conoces?') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'Conoce mas sobre la app')
+
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+
+} else if (sub === 'presentacion') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'Aumenta tus ventas junto a Zupa')
+
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+
+} else if (sub === 'contacto') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'Incrementa tus ingresos trabajando desde tu auto')
+
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+
+} else if (sub === 'contacto') {
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'contactanos para cualquier duda')
+  setTimeout(()=>{
+    location.href = 'http://localhost:3000/#/' + sub
+  }, 5000)
+} else {
+
+}
+
+}
 
 this.entrarWeb = () => {
 
-  let data = 'Entrando a la website yeah'
+  this.isFuncionarMensajero(document.getElementById('sobre'), 'DESCARGA LA APP')
+
+  let data = 'Estamos en Beta'
   dispatcher.trigger('crear_toast', data)
 
 }
 this.on('mount', ()=>{
 
     let el = document.getElementById('fondo');
-    let app = document.getElementById('mensaje');
-
-    this.isFuncionarMensajero(app, 'Hola como estas epseramos que tengas un hermoso dia')
+    this.isMensajero(document.getElementById('mensaje'), 'Bienvenidos a Zupa')
 
     el.addEventListener('click', (e) => {
       let esto = {
@@ -36,26 +77,19 @@ this.mandarEsto = (esto) => {
   if(esto.posX <= esto.ejeX/2 && esto.posY <= esto.ejeY/2){
 
     let soy = 'quieroconocerzupa'
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
+
     this.preguntar(soy)
   } else if (esto.posX <= esto.ejeX/2 && esto.posY >= esto.ejeY/2) {
     let soy = 'quieroContactarme'
 
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
     this.preguntar(soy)
   } else if (esto.posX >= esto.ejeX/2 && esto.posY <= esto.ejeY/2) {
     let soy = 'soyunatienda'
 
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
     this.preguntar(soy)
   }  else if (esto.posX >= esto.ejeX/2 && esto.posY >= esto.ejeY/2) {
     let soy = 'quierotrabajardeRepartidor'
 
-    let ass = document.getElementById('sobre');
-    this.isFuncionarMensajero(ass, soy)
     this.preguntar(soy)
   } else {
 
@@ -91,18 +125,34 @@ this.preguntar = (a) => {
 
 this.isFuncionarMensajero = (domElement, mensaje) => {
 
+  let typewriter = new Typewriter(domElement);
+
+    typewriter.deleteAll()
+        .pauseFor(1000)
+        .typeString(mensaje)
+        .pauseFor(3000)
+        .start();
+
+}
+
+this.isMensajero = (domElement, mensaje) => {
+
   let typewriter = new Typewriter(domElement, {
         loop: true
     });
 
-    typewriter.typeString(mensaje)
-        .pauseFor(2500)
+    typewriter.deleteAll()
+        .pauseFor(1000)
         .deleteAll()
-        .typeString('saving...')
-        .pauseFor(2500)
-        .deleteChars(7)
-        .typeString('saving...')
-        .pauseFor(2500)
+        .typeString('Compra rapido y facil')
+        .pauseFor(3000)
+        .deleteAll()
+        .typeString('Descarga la app')
+        .pauseFor(3000)
+        .deleteAll()
+        .typeString('yeahasha')
+        .pauseFor(3000)
+        .deleteAll()
         .start();
 
 }

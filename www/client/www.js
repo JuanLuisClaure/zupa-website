@@ -1115,6 +1115,8 @@ __webpack_require__(133);
 
 __webpack_require__(149);
 
+__webpack_require__(150);
+
 /***/ }),
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -7776,10 +7778,1032 @@ exports.default = {
 /* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+(function webpackUniversalModuleDefinition(root, factory) {
+  if (true) module.exports = factory();else if (typeof define === 'function' && define.amd) define([], factory);else if (typeof exports === 'object') exports["Cleave"] = factory();else root["Cleave"] = factory();
+})(void 0, function () {
+  return (
+    /******/
+    function (modules) {
+      // webpackBootstrap
+
+      /******/
+      // The module cache
+
+      /******/
+      var installedModules = {};
+      /******/
+      // The require function
+
+      /******/
+
+      function __webpack_require__(moduleId) {
+        /******/
+        // Check if module is in cache
+
+        /******/
+        if (installedModules[moduleId])
+          /******/
+          return installedModules[moduleId].exports;
+        /******/
+        // Create a new module (and put it into the cache)
+
+        /******/
+
+        var module = installedModules[moduleId] = {
+          /******/
+          exports: {},
+
+          /******/
+          id: moduleId,
+
+          /******/
+          loaded: false
+          /******/
+
+        };
+        /******/
+        // Execute the module function
+
+        /******/
+
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        /******/
+        // Flag the module as loaded
+
+        /******/
+
+        module.loaded = true;
+        /******/
+        // Return the exports of the module
+
+        /******/
+
+        return module.exports;
+        /******/
+      }
+      /******/
+      // expose the modules object (__webpack_modules__)
+
+      /******/
+
+
+      __webpack_require__.m = modules;
+      /******/
+      // expose the module cache
+
+      /******/
+
+      __webpack_require__.c = installedModules;
+      /******/
+      // __webpack_public_path__
+
+      /******/
+
+      __webpack_require__.p = "";
+      /******/
+      // Load entry module and return exports
+
+      /******/
+
+      return __webpack_require__(0);
+      /******/
+    }(
+    /************************************************************************/
+
+    /******/
+    [
+    /* 0 */
+
+    /***/
+    function (module, exports, __webpack_require__) {
+      /* WEBPACK VAR INJECTION */
+      (function (global) {
+        'use strict';
+        /**
+         * Construct a new Cleave instance by passing the configuration object
+         *
+         * @param {String / HTMLElement} element
+         * @param {Object} opts
+         */
+
+        var Cleave = function (element, opts) {
+          var owner = this;
+
+          if (typeof element === 'string') {
+            owner.element = document.querySelector(element);
+          } else {
+            owner.element = typeof element.length !== 'undefined' && element.length > 0 ? element[0] : element;
+          }
+
+          if (!owner.element) {
+            throw new Error('[cleave.js] Please check the element');
+          }
+
+          opts.initValue = owner.element.value;
+          owner.properties = Cleave.DefaultProperties.assign({}, opts);
+          owner.init();
+        };
+
+        Cleave.prototype = {
+          init: function () {
+            var owner = this,
+                pps = owner.properties; // no need to use this lib
+
+            if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocksLength === 0 && !pps.prefix) {
+              owner.onInput(pps.initValue);
+              return;
+            }
+
+            pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+            owner.isAndroid = Cleave.Util.isAndroid();
+            owner.lastInputValue = '';
+            owner.onChangeListener = owner.onChange.bind(owner);
+            owner.onKeyDownListener = owner.onKeyDown.bind(owner);
+            owner.onCutListener = owner.onCut.bind(owner);
+            owner.onCopyListener = owner.onCopy.bind(owner);
+            owner.element.addEventListener('input', owner.onChangeListener);
+            owner.element.addEventListener('keydown', owner.onKeyDownListener);
+            owner.element.addEventListener('cut', owner.onCutListener);
+            owner.element.addEventListener('copy', owner.onCopyListener);
+            owner.initPhoneFormatter();
+            owner.initDateFormatter();
+            owner.initNumeralFormatter();
+            owner.onInput(pps.initValue);
+          },
+          initNumeralFormatter: function () {
+            var owner = this,
+                pps = owner.properties;
+
+            if (!pps.numeral) {
+              return;
+            }
+
+            pps.numeralFormatter = new Cleave.NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.delimiter);
+          },
+          initDateFormatter: function () {
+            var owner = this,
+                pps = owner.properties;
+
+            if (!pps.date) {
+              return;
+            }
+
+            pps.dateFormatter = new Cleave.DateFormatter(pps.datePattern);
+            pps.blocks = pps.dateFormatter.getBlocks();
+            pps.blocksLength = pps.blocks.length;
+            pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+          },
+          initPhoneFormatter: function () {
+            var owner = this,
+                pps = owner.properties;
+
+            if (!pps.phone) {
+              return;
+            } // Cleave.AsYouTypeFormatter should be provided by
+            // external google closure lib
+
+
+            try {
+              pps.phoneFormatter = new Cleave.PhoneFormatter(new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode), pps.delimiter);
+            } catch (ex) {
+              throw new Error('[cleave.js] Please include phone-type-formatter.{country}.js lib');
+            }
+          },
+          onKeyDown: function (event) {
+            var owner = this,
+                pps = owner.properties,
+                charCode = event.which || event.keyCode,
+                Util = Cleave.Util,
+                currentValue = owner.element.value;
+
+            if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+              charCode = 8;
+            }
+
+            owner.lastInputValue = currentValue; // hit backspace when last character is delimiter
+
+            if (charCode === 8 && Util.isDelimiter(currentValue.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+              pps.backspace = true;
+              return;
+            }
+
+            pps.backspace = false;
+          },
+          onChange: function () {
+            this.onInput(this.element.value);
+          },
+          onCut: function (e) {
+            this.copyClipboardData(e);
+            this.onInput('');
+          },
+          onCopy: function (e) {
+            this.copyClipboardData(e);
+          },
+          copyClipboardData: function (e) {
+            var owner = this,
+                pps = owner.properties,
+                Util = Cleave.Util,
+                inputValue = owner.element.value,
+                textToCopy = '';
+
+            if (!pps.copyDelimiter) {
+              textToCopy = Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
+            } else {
+              textToCopy = inputValue;
+            }
+
+            try {
+              if (e.clipboardData) {
+                e.clipboardData.setData('Text', textToCopy);
+              } else {
+                window.clipboardData.setData('Text', textToCopy);
+              }
+
+              e.preventDefault();
+            } catch (ex) {//  empty
+            }
+          },
+          onInput: function (value) {
+            var owner = this,
+                pps = owner.properties,
+                Util = Cleave.Util; // case 1: delete one more character "4"
+            // 1234*| -> hit backspace -> 123|
+            // case 2: last character is not delimiter which is:
+            // 12|34* -> hit backspace -> 1|34*
+            // note: no need to apply this for numeral mode
+
+            if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+              value = Util.headStr(value, value.length - pps.delimiterLength);
+            } // phone formatter
+
+
+            if (pps.phone) {
+              pps.result = pps.phoneFormatter.format(value);
+              owner.updateValueState();
+              return;
+            } // numeral formatter
+
+
+            if (pps.numeral) {
+              pps.result = pps.prefix + pps.numeralFormatter.format(value);
+              owner.updateValueState();
+              return;
+            } // date
+
+
+            if (pps.date) {
+              value = pps.dateFormatter.getValidatedDate(value);
+            } // strip delimiters
+
+
+            value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters); // strip prefix
+
+            value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength); // strip non-numeric characters
+
+            value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value; // convert case
+
+            value = pps.uppercase ? value.toUpperCase() : value;
+            value = pps.lowercase ? value.toLowerCase() : value; // prefix
+
+            if (pps.prefix) {
+              value = pps.prefix + value; // no blocks specified, no need to do formatting
+
+              if (pps.blocksLength === 0) {
+                pps.result = value;
+                owner.updateValueState();
+                return;
+              }
+            } // update credit card props
+
+
+            if (pps.creditCard) {
+              owner.updateCreditCardPropsByValue(value);
+            } // strip over length characters
+
+
+            value = Util.headStr(value, pps.maxLength); // apply blocks
+
+            pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
+            owner.updateValueState();
+          },
+          updateCreditCardPropsByValue: function (value) {
+            var owner = this,
+                pps = owner.properties,
+                Util = Cleave.Util,
+                creditCardInfo; // At least one of the first 4 characters has changed
+
+            if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+              return;
+            }
+
+            creditCardInfo = Cleave.CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+            pps.blocks = creditCardInfo.blocks;
+            pps.blocksLength = pps.blocks.length;
+            pps.maxLength = Util.getMaxLength(pps.blocks); // credit card type changed
+
+            if (pps.creditCardType !== creditCardInfo.type) {
+              pps.creditCardType = creditCardInfo.type;
+              pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+            }
+          },
+          setCurrentSelection: function (endPos, oldValue) {
+            var elem = this.element; // If cursor was at the end of value, just place it back.
+            // Because new value could contain additional chars.
+
+            if (oldValue.length === endPos) {
+              return;
+            }
+
+            if (elem.createTextRange) {
+              var range = elem.createTextRange();
+              range.move('character', endPos);
+              range.select();
+            } else {
+              elem.setSelectionRange(endPos, endPos);
+            }
+          },
+          updateValueState: function () {
+            var owner = this;
+            var endPos = owner.element.selectionEnd;
+            var oldValue = owner.element.value; // fix Android browser type="text" input field
+            // cursor not jumping issue
+
+            if (owner.isAndroid) {
+              window.setTimeout(function () {
+                owner.element.value = owner.properties.result;
+                owner.setCurrentSelection(endPos, oldValue);
+              }, 1);
+              return;
+            }
+
+            owner.element.value = owner.properties.result;
+            owner.setCurrentSelection(endPos, oldValue);
+          },
+          setPhoneRegionCode: function (phoneRegionCode) {
+            var owner = this,
+                pps = owner.properties;
+            pps.phoneRegionCode = phoneRegionCode;
+            owner.initPhoneFormatter();
+            owner.onChange();
+          },
+          setRawValue: function (value) {
+            var owner = this,
+                pps = owner.properties;
+            value = value !== undefined && value !== null ? value.toString() : '';
+
+            if (pps.numeral) {
+              value = value.replace('.', pps.numeralDecimalMark);
+            }
+
+            owner.element.value = value;
+            owner.onInput(value);
+          },
+          getRawValue: function () {
+            var owner = this,
+                pps = owner.properties,
+                Util = Cleave.Util,
+                rawValue = owner.element.value;
+
+            if (pps.rawValueTrimPrefix) {
+              rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+            }
+
+            if (pps.numeral) {
+              rawValue = pps.numeralFormatter.getRawValue(rawValue);
+            } else {
+              rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+            }
+
+            return rawValue;
+          },
+          getFormattedValue: function () {
+            return this.element.value;
+          },
+          destroy: function () {
+            var owner = this;
+            owner.element.removeEventListener('input', owner.onChangeListener);
+            owner.element.removeEventListener('keydown', owner.onKeyDownListener);
+            owner.element.removeEventListener('cut', owner.onCutListener);
+            owner.element.removeEventListener('copy', owner.onCopyListener);
+          },
+          toString: function () {
+            return '[Cleave Object]';
+          }
+        };
+        Cleave.NumeralFormatter = __webpack_require__(1);
+        Cleave.DateFormatter = __webpack_require__(2);
+        Cleave.PhoneFormatter = __webpack_require__(3);
+        Cleave.CreditCardDetector = __webpack_require__(4);
+        Cleave.Util = __webpack_require__(5);
+        Cleave.DefaultProperties = __webpack_require__(6); // for angular directive
+
+        (typeof global === 'object' && global ? global : window)['Cleave'] = Cleave; // CommonJS
+
+        module.exports = Cleave;
+        /* WEBPACK VAR INJECTION */
+      }).call(exports, function () {
+        return this;
+      }());
+      /***/
+    },
+    /* 1 */
+
+    /***/
+    function (module, exports) {
+      'use strict';
+
+      var NumeralFormatter = function (numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, delimiter) {
+        var owner = this;
+        owner.numeralDecimalMark = numeralDecimalMark || '.';
+        owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
+        owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
+        owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+        owner.numeralPositiveOnly = !!numeralPositiveOnly;
+        owner.stripLeadingZeroes = undefined == stripLeadingZeroes ? true : stripLeadingZeroes;
+        owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
+        owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+      };
+
+      NumeralFormatter.groupStyle = {
+        thousand: 'thousand',
+        lakh: 'lakh',
+        wan: 'wan'
+      };
+      NumeralFormatter.prototype = {
+        getRawValue: function (value) {
+          return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
+        },
+        format: function (value) {
+          var owner = this,
+              parts,
+              partInteger,
+              partDecimal = ''; // strip alphabet letters
+
+          value = value.replace(/[A-Za-z]/g, '') // replace the first decimal mark with reserved placeholder
+          .replace(owner.numeralDecimalMark, 'M') // strip non numeric letters except minus and "M"
+          // this is to ensure prefix has been stripped
+          .replace(/[^\dM-]/g, '') // replace the leading minus with reserved placeholder
+          .replace(/^\-/, 'N') // strip the other minus sign (if present)
+          .replace(/\-/g, '') // replace the minus sign (if present)
+          .replace('N', owner.numeralPositiveOnly ? '' : '-') // replace decimal mark
+          .replace('M', owner.numeralDecimalMark); // strip any leading zeros
+
+          if (owner.stripLeadingZeroes) {
+            value = value.replace(/^(-)?0+(?=\d)/, '$1');
+          }
+
+          partInteger = value;
+
+          if (value.indexOf(owner.numeralDecimalMark) >= 0) {
+            parts = value.split(owner.numeralDecimalMark);
+            partInteger = parts[0];
+            partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
+          }
+
+          if (owner.numeralIntegerScale > 0) {
+            partInteger = partInteger.slice(0, owner.numeralIntegerScale + (value.slice(0, 1) === '-' ? 1 : 0));
+          }
+
+          switch (owner.numeralThousandsGroupStyle) {
+            case NumeralFormatter.groupStyle.lakh:
+              partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
+              break;
+
+            case NumeralFormatter.groupStyle.wan:
+              partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
+              break;
+
+            default:
+              partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+          }
+
+          return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
+        }
+      };
+      module.exports = NumeralFormatter;
+      /***/
+    },
+    /* 2 */
+
+    /***/
+    function (module, exports) {
+      'use strict';
+
+      var DateFormatter = function (datePattern) {
+        var owner = this;
+        owner.blocks = [];
+        owner.datePattern = datePattern;
+        owner.initBlocks();
+      };
+
+      DateFormatter.prototype = {
+        initBlocks: function () {
+          var owner = this;
+          owner.datePattern.forEach(function (value) {
+            if (value === 'Y') {
+              owner.blocks.push(4);
+            } else {
+              owner.blocks.push(2);
+            }
+          });
+        },
+        getBlocks: function () {
+          return this.blocks;
+        },
+        getValidatedDate: function (value) {
+          var owner = this,
+              result = '';
+          value = value.replace(/[^\d]/g, '');
+          owner.blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+              var sub = value.slice(0, length),
+                  sub0 = sub.slice(0, 1),
+                  rest = value.slice(length);
+
+              switch (owner.datePattern[index]) {
+                case 'd':
+                  if (sub === '00') {
+                    sub = '01';
+                  } else if (parseInt(sub0, 10) > 3) {
+                    sub = '0' + sub0;
+                  } else if (parseInt(sub, 10) > 31) {
+                    sub = '31';
+                  }
+
+                  break;
+
+                case 'm':
+                  if (sub === '00') {
+                    sub = '01';
+                  } else if (parseInt(sub0, 10) > 1) {
+                    sub = '0' + sub0;
+                  } else if (parseInt(sub, 10) > 12) {
+                    sub = '12';
+                  }
+
+                  break;
+              }
+
+              result += sub; // update remaining string
+
+              value = rest;
+            }
+          });
+          return this.getFixedDateString(result);
+        },
+        getFixedDateString: function (value) {
+          var owner = this,
+              datePattern = owner.datePattern,
+              date = [],
+              dayIndex = 0,
+              monthIndex = 0,
+              yearIndex = 0,
+              dayStartIndex = 0,
+              monthStartIndex = 0,
+              yearStartIndex = 0,
+              day,
+              month,
+              year; // mm-dd || dd-mm
+
+          if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
+            dayStartIndex = datePattern[0] === 'd' ? 0 : 2;
+            monthStartIndex = 2 - dayStartIndex;
+            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            date = this.getFixedDate(day, month, 0);
+          } // yyyy-mm-dd || yyyy-dd-mm || mm-dd-yyyy || dd-mm-yyyy || dd-yyyy-mm || mm-yyyy-dd
+
+
+          if (value.length === 8) {
+            datePattern.forEach(function (type, index) {
+              switch (type) {
+                case 'd':
+                  dayIndex = index;
+                  break;
+
+                case 'm':
+                  monthIndex = index;
+                  break;
+
+                default:
+                  yearIndex = index;
+                  break;
+              }
+            });
+            yearStartIndex = yearIndex * 2;
+            dayStartIndex = dayIndex <= yearIndex ? dayIndex * 2 : dayIndex * 2 + 2;
+            monthStartIndex = monthIndex <= yearIndex ? monthIndex * 2 : monthIndex * 2 + 2;
+            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+            date = this.getFixedDate(day, month, year);
+          }
+
+          return date.length === 0 ? value : datePattern.reduce(function (previous, current) {
+            switch (current) {
+              case 'd':
+                return previous + owner.addLeadingZero(date[0]);
+
+              case 'm':
+                return previous + owner.addLeadingZero(date[1]);
+
+              default:
+                return previous + '' + (date[2] || '');
+            }
+          }, '');
+        },
+        getFixedDate: function (day, month, year) {
+          day = Math.min(day, 31);
+          month = Math.min(month, 12);
+          year = parseInt(year || 0, 10);
+
+          if (month < 7 && month % 2 === 0 || month > 8 && month % 2 === 1) {
+            day = Math.min(day, month === 2 ? this.isLeapYear(year) ? 29 : 28 : 30);
+          }
+
+          return [day, month, year];
+        },
+        isLeapYear: function (year) {
+          return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+        },
+        addLeadingZero: function (number) {
+          return (number < 10 ? '0' : '') + number;
+        }
+      };
+      module.exports = DateFormatter;
+      /***/
+    },
+    /* 3 */
+
+    /***/
+    function (module, exports) {
+      'use strict';
+
+      var PhoneFormatter = function (formatter, delimiter) {
+        var owner = this;
+        owner.delimiter = delimiter || delimiter === '' ? delimiter : ' ';
+        owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+        owner.formatter = formatter;
+      };
+
+      PhoneFormatter.prototype = {
+        setFormatter: function (formatter) {
+          this.formatter = formatter;
+        },
+        format: function (phoneNumber) {
+          var owner = this;
+          owner.formatter.clear(); // only keep number and +
+
+          phoneNumber = phoneNumber.replace(/[^\d+]/g, ''); // strip delimiter
+
+          phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
+          var result = '',
+              current,
+              validated = false;
+
+          for (var i = 0, iMax = phoneNumber.length; i < iMax; i++) {
+            current = owner.formatter.inputDigit(phoneNumber.charAt(i)); // has ()- or space inside
+
+            if (/[\s()-]/g.test(current)) {
+              result = current;
+              validated = true;
+            } else {
+              if (!validated) {
+                result = current;
+              } // else: over length input
+              // it turns to invalid number again
+
+            }
+          } // strip ()
+          // e.g. US: 7161234567 returns (716) 123-4567
+
+
+          result = result.replace(/[()]/g, ''); // replace library delimiter with user customized delimiter
+
+          result = result.replace(/[\s-]/g, owner.delimiter);
+          return result;
+        }
+      };
+      module.exports = PhoneFormatter;
+      /***/
+    },
+    /* 4 */
+
+    /***/
+    function (module, exports) {
+      'use strict';
+
+      var CreditCardDetector = {
+        blocks: {
+          uatp: [4, 5, 6],
+          amex: [4, 6, 5],
+          diners: [4, 6, 4],
+          discover: [4, 4, 4, 4],
+          mastercard: [4, 4, 4, 4],
+          dankort: [4, 4, 4, 4],
+          instapayment: [4, 4, 4, 4],
+          jcb: [4, 4, 4, 4],
+          maestro: [4, 4, 4, 4],
+          visa: [4, 4, 4, 4],
+          general: [4, 4, 4, 4],
+          generalStrict: [4, 4, 4, 7]
+        },
+        re: {
+          // starts with 1; 15 digits, not starts with 1800 (jcb card)
+          uatp: /^(?!1800)1\d{0,14}/,
+          // starts with 34/37; 15 digits
+          amex: /^3[47]\d{0,13}/,
+          // starts with 6011/65/644-649; 16 digits
+          discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+          // starts with 300-305/309 or 36/38/39; 14 digits
+          diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+          // starts with 51-55/22-27; 16 digits
+          mastercard: /^(5[1-5]|2[2-7])\d{0,14}/,
+          // starts with 5019/4175/4571; 16 digits
+          dankort: /^(5019|4175|4571)\d{0,12}/,
+          // starts with 637-639; 16 digits
+          instapayment: /^63[7-9]\d{0,13}/,
+          // starts with 2131/1800/35; 16 digits
+          jcb: /^(?:2131|1800|35\d{0,2})\d{0,12}/,
+          // starts with 50/56-58/6304/67; 16 digits
+          maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+          // starts with 4; 16 digits
+          visa: /^4\d{0,15}/
+        },
+        getInfo: function (value, strictMode) {
+          var blocks = CreditCardDetector.blocks,
+              re = CreditCardDetector.re; // In theory, visa credit card can have up to 19 digits number.
+          // Set strictMode to true will remove the 16 max-length restrain,
+          // however, I never found any website validate card number like
+          // this, hence probably you don't need to enable this option.
+
+          strictMode = !!strictMode;
+
+          if (re.amex.test(value)) {
+            return {
+              type: 'amex',
+              blocks: blocks.amex
+            };
+          } else if (re.uatp.test(value)) {
+            return {
+              type: 'uatp',
+              blocks: blocks.uatp
+            };
+          } else if (re.diners.test(value)) {
+            return {
+              type: 'diners',
+              blocks: blocks.diners
+            };
+          } else if (re.discover.test(value)) {
+            return {
+              type: 'discover',
+              blocks: strictMode ? blocks.generalStrict : blocks.discover
+            };
+          } else if (re.mastercard.test(value)) {
+            return {
+              type: 'mastercard',
+              blocks: blocks.mastercard
+            };
+          } else if (re.dankort.test(value)) {
+            return {
+              type: 'dankort',
+              blocks: blocks.dankort
+            };
+          } else if (re.instapayment.test(value)) {
+            return {
+              type: 'instapayment',
+              blocks: blocks.instapayment
+            };
+          } else if (re.jcb.test(value)) {
+            return {
+              type: 'jcb',
+              blocks: blocks.jcb
+            };
+          } else if (re.maestro.test(value)) {
+            return {
+              type: 'maestro',
+              blocks: strictMode ? blocks.generalStrict : blocks.maestro
+            };
+          } else if (re.visa.test(value)) {
+            return {
+              type: 'visa',
+              blocks: strictMode ? blocks.generalStrict : blocks.visa
+            };
+          } else {
+            return {
+              type: 'unknown',
+              blocks: strictMode ? blocks.generalStrict : blocks.general
+            };
+          }
+        }
+      };
+      module.exports = CreditCardDetector;
+      /***/
+    },
+    /* 5 */
+
+    /***/
+    function (module, exports) {
+      'use strict';
+
+      var Util = {
+        noop: function () {},
+        strip: function (value, re) {
+          return value.replace(re, '');
+        },
+        isDelimiter: function (letter, delimiter, delimiters) {
+          // single delimiter
+          if (delimiters.length === 0) {
+            return letter === delimiter;
+          } // multiple delimiters
+
+
+          return delimiters.some(function (current) {
+            if (letter === current) {
+              return true;
+            }
+          });
+        },
+        getDelimiterREByDelimiter: function (delimiter) {
+          return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+        },
+        stripDelimiters: function (value, delimiter, delimiters) {
+          var owner = this; // single delimiter
+
+          if (delimiters.length === 0) {
+            var delimiterRE = delimiter ? owner.getDelimiterREByDelimiter(delimiter) : '';
+            return value.replace(delimiterRE, '');
+          } // multiple delimiters
+
+
+          delimiters.forEach(function (current) {
+            value = value.replace(owner.getDelimiterREByDelimiter(current), '');
+          });
+          return value;
+        },
+        headStr: function (str, length) {
+          return str.slice(0, length);
+        },
+        getMaxLength: function (blocks) {
+          return blocks.reduce(function (previous, current) {
+            return previous + current;
+          }, 0);
+        },
+        // strip value by prefix length
+        // for prefix: PRE
+        // (PRE123, 3) -> 123
+        // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
+        getPrefixStrippedValue: function (value, prefix, prefixLength) {
+          if (value.slice(0, prefixLength) !== prefix) {
+            var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
+            value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+          }
+
+          return value.slice(prefixLength);
+        },
+        getFirstDiffIndex: function (prev, current) {
+          var index = 0;
+
+          while (prev.charAt(index) === current.charAt(index)) if (prev.charAt(index++) === '') return -1;
+
+          return index;
+        },
+        getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {
+          var result = '',
+              multipleDelimiters = delimiters.length > 0,
+              currentDelimiter; // no options, normal input
+
+          if (blocksLength === 0) {
+            return value;
+          }
+
+          blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+              var sub = value.slice(0, length),
+                  rest = value.slice(length);
+              result += sub;
+              currentDelimiter = multipleDelimiters ? delimiters[index] || currentDelimiter : delimiter;
+
+              if (sub.length === length && index < blocksLength - 1) {
+                result += currentDelimiter;
+              } // update remaining string
+
+
+              value = rest;
+            }
+          });
+          return result;
+        },
+        isAndroid: function () {
+          if (navigator && /android/i.test(navigator.userAgent)) {
+            return true;
+          }
+
+          return false;
+        },
+        // On Android chrome, the keyup and keydown events
+        // always return key code 229 as a composition that
+        // buffers the user’s keystrokes
+        // see https://github.com/nosir/cleave.js/issues/147
+        isAndroidBackspaceKeydown: function (lastInputValue, currentInputValue) {
+          if (!this.isAndroid()) {
+            return false;
+          }
+
+          return currentInputValue === lastInputValue.slice(0, -1);
+        }
+      };
+      module.exports = Util;
+      /***/
+    },
+    /* 6 */
+
+    /***/
+    function (module, exports) {
+      /* WEBPACK VAR INJECTION */
+      (function (global) {
+        'use strict';
+        /**
+         * Props Assignment
+         *
+         * Separate this, so react module can share the usage
+         */
+
+        var DefaultProperties = {
+          // Maybe change to object-assign
+          // for now just keep it as simple
+          assign: function (target, opts) {
+            target = target || {};
+            opts = opts || {}; // credit card
+
+            target.creditCard = !!opts.creditCard;
+            target.creditCardStrictMode = !!opts.creditCardStrictMode;
+            target.creditCardType = '';
+
+            target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {}; // phone
+
+
+            target.phone = !!opts.phone;
+            target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+            target.phoneFormatter = {}; // date
+
+            target.date = !!opts.date;
+            target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+            target.dateFormatter = {}; // numeral
+
+            target.numeral = !!opts.numeral;
+            target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
+            target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+            target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+            target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+            target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+            target.stripLeadingZeroes = undefined == opts.stripLeadingZeroes ? true : opts.stripLeadingZeroes; // others
+
+            target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+            target.uppercase = !!opts.uppercase;
+            target.lowercase = !!opts.lowercase;
+            target.prefix = target.creditCard || target.phone || target.date ? '' : opts.prefix || '';
+            target.prefixLength = target.prefix.length;
+            target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+            target.copyDelimiter = !!opts.copyDelimiter;
+            target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
+            target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
+            target.delimiterLength = target.delimiter.length;
+            target.delimiters = opts.delimiters || [];
+            target.blocks = opts.blocks || [];
+            target.blocksLength = target.blocks.length;
+            target.root = typeof global === 'object' && global ? global : window;
+            target.maxLength = 0;
+            target.backspace = false;
+            target.result = '';
+            return target;
+          }
+        };
+        module.exports = DefaultProperties;
+        /* WEBPACK VAR INJECTION */
+      }).call(exports, function () {
+        return this;
+      }());
+      /***/
+    }
+    /******/
+    ])
+  );
+});
+
+;
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(150);
+var content = __webpack_require__(151);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -7804,7 +8828,7 @@ if(false) {
 }
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(26)(undefined);
@@ -7812,13 +8836,13 @@ exports = module.exports = __webpack_require__(26)(undefined);
 
 
 // module
-exports.push([module.i, "/*---------------------------------------------------------------------------------\n\n\tApp: WebSlides\n\tVersion: 1.3.1\n\tDate: 2017-04-26\n\tDescription: A simple and versatile framework for building HTML presentations, landings, and portfolios.\n\tAuthors: @jlantunez, @belelros, and @luissacristan\n\tAuthor URI: http://twitter.com/webslides\n\tLicense: The MIT License (MIT)\n\tLicense URI: https://opensource.org/licenses/MIT\n\n-----------------------------------------------------------------------------------\n\n\t0. CSS Reset & Normalize\n\t1. Base\n\t\t1.1 Wrap/Container\n\t\t1.2 Animations\n\t\t1.3 Responsive Media (videos, iframe, screenshots...)\n\t\t1.4 Basic Grid (2,3,4 columns)\n\t2. Typography & Lists\n\t\t2.1 Headings with background\n\t\t2.2 Classes: .text-\n\t\t2.3 San Francisco Font (Apple)\n\t3. Header & Footer\n\t\t3.1 Logo\n\t4. Navigation\n\t\t4.1 Navbars\n\t5. SLIDES (vertically and horizontally centered)\n\t\t5.1 Mini container & Alignment\n\t\t5.2 Counter / Navigation Slides\n\t\t5.3 Background Images/Video\n\t6. Magic blocks = .flexblock (Flexible blocks with auto-fill and equal height).\n\t\t6.1 .flexblock.features\n\t\t6.2 .flexblock.clients\n\t\t6.3 .flexblock.steps\n\t\t6.4 .flexblock.metrics\n\t\t6.5 .flexblock.specs\n\t\t6.6 .flexblock.reasons\n\t\t6.7 .flexblock.gallery\n\t\t6.8 .flexblock.plans\n\t\t6.9. flexblock.activity\n\t7. Promos/Offers (pricing, tagline, CTA...)\n\t8. Work / Resume / CV\n\t9. Table of contents\n\t10. Cards\n\t11. Quotes\n\t12. Avatars\n\t13. Tables\n\t14. Forms\n  15. Longform Elements\n\t16. Safari Bug (flex-wrap)\n\t17. Print\n\n----------------------------------------------------------------------------------- */\n\n/*=========================================\n0. CSS Reset & Normalize\n===========================================\n\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { border: 0; font-size: 100%; font: inherit; vertical-align: baseline; margin: 0; padding: 0 }\n\narticle, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {\n  display: block;\n}\nbody {\n  line-height: 1;\n}\n\nblockquote,\nq {\n  quotes: none\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: none\n}\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\nhtml {\n  -webkit-text-size-adjust: 100%;\n  -ms-text-size-adjust: 100%;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n*,\n*::before,\n*::after {\n  -webkit-box-sizing: inherit;\n  -moz-box-sizing: inherit;\n  box-sizing: inherit;\n}\n\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  vertical-align: baseline;\n}\n\nembed,\niframe,\nobject {\n  max-width: 100%;\n}\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n[hidden],\ntemplate {\n  display: none;\n}\n\nul {\n  list-style: square;\n  text-indent: inherit;\n}\n\nol {\n  list-style: decimal;\n}\n\nb,\nstrong {\n  font-weight: 600;\n}\n\na {\n  background-color: transparent;\n}\n\na:active,\na:hover {\n  outline: 0;\n}\n\nsup,\nsub {\n  font-size: 0.75em;\n  line-height: 2.2em;\n  height: 0;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  bottom: 1ex;\n}\n\nsub {\n  top: 0.5ex;\n}\n\nsmall {\n  font-size: 0.75em;\n  line-height: 1.72;\n}\n\nbig {\n  font-size: 1.25em;\n}\n\nhr {\n  border: none;\n  clear: both;\n  display: block;\n  height: 1px;\n  width: 100%;\n  text-align: center;\n  margin: 3.2rem auto;\n}\n\nh2 + hr,\nh3 + hr {\n  margin-bottom: 4.8rem;\n}\n\np + hr {\n  margin-bottom: 4rem;\n}\n\n/*\nhr::after {\n    position: relative;\n    top: -2.4rem;\n    font-size: 2.4rem;\n    content: \"\\00A7\";\n    display: inline-block;\n    border-radius: 50%;\n    width: 4.8rem;\n    height: 4.8rem;\n    line-height: 4.8rem;\n}\ndfn,\ncite,\nem,\ni {\n  font-style: italic;\n}\n\nabbr,\nacronym {\n  cursor: help;\n}\n\nmark,\nins {\n  text-decoration: none;\n  padding: 0 4px;\n  text-shadow: none;\n\n}\n\n::-moz-selection {\n  text-shadow: none;\n}\n\n::-webkit-selection {\n  text-shadow: none;\n}\n\n::selection {\n  text-shadow: none;\n}\n\nimg {\n  /* Make sure images are scaled correctly.\n  border: 0;\n  height: auto;\n  max-width: 100%;\n}\n\nimg:hover {\n  opacity: 0.90;\n  filter: alpha(opacity=90);\n}\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\nfigure {\n  position: relative;\n  margin: 0;\n  line-height: 0;\n}\n\noptgroup {\n  font-weight: bold;\n}\n\ntable {\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n  margin-bottom: 24px;\n}\n\ntd,\nth {\n  padding: 0;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: \"\";\n}\n\nblockquote,\nq {\n  quotes: \"\" \"\";\n}\n\ndt {\n  font-weight: bold;\n}\n\ndd {\n  margin: 0;\n}\n\n\n/*=== Clearing === */\n/*.clear:before, .clear:after, header:before, header:after, main:before, main:after, .wrap:before, .wrap:after, group:before, group:after, section:before, section:after, aside:before, aside:after,footer:before, footer:after{ content: \"\"; display: table; }\n.clear:after, header:after, main:after, .wrap:after, group:after, section:after, aside:after, footer:after { clear: both; }*/\n\n/*=========================================\n1. Base --> Baseline: 8px = .8rem\n=========================================== */\n\n/* -- Disable elastic scrolling/bounce:\nwebslides.js will add .ws-ready automatically. Don't worry :) -- */\n\nhtml.ws-ready,\nhtml.ws-ready body {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n\n}\n\n#webslides {\n  height: 100vh;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  -webkit-overflow-scrolling: touch;\n}\n/* -- Hide scrollbar, but still being able to scroll -- */\n\n#webslides {\n    -ms-overflow-style: none;  /* IE 10+ */\n}\n#webslides::-webkit-scrollbar {\n    display: none;  /* Safari and Chrome */\n}\n\n/* -- Prototype faster - Vertical rhythm  -- */\n\n\n/*\n#webslides.vertical {cursor: s-resize; }\n*/\n\nli li {\n  margin-left: 1.6rem;\n}\n\na,\na:active,\na:focus,\na:visited,\ninput:focus,\ntextarea:focus,\nbutton{\n  text-decoration: none;\n  -webkit-transition: all .3s ease-out;\n  transition: all .3s ease-out;\n}\n\np a:active {\n  position: relative;\n  top: 2px;\n}\n\nnav a[rel=\"external\"] em,\n.hidden {\n  clip: rect(1px, 1px, 1px, 1px);\n  position: absolute !important;\n  height: 1px;\n  width: 1px;\n  overflow: hidden;\n}\n\n/*Layer/Box Shadow*/\n.shadow {\n  position: relative;\n}\n.shadow:before,.shadow:after {\n  z-index: -1;\n  position: absolute;\n  content: \"\";\n  bottom: 1.6rem;\n  left: 2.4rem;\n  width: 50%;\n  top: 80%;\n  max-width:300px;\n  transform: rotate(-3deg);\n}\n.shadow:after\n{\n  -webkit-transform: rotate(3deg);\n  -moz-transform: rotate(3deg);\n  transform: rotate(3deg);\n  right: 2.4rem;\n  left: auto;\n}\n\n/*=== 1.1 WRAP/CONTAINER === */\n\n.wrap,header nav, footer nav {\n  position: relative;\n  width: 100%;\n  max-width: 100%;\n  margin-right:auto;\n  margin-left: auto;\n  z-index: 2;\n}\n@media (min-width: 1024px) {\n.wrap,header nav, footer nav {\nwidth: 90%;\n }\n}\n\n.frame,.shadow {\n  padding: 2.4rem;\n}\n\n.radius {border-radius: .4rem;}\n\n.alignright {\n  float: right;\n}\n\n.alignleft {\n  float: left;\n}\n\n.aligncenter {\n  margin-right: auto;\n  margin-left: auto;\n  text-align: center;\n}\n\nimg.aligncenter,figure.aligncenter {\n  display: block;\n}\n\nimg.alignleft,figure.alignleft,\nimg.alignright,figure.alignright,\nimg.aligncenter,figure.aligncenter {\n  margin-top: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n\nimg.aligncenter,figure.aligncenter {\n  margin-top: .8rem;\n  margin-bottom: .8rem;\n}\nimg.alignright,svg.alignright,figure.alignright {\n  margin: .8rem 0 .8rem 2.4rem\n}\nimg.alignleft,svg.alignleft,figure.alignleft {\n  margin: .8rem 2.4rem .8rem 0;\n}\n\n@media (min-width: 1024px) {\n\n  /*=== div.size-60, img.size-50, h1.size-40, p.size-30... === */\n  .size-80 {\n    width: 80%;\n  }\n  .size-70 {\n    width: 70%;\n  }\n  .size-60 {\n    width: 60%;\n  }\n  .size-50 {\n    width: 50%;\n  }\n  .size-40 {\n    width: 40%;\n  }\n  .size-30 {\n    width: 30%;\n  }\n  .size-20 {\n    width: 20%;\n  }\n}\n\npre,\ncode {\n  font-family: 'Cousine', monospace;\n}\n\npre {\n  font-size: 1.6rem;\n  line-height: 2.4rem;\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  text-align: left;\n  padding: 2.4rem;\n  overflow: auto;\n  width: 100%;\n}\n\npre + p {\n  margin-top: 3.2rem;\n}\n\ncode {\n  padding: .4rem;\n}\n\npre code {\n  padding: 0;\n}\n\n\n/*=== 1.2 Animations ================\nJust 5 basic animations:\n.fadeIn, .fadeInUp, .zoomIn, .slideInLeft, slideInRight\nhttps://github.com/daneden/animate.css*/\n\n/*-- fadeIn -- */\n@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n\n@-moz-keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.fadeIn {\n  -webkit-animation: fadeIn 1s;\n  animation: fadeIn 1s;\n}\n\n/*-- fadeInUp -- */\n@-webkit-keyframes fadeInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n    transform: translate3d(0, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n    transform: none;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n    transform: translate3d(0, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n    transform: none;\n  }\n}\n\n.fadeInUp {\n  -webkit-animation: fadeInUp 1s;\n  animation: fadeInUp 1s;\n}\n\n/*-- zoomIn -- */\n@-webkit-keyframes zoomIn {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n    transform: scale3d(.3, .3, .3);\n  }\n\n  50% {\n    opacity: 1;\n  }\n}\n\n@keyframes zoomIn {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n    transform: scale3d(.3, .3, .3);\n  }\n\n  50% {\n    opacity: 1;\n  }\n}\n\n.zoomIn {\n  -webkit-animation: zoomIn 1s;\n  animation: zoomIn 1s;\n}\n\n/*-- slideInLeft -- */\n\n@keyframes slideInLeft {\n  from {\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    transform: translate3d(0, 0, 0);\n  }\n}\n\n.slideInLeft {\n  -webkit-animation: slideInLeft 1s;\n  animation: slideInLeft 1s;\n  animation-fill-mode: both;\n}\n\n/*-- slideInRight -- */\n\n@keyframes slideInRight {\n  from {\n    transform: translate3d(100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    transform: translate3d(0, 0, 0);\n  }\n}\n\n.slideInRight {\n  -webkit-animation: slideInRight 1s;\n  animation: slideInRight 1s;\n  animation-fill-mode: both;\n}\n\n/* Animated Background (Matrix) */\n@-webkit-keyframes anim {\n  0% {\n    -webkit-transform: translateY(0);\n    transform: translateY(0);\n  }\n  100% {\n    -webkit-transform: translateY(-1200px);\n    transform: translateY(-1200px);\n  }\n}\n\n@keyframes anim {\n  0% {\n    -webkit-transform: translateY(0);\n    transform: translateY(0);\n  }\n  100% {\n    -webkit-transform: translateY(-1200px);\n    transform: translateY(-1200px);\n  }\n}\n/* Duration */\n.slow {\n  -webkit-animation-duration: 4s;\n  animation-duration: 4s;\n}\n.slow + .slow {\n  -webkit-animation-duration: 5s;\n  animation-duration: 5s;\n}\n\n/* Transitions */\n\nheader,\nfooter,\n#navigation {\n  -webkit-transition: all 0.4s ease-in-out;\n  transition: all 0.4s ease-in-out;\n}\n\n/*=== 1.3 Responsive Media (videos, iframe...) === */\n\n.embed {\n  position: relative;\n  height: 0;\n  overflow: hidden;\n  /*aspect ratio:16:9*/\n  padding-bottom: 56.6%;\n  /*aspect ratio: 4:3*/\n  /*padding-bottom: 75%;*/\n}\n\n.embed iframe,\n.embed object,\n.embed embed,.embed video {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n}\n/* -- Responsive background video\nhttps://fvsch.com/code/video-background/ -- */\n\n.fullscreen > .embed {\n  position: fixed;\n  height: auto;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  padding-bottom: 0;\n}\n\n/* 1. No object-fit support: */\n@media (min-aspect-ratio: 16/9) {\n  .fullscreen > .embed > iframe,\n  .fullscreen > .embed > object,\n  .fullscreen > .embed > embed,\n  .fullscreen > .embed > video {\n    height: 300%;\n    top: -100%;\n  }\n}\n@media (max-aspect-ratio: 16/9) {\n  .fullscreen > .embed > iframe,\n  .fullscreen > .embed > object,\n  .fullscreen > .embed > embed,\n  .fullscreen > .embed > video {\n    width: 300%;\n    left: -100%;\n  }\n}\n/* 2. If supporting object-fit, overriding (1): */\n@supports (object-fit: cover) {\n  .fullscreen > .embed > iframe,\n  .fullscreen > .embed > object,\n  .fullscreen > .embed > embed,\n  .fullscreen > .embed > video {\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n  }\n}\n\n/*=== Browser (Screenshots) ================ */\n\nh1 + .browser,\nh2 + .browser,\np + .browser {\n  margin-top: 4.8rem;\n}\n\n\n/* <figure class=\"browser\"> img </figure> */\n\n.browser {\n  overflow: hidden;\n  border-radius: .3rem;\n  max-width: 1024px;\n  margin: 0 auto 3.2rem;\n}\n.browser figcaption {padding: 2.4rem;\n}\nli .browser {margin-bottom: 0;\n}\n\n/*=== Topbar === */\n\n.browser:before {\n  position: absolute;\n  top: 0;\n  left: 0;\n  text-align: left;\n  font-size: .8rem;\n  padding: 1.6rem;\n  width: 100%;\n  line-height: 0;\n  /*copypastecharacter.com/graphic-shapes */\n  content: \"\\25CF   \\25CF   \\25CF\";\n}\n@media (min-width:768px) {\n  .browser:before {\n    font-size: 1.6rem;\n  }\n}\n.browser img {\n  width: 100%;\n  margin-top: 3.2rem;\n}\n\n/*=== 1.4. Basic Grid (Flexible blocks)\nAuto-fill & Equal height === */\n\n.grid {\n  margin-right: auto;\n  margin-left: auto;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  clear: both;\n}\n\n.grid:before {\n  content: \"\";\n  display: table;\n}\n\n.grid:after {\n  clear: both;\n}\n\n.grid > .column {\n  position: relative;\n  width: 100%;\n  display: -webkit-flex;\n  display: flex;\n  flex: auto;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  -webkit-transition: .3s;\n  transition: .3s;\n  padding: 2.4rem;\n}\n\n.grid.vertical-align .column {\n  justify-content: center;\n}\n\n@media (min-width:768px) {\n  .grid > .column {\n    width: 25%;\n  }\n  /* Grid (Sidebar + Main) .grid.sm */\n  .grid.sm .column:nth-child(1) {\n    width: 30%\n  }\n  .grid.sm .column:nth-child(2) {\n    width: 70%;\n  }\n  /* Grid (Main + Sidebar) .grid.ms */\n  .grid.ms .column:nth-child(1) {\n    width: 70%\n  }\n  .grid.ms .column:nth-child(2) {\n    width: 30%;\n  }\n  /* Grid (Sidebar + Main + Sidebar) .grid.sms */\n  .grid.sms .column:nth-child(2) {\n    width: 50%;\n  }\n}\n\n\n/*============================\n2. TYPOGRAPHY & LISTS\n============================== */\nhtml {\n  -webkit-text-size-adjust: 100%;\n  -ms-text-size-adjust: 100%;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n*,\n*::before,\n*::after {\n  -webkit-box-sizing: inherit;\n  -moz-box-sizing: inherit;\n  box-sizing: inherit;\n}\n\nhtml,\nbody {\n  line-height: 1;\n  /*Sometimes fonts don't display optimally on all devices*/\n  /*-moz-osx-font-smoothing: grayscale;*/\n  /*-webkit-font-smoothing: antialiased;*/\n  text-rendering: optimizeLegibility;\n  font-weight: 300;\n\n}\n\nhtml,\nbody,\ninput,\nselect,\ntextarea {\n  font-family: \"Roboto\", \"San Francisco\", helvetica, arial, sans-serif;\n  font-size: 62.5%;\n\n}\n\nbody,\ntextarea {\n  font-size: 1.8rem;\n}\n\np,\nli,\ndt,\ndd,\ntable,\nbig,\n {\n  line-height: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n\nli,p:last-child {\n  margin-bottom: 0;\n}\n\n\nul>li,ol>li {margin-left: 3.2rem;}\nli li {\n  font-size: 100%;\n}\n\n/*== List .description (Product/Specs) === */\n\nul.description {\n  padding: 0;\n}\n\n.description + p{\n  margin-top: 3.2rem;\n}\n\n.description li {\n  position: relative;\n  padding-top:.8rem;\n  padding-bottom: .8rem;\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n.description li:hover{\n  padding-left: .4rem;\n}\nul.description li,.column ul li {list-style: none;margin-left: 0;}\n\n.column ol>li {margin-left: 1.6rem;\n}\n\nh1 svg,\nh2 svg, h3 svg, h4 svg {\n  margin-top: -.8rem;\n}\n.text-intro svg,.text-quote p svg,.wall p svg,.try svg {\n  margin-top: -.4rem;\n}\n.flexblock li h2 svg,.flexblock li h3 svg {margin-top: 0;\n}\n\nh1 {\n  font-size: 4rem;\n  line-height: 5.6rem;\n}\n\nh1 span {\n  font-style: italic;\n}\n\nh2 {\n  font-size: 3.2rem;\n  line-height: 4.8rem;\n}\n\nh3 {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\n\nh4 {\n  font-size: 2.2rem;\n  line-height: 4rem;\n}\n\nh5 {\n  font-size: 2rem;\n  font-weight: 600;\n  line-height: 3.2rem;\n}\n\nh6 {\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n  font-weight: 600;\n}\nh2.alignleft + p.alignright {margin-top: 1.2rem;margin-bottom: 0;}\nh3.alignleft + p.alignright {margin-top: .4rem;margin-bottom: 0;}\n\n@media (min-width: 768px) {\n  h1 {\n    font-size: 5.6rem;\n    line-height: 7.2rem;\n  }\n  h2 {\n    font-size: 4.8rem;\n    line-height: 6.4rem;\n  }\n  h3 {\n    font-size: 4rem;\n    line-height: 5.6rem;\n  }\n  h4 {\n    font-size: 3.2rem;\n    line-height: 4.8rem;\n  }\n}\n\nh1+h1,h1+h2,h1+h3,h1+h4,h1+h5,h1+h6,\nh2+h1,h2+h2,h2+h3,h2+h4,h2+h5,h2+h6,\nh3+h1,h3+h2,h3+h3,h3+h4,h3+h5,h3+h6,\nh4+h1,h4+h2,h4+h3,h4+h4,h4+h5,h4+h6,\nh5+h1,h5+h2,h5+h3,h5+h4,h5+h5,h5+h6,\nh6+h1,h6+h2,h6+h3,h6+h4,h6+h5,h6+h6 {\n  margin-top: .8rem;\n}\n\nh1+img,h2+img,h3+img {\n  margin-top: 4.8rem;\n  margin-bottom: 4.8rem;\n}\n[class*=\"content-\"] > [class*=\"content-\"] h2,\n[class*=\"content-\"] > [class*=\"content-\"] h3,\n[class*=\"content-\"] > [class*=\"content-\"] h4 {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\n/*=========================================\n2.1. Headings with background\n=========================================== */\n\nh1[class*=\"bg-\"],h2[class*=\"bg-\"],h3[class*=\"bg-\"],h4[class*=\"bg-\"],\nh5[class*=\"bg-\"],h6[class*=\"bg-\"],ul[class*=\"bg-\"],ol[class*=\"bg-\"],\nli[class*=\"bg-\"],p[class*=\"bg-\"] {\n  padding: 2.4rem;\n}\n\nh1 [class*=\"bg-\"],h2 [class*=\"bg-\"],h3 [class*=\"bg-\"] {\n  padding: .4rem .8rem;\n}\n\n/*=========================================\n2.2. Typography Classes = .text-\n=========================================== */\n\n.text-intro,[class*=\"content-\"] p {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\n/* -- Serif -- */\n.text-serif, h1 span {\n  font-family: \"Maitree\", times, serif;\n\n}\n\n/* -- h1,h2... Promo/Landings -- */\n.text-landing {\n  /*font-weight: 600;*/\n  letter-spacing: .4rem;\n  text-transform: uppercase;\n}\n@media (min-width: 768px) {\n  .text-landing {\n    letter-spacing: 1.6rem;\n  }\n}\n/* -- Subtitle (Before h1, h2) --\np.subtitle + h1/h2 */\n\np.text-subtitle {\n  font-size: 1.6rem;\n}\np.text-subtitle svg {vertical-align: text-top;}\n\n.text-subtitle {\n  text-transform: uppercase;\n  letter-spacing: .2rem;\n  margin-bottom: 0;\n}\n.text-subtitle + p  {\n  margin-top: 3.2rem;\n}\n\n.text-uppercase {text-transform: uppercase;}\n.text-lowercase {text-transform: lowercase;}\n\n/* -- Emoji (you'll love this) -- */\n\n.text-emoji {\nfont-size: 6.8rem;\nline-height: 8.8rem;\n}\n\n@media (min-width: 768px) {\n.text-emoji {\nfont-size: 12.8rem;\nline-height: 16rem;\n }\n}\n\n/* -- Numbers (results, sales... 23,478,289 iphones) -- */\n\n.text-data {\n  font-size: 6.4rem;\n  line-height: 8rem;\n  margin-bottom: .8rem;\n}\n\n@media (min-width: 768px) {\n  .text-data {\n    font-size: 15.2rem;\n    line-height: 16.8rem;\n  }\n}\n\n.text-label {\n  font-weight: 600;\n  display: inline-block;\n  width: 12.8rem;\n  text-transform: uppercase;\n}\n\n/* -- Magazine Two Columns -- */\n\n@media (min-width: 768px) {\n  .text-cols {\n    -webkit-column-count: 2;\n    -moz-column-count: 2;\n    column-count: 2;\n    -webkit-column-gap: 4.8rem;\n    -moz-column-gap: 4.8rem;\n    column-gap: 4.8rem;\n    text-align: left;\n  }\n  .text-landing + .text-cols{\n    margin-top: 3.2rem;\n  }\n}\n.text-cols p:first-child:first-letter {\n  font-size: 11rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  float: left;\n  padding: 0;\n  margin: -.4rem 1.6rem 0 0;\n  line-height: 1;\n}\n\n/* -- Heading with border -- */\n\n.text-context {\n  position: relative;\n  /*letter-spacing: .1rem;*/\n}\n.text-context.text-uppercase {\n  letter-spacing: .1rem\n}\n\n.text-context:before {\n  content: \"\";\n  display: block;\n  width: 12rem;\n  height: .2rem;\n  margin-bottom: .6rem;\n}\n.column .text-context:before {\n  width:100%;\n}\n\n/* -- Separator/Symbols (stars ***...) -- */\n\n.text-symbols {font-weight: 600; letter-spacing: .8rem;text-align: center;\n}\n\n/* -- Separator -- */\n.text-separator {\n  margin-top:2.4rem;\n}\n.text-separator:before {\n  position: absolute;\n  width: 16%;\n  height: .4rem;\n  content: \"\";\n  margin-top:-1.6rem;\n  left: 0;\n}\n@media (min-width: 568px) {\n  .text-separator {\n    width: 80%;\n    margin-top: 0;\n    margin-left: 20%;\n  }\n  .text-separator:before {\n    margin-top: 1.2rem;\n  }\n}\n\n/* -- Pull Quote (Right/Left)  -- */\n\n[class*=\"text-pull\"] {\n  position: relative;\n  font-size: 2.4rem;\n  line-height: 4rem;\n  font-weight: 400;\n  margin-right: 2.4rem;\n  margin-bottom: 3.2rem;\n  margin-left: 2.4rem;\n}\n\n[class*=\"text-pull-\"] {\n  padding-top: 1.4rem;\n  margin-top: .8rem;\n}\n\n@media (min-width: 1024px) {\n  [class*=\"text-pull\"] {\n    margin-right: -4.8rem;\n    margin-left: -4.8rem;\n  }\n}\n@media (min-width: 568px) {\n  [class*=\"text-pull-\"] {\n    max-width: 40%;\n  }\n  .text-pull-right {\n    float: right;\n    margin-right: -2.4rem;\n    margin-left: 2.4rem;\n  }\n  .text-pull-left {\n    float: left;\n    margin-left: -2.4rem;\n    margin-right: 2.4rem;\n  }\n}\nimg[class*=\"text-pull-\"],figure[class*=\"text-pull-\"] {\n  padding-top:0;\n  margin-top: .8rem;\n}\n\n/* -- Interviews (Questions & Answers)  --- */\n/* -- <dl class=\"text-interview\">\n<dt>name</dt>\n<dd><p>question or answer</p>\n</dd>\n--- */\n\n.text-interview dt {\n    font-weight: 600;\n    text-transform: uppercase;\n    margin-bottom: 0;\n}\n\n@media (min-width: 1024px) {\n.text-interview dt {\n    margin-left: -34%;\n    position: absolute;\n    text-align: right;\n    white-space: nowrap;\n    width: 30%;\n  }\n}\n\n/* -- Info Messages (error, warning, success... -- */\n\n.text-info {font-size: 1.6rem;line-height: 2.4rem;\n}\n/*=========================================\n2.1. San Francisco Font (Apple's new font)\n=========================================== */\n\n.text-apple,.bg-apple {\n  font-family: \"San Francisco\", helvetica, arial, sans-serif;\n}\n\n/* Ultra Light */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: 100;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff2\");\n}\n\n/* Thin */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: 200;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff2\");\n}\n\n\n/* Regular */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: 400;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff2\");\n}\n\n/* Bold */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: bold;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff2\");\n}\n\n/*=========================================\n3. Header & Footer\n=========================================== */\n\n/* -- If you want an unique, global header/footer,read this:\nhttps://github.com/webslides/webslides/issues/57 -- */\n\nheader,\nfooter,\n#navigation {\n  width: 100%;\n  padding: 2.4rem;\n}\n\nheader p,\nfooter p {\n  line-height: 4.8rem;\n  margin-bottom: 0;\n}\n\nheader[role=banner] img,\nfooter img {\n  height: 4rem;\n  vertical-align: middle;\n}\nfooter {\n  position: relative;\n}\nheader, footer {\n  /* hover/visibility */\n  z-index: 3;\n}\n\nheader,.ws-ready footer {\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n.ws-ready footer {\n  top: auto;\n  bottom: 0;\n}\n/*=== Hide header[role=banner] === */\n\n/*Remove \"opacity=0\" if you want an unique, visible header on each slide*/\nheader[role=banner] {\n  opacity: 0;\n}\n/*=== Show Header[role=banner] === */\nheader[role=banner]:hover {\n  opacity: 1;\n}\n\n@media (max-width: 767px) {\n  footer .alignleft, footer .alignright {\n    float: none;\n    display: block;\n  }\n}\n\n/*=== 3.1. Logo === */\n\n.logo {\n  text-transform: lowercase;\n  /*float: left;\n  font-size: 4.8rem;*/\n}\n\n.logo a {\n  background-size: 4.8rem;\n  width: 4.8rem;\n  height: 4.8rem;\n  vertical-align: middle;\n  float: left;\n  text-indent: -4000px;\n  /*If you remove text-indent */\n  /*padding-left: 6rem;*/\n}\n\n\n/*@media (max-width: 600px){\n.logo a {text-indent: -4000px;\n }\n}*/\n\n/*=========================================\n4. Navigation\n=========================================== */\n\n/*=== 4.1. Navbars === */\n\nnav ul {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  /*====align left====*/\n  justify-content: flex-start;\n  /* ==== align center ====*/\n  /*justify-content: center; */\n  /*====align right====*/\n  /* justify-content: flex-end; */\n  /*====separated columns li a====*/\n  /* justify-content: space-between; */\n  /*====separated columns centered li a====*/\n  /*justify-content: space-around;*/\n}\n\nnav ul li {\n  position: relative;\n  float: left;\n  list-style: none;\n}\n\nnav ul li:first-child,\nnav[role=navigation] ul li {\n  margin-left: 0;\n}\n\nnav[role=navigation] li a {\n  position: relative;\n  padding: 0 1.6rem;\n  line-height: 4.8rem;\n  text-decoration: none;\n  display: -webkit-flex;\n  display: flex;\n  justify-content: center;\n  max-width: 100%;\n  /*full li>a when you decide*/\n}\nnav[role=navigation] li a svg {margin: 1.5rem .4rem 1.5rem 0;}\n\nheader nav ul {\n  margin: 0;\n  justify-content: flex-end;\n}\n\nnav.aligncenter ul, .aligncenter nav ul {\n  /* ==== align center ====*/\n  justify-content: center;\n}\n\nnav.navbar ul li {\n  /*====full float li a ====*/\n  -webkit-flex: 1 1 auto;\n  flex: 1 1 auto;\n}\n\n@media (max-width: 568px) {\n  nav.navbar ul {\n    -webkit-flex-flow: column wrap;\n    flex-flow: column wrap;\n    padding: 0;\n  }\n  nav.navbar li a {\n    justify-content:flex-start;\n  }\n}\n\n/*============================================\n5. SLIDES (Full Screen)\nVertically and horizontally centered\n============================================== */\n\n/* Fade transition to all slides.\n* = All HTML elements will have those styles.*/\n\nsection * {\n  -webkit-animation: fadeIn 0.6s ease-in-out;\n  animation: fadeIn 0.6s ease-in-out;\n}\nsection .background,section .light,section .dark {\n  -webkit-animation-duration:0s;\n  animation-duration:0s;\n}\n\n/*=== Section = Slide === */\n\nsection,.slide\n{\n  position: relative;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n  /*Fixed/Visible header? padding-top: 12rem; */\n  padding: 2.4rem;\n  word-wrap: break-word;\n  page-break-after: always;\n  min-height: 100vh; /*Fullscreen*/\n  /* Prototyping? min-height: 720px (Baseline: 8px = .8rem)*/\n}\n\n@media (min-width: 1024px) {\n  section, .slide {\n    padding-top: 12rem;\n    padding-bottom: 12rem;\n  }\n}\n/*slide no padding (full card, .embed> youtube video...) */\n.fullscreen {\n  padding: 0;\n  /* Fixed/Visible header?\n  padding:8.2rem 0 0 0;\n  */\n}\n\n/* slide alignment - top */\n.slide-top {\n  justify-content: flex-start;\n}\n\n\n/* slide alignment - bottom */\n.slide-bottom {\n  justify-content: flex-end;\n}\n\n\n/*== 5.1. Mini container width:50%\nAligned items [class*=\"content-\"]=== */\n\n[class*=\"content-\"] {\n  position: relative;\n  /*display: table;*/\n  text-align: left;\n}\n.wrap[class*=\"bg-\"],.wrap.frame,\n[class*=\"content-\"][class*=\"bg-\"],\n[class*=\"content-\"].frame, [class*=\"align\"][class*=\"bg-\"]{\n  padding: 4.8rem;\n}\nform[class*=\"bg-\"] {\npadding: 2.4rem;\n}\n[class*=\"content-\"] > [class*=\"content-\"] p {\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n}\n\n.content-center {\n  margin: 0 auto;\n  text-align: center;\n}\n\n@media (min-width: 768px) {\n  [class*=\"content-\"] {\n    width: 50%;\n  }\n  .content-left {\n    float: left;\n  }\n  .content-right {\n    float: right;\n  }\n  [class*=\"content-\"] + [class*=\"content-\"] {\n    padding-left:2.4rem;\n    margin-bottom: 4.8rem;\n  }\n  [class*=\"content-\"] + [class*=\"size-\"] {\n    margin-top: 6.4rem;\n    clear:both;\n  }\n\n  [class*=\"content-\"]:before,\n  [class*=\"content-\"]:after {\n    content: \"\";\n    display: table;\n  }\n\n  [class*=\"content-\"]:after {\n    clear: both;\n  }\n}\n\n/* === 5.2 Counter / Navigation Slides  === */\n\n#navigation {\n  position: fixed;\n  width: 24.4rem;\n  margin-right: auto;\n  margin-left: auto;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  /* hover/visibility */\n  z-index: 4;\n}\n#navigation  {\n  -webkit-animation: fadeIn 8s;\n  animation: fadeIn 8s;\n  opacity:0;\n}\n#navigation:hover {\n  opacity: 1;\n}\n/* -- navigation arrow always visible? -- */\n\n/*\n#webslides:hover #navigation {\nopacity: 1;\n}\n*/\n\n#counter {\n  position: relative;\n  display: block;\n  width: 10rem;\n  margin-right: auto;\n  margin-left: auto;\n  text-align: center;\n  line-height: 4.8rem;\n}\n#counter a:hover {\npadding: .8rem;\n}\n#navigation p {\n  margin-bottom: 0;\n}\n\na#next,a#previous {\n  position: absolute;\n  width: 4rem;\n  height: 4rem;\n  text-align: center;\n  border-radius: .4rem;\n  text-align: center;\n  font-size: 2.4rem;\n  padding: .8rem;\n  cursor: pointer;\n}\na#next {\n  right: 3.2rem;\n}\n\na#previous {\n  left: 3.2rem;\n}\n@media (max-width:1024px) {\n  #navigation {\n    background: url(" + __webpack_require__(151) + ") no-repeat center top;\n    background-size: 4.8rem;\n    -webkit-animation: fadeIn 6s;\n    animation: fadeIn 6s;\n  }\n  #navigation a, #counter {display: none;\n  }\n}\n\n/*=== 5.3 Slides - Background Images/Videos === */\n\n.background,\n[class*=\"background-\"] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.background,\n[class*=\"background-\"]{\n  background-repeat: no-repeat;\n}\n.background {\n  background-position: center;\n  background-size: cover\n}\n.background-top {\n  background-position: top;\n  background-size: cover;\n}\n.background-bottom {\n  background-position: bottom;\n  background-size: cover;\n}\n\n\n/*fullscreen video\n  <video class=\"background-video\">\n*/\n\n.background-video {\n  width: 100%;\n  height: 100%;\n  object-fit: fill;\n}\n\n/*=== BG Positions === */\n\n.background-center {\n  background-position: center;\n}\n\n.background-center-top {\n  background-position: center top;\n}\n.background-right-top {\n  background-position: right top;\n}\n.background-left-top {\n  background-position: left top;\n}\n.background-center-bottom,\n.background-left-bottom,\n.background-right-bottom,\n.background-left,.background-right {\n  background-position: center bottom;\n}\n\n@media (min-width:1024px) {\n  .background-left-bottom {\n    background-position: left bottom;\n  }\n  .background-right-bottom {\n    background-position: right bottom;\n  }\n  .background-right {\n    background-position: right;\n  }\n  .background-left {\n    background-position: left;\n  }\n}\n\n/*=== bg image/video overlay === */\n/*-- [class*=\"bg-\"] .background.dark, [class*=\"bg-\"] .embed.dark...  -- */\n\n[class*=\"bg-\"] .light,\n[class*=\"bg-\"] .light {\n  filter: alpha(opacity=8000);\n  opacity: 0.80;\n  filter: alpha(opacity=8);\n}\n\n[class*=\"bg-\"] .dark,\n[class*=\"bg-\"] .dark {\n  filter: alpha(opacity=2000);\n  opacity: 0.20;\n  filter: alpha(opacity=2);\n}\n[class*=\"bg-\"] .background-video.dark {\n  filter: alpha(opacity=5000);\n  opacity: 0.50;\n  filter: alpha(opacity=5);\n}\n@media (max-width:1023px) {\n  [class*=\"background-\"] {\n    opacity: 0.20;\n    -webkit-animation: fadeIn ease-in 0.20;\n    animation: fadeIn ease-in 0.20;\n  }\n  .background-video {\n    opacity: 0.80;\n  }\n}\n/*=== Animated Background Image === */\n\n.background.anim {\n  height: 200%;\n  background-size: 100%;\n  background-repeat: repeat;\n  background-position: center top;\n  -webkit-animation: anim 80s linear infinite;\n  animation: anim 80s linear infinite;\n\n}\n/*=== Background with a frame === */\n/*<span class=\"background\" style=\"background-image:url('image.jpg')\"></span>\n<span class=\"background frame\"></span>*/\n\n[class*=\"background\"].frame {\nmargin: 2.4rem;\n}\n\n/*===============================================================\n6. Magic blocks with flexbox (Auto-fill & Equal Height)\nBlocks Links li>a = .flexblock.blink (.blink required)\n================================================================= */\n\n.flexblock {\n  margin-right: auto;\n  margin-left: auto;\n  padding: 0;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  clear: both;\n}\n\n.flexblock:before {\n  content: \"\";\n  display: table;\n}\n\n.flexblock:after {\n  clear: both;\n}\n\n.flexblock li,\n.flexblock.blink li>a {\n  position: relative;\n  display: -webkit-flex;\n  display: flex;\n  /*making paragraphs and linked block*/\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  margin: 0;\n  padding: 2.4rem;\n\n}\n\n.flexblock li {\n  flex: auto;\n  text-align: left;\n  /*float: left;*/\n  width: 100%;/* more control */\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n.flexblock li:hover{\n  -webkit-transform: translateY(-.2rem);\n  transform: translateY(-.2rem);\n}\n.flexblock.aligncenter li {text-align: center;}\n\n.flexblock.vertical-align li {\n  justify-content: center;\n}\n\n.flexblock.blink li {\n  padding: 0;\n}\n\n@media (min-width:600px) {\n  .flexblock li {\n    width: 50%;\n  }\n}\n\n@media (min-width:1024px) {\n  .flexblock li {\n    width: 25%;\n  }\n}\n\nh1 + .flexblock,\nh2 + .flexblock,\nh3 + .flexblock,\ndiv + ul, div + ol{\n  margin-top: 3.2rem;\n}\n\n.flexblock li h2,\n.flexblock li h3,footer .column h2,footer .column h3 {\n  margin-bottom: 0;\n  font-size: 1.8rem;\n  font-weight: 600;\n  line-height: 3.2rem;\n}\n\n/*====================================================================\n6.1 Features <ul class=\"flexblock features\">\n====================================================================== */\n\n.flexblock.features>li {\n  width: 100%;\n  border-radius: .4rem;\n  margin-bottom: 4.8rem;\n}\n\n\n@media (min-width:768px) {\n  .flexblock.features {\n    margin-right: -2%;\n    margin-left: -2%;\n  }\n  .flexblock.features>li {\n    margin-right: 2%;\n    margin-left: 2%;\n    width: 29%;\n  }\n  .size-50 .flexblock.features>li{\n    width: 46%;\n  }\n  .column .flexblock.features>li{width: 100%;}\n\n  footer .flexblock.features>li {margin-bottom: 0;\n  }\n}\n\n.features li h2 {\n  text-transform: uppercase;\n}\n\n.features li span {\n  font-weight: 300;\n}\n\n.features li p {\n  margin: 0;\n}\n\n.features li p em {\n  display: block;\n}\n.features li span,.features li svg {\n  font-size: 6.4rem;\n  line-height: 1;\n  display: block;\n  margin: 0;\n}\n.features li img {width: 6.4rem;}\n\n.features li span sup {\n  font-size: 3rem;\n}\n\n@media (min-width:1200px) {\n  .features li span,\n  .features li svg,.features li img {\n    float: left;\n    margin-right: .8rem;\n  }\n}\n\n/*=====================================================================\n6.2 Clients Logos <ul class=\"flexblock clients\">\n======================================================================= */\n\n.flexblock.clients.blink li>a,.flexblock.clients li {\n  padding: 0;\n}\n\n.flexblock.clients li figcaption {\n  padding: 0 2.4rem 2.4rem;\n}\n.flexblock.clients.border li figcaption {\n  padding-top: 2.4rem;\n}\n\n.clients.blink li>a,\n.clients li {\n  justify-content: inherit;\n}\n\n.clients li img,.clients li svg {\n  display: block;\n  padding: 2.4rem;\n}\n\n.clients.border li img,.clients.border li svg {\n  margin-right: auto;\n  margin-left: auto;\n  display: block;\n}\n\n.clients li:hover  {\n  z-index: 1;\n}\n/*==================================================\n6.3 flexblock.steps <ul class=\"flexblock steps\">\nAbout, Philosophy...\n=================================================== */\n\n.steps li {\n  width: 100%;\n}\n\n.steps li img,\n.steps li span {\n  margin: 0 auto .8rem;\n  display: block;\n}\n\n.steps li span {\n  font-size: 6.4rem;\n}\n\n@media (min-width: 768px) {\n  .steps li {\n    width: 50%;\n  }\n}\n\n@media (min-width: 1024px) {\n  .steps li {\n    width: 25%;\n    /*width: 33.3333%;*/\n  }\n  .process {\n    position: absolute;\n    top: 60px;\n    left: 0;\n    width: 0;\n    height: 0;\n    border-left-style: solid;\n    border-left-width: 15px;\n  }\n}\n\n\n/*=================================================\n6.4 Block Numbers - <ul class=\"flexblock metrics\">\n=================================================== */\n\n.metrics li {\n  text-align: center;\n  width: 100%;\n}\n\n.metrics li strong {\n  display: block;\n}\n\n.metrics li span,.metrics li svg {\n  font-size: 6.4rem;\n  line-height: 7.2rem;\n  display: block;\n  margin: 0 auto;\n}\n\n@media (min-width: 568px) {\n  .metrics li {\n    width: 50%;\n  }\n}\n\n@media (min-width: 1024px) {\n  .metrics li {\n    width: 25%;\n  }\n}\n.card-50 .metrics li {\n  width: 50%;\n}\n\n/*=====================================================\n6.5 Specs/Items: <ul class=\"flexblock specs\">\n======================================================= */\n\n.specs li {\n  width: 100%;\n  text-align: left;\n}\n\n.specs li:after {\n  content: \"\";\n  height: 1px;\n  display: block;\n  position: relative;\n  bottom: -2.4rem;\n}\n\n.specs li:hover {\n  -webkit-transform: translateX(.2rem);\n  transform: translateX(.2rem);\n}\n\n.specs li span,.specs li svg {\n  font-size: 6.4rem;\n  line-height: 1;\n  display: block;\n  margin: 0;\n}\n.specs li img {width: 6.4rem;}\n\n.specs li span  {\n  font-weight: 300;\n\n}\n.specs li span sup {\n  font-size: 3rem;\n\n}\n\n@media (min-width:1024px) {\n  .specs li span,\n  .specs li svg,.specs li img {\n    float: left;\n    margin-right: 2.4rem;\n  }\n}\n/*=================================================\n6.6 Reasons/Why/Numbers (counter-increment)\n<ul class=\"flexblock reasons\">\n=================================================== */\n\n.flexblock.reasons li {\n  text-align: left;\n  width: 100%;\n  counter-increment: list;\n}\n.reasons li:hover{\n  -webkit-transform: translateY(-.2rem);\n  transform: translateY(-.2rem);\n}\n.reasons li:before {\n  content: counter(list)'.';\n  font-size: 6.4rem;\n  line-height: 1;\n}\n.reasons li:after {\n  position: relative;\n  bottom: -2.4rem;\n  content: \"\";\n  height: 1px;\n  display: block;\n}\n@media (min-width: 768px) {\n  .reasons li {\n    padding-left: 8.8rem;\n    /* You need two digits? (1-10)*/\n    /*padding-left: 12rem; */\n  }\n  .reasons li:before {\n    position: absolute;\n    left: 2.4rem;\n  }\n}\n\n/*=================================================\n6.7 Gallery - <ul class=\"flexblock gallery\">\nBlock Thumbnails li+.overlay+image\nimg size recommended:800x600px\n=================================================== */\n\n.flexblock.gallery li {\n  margin-bottom: 4.8rem;\n}\n.flexblock.gallery li:nth-child(n+4) {\n  -webkit-flex:inherit;\n  flex:inherit;\n}\n.flexblock.gallery li,\n.flexblock.gallery.blink li>a {\n  padding: 0;\n}\n.gallery h2 {text-transform: uppercase;}\n\n.gallery h2 + p,.gallery h3 + p {\n  margin-top: .8rem;\n}\n.gallery p {\n  font-size: 1.6rem;\n  line-height: 2.4rem;\n  margin-bottom: 0;\n}\n\n.flexblock.gallery li figcaption {\n  position: relative;\n  padding: 1.6rem;\n}\n/*Arrow */\n\n.gallery li figcaption:before {\n  content: \"\";\n  position: absolute;\n  width: 0;\n  height: 0;\n  margin-left: -0.5em;\n  top: .4rem;\n  left: 20%;\n  transform-origin: 0 0;\n  transform: rotate(135deg);\n  -webkit-transition: .1s;\n  transition: .1s;\n}\n.gallery li:hover figcaption:before {\n  top:.3rem;\n}\n.aligncenter .gallery li figcaption:before {\n  margin-left: 0;\n  left: 55%;\n}\n\n.gallery li footer {\n  position: relative;\n  padding:1.2rem 0 0;\n  margin-top: .8rem;\n}\n@media (min-width:600px) {\n  .flexblock.gallery {\n    margin-right: -2%;\n    margin-left: -2%;\n  }\n  .flexblock.gallery li {\n    margin-right: 2%;\n    margin-left: 2%;\n    width: 46%;\n  }\n}\n\n@media (min-width:1024px) {\n  .flexblock.gallery li {\n    width: 21%;\n  }\n  .grid.sm .flexblock.gallery li,.grid.ms .flexblock.gallery li {\n    width: 29%;\n  }\n  .grid.sms .flexblock.gallery li {\n    width: 46%;\n  }\n}\n\n.gallery li img {\n  margin-right: auto;\n  margin-left: auto;\n  display: block;\n}\n/* Overlay */\n\n.overlay {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  opacity: 1;\n  z-index: 2;\n  width: 100%;\n  height: 100%;\n  cursor: pointer;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n  transition: all 0.3s linear;\n}\nli .overlay {\n  align-items: center;\n}\nli .overlay h2 {\n  text-transform: uppercase;\n  margin: 0;\n  padding: 0 2.4rem;\n  letter-spacing: .2rem;\n  width: 100%;\n  text-align: center;\n}\n\n.overlay p,\n.overlay time {\n  margin-bottom: 0;\n}\n\nli:hover .overlay {\n  cursor: pointer;\n}\n\n/*===============================================\n6.8 Plans / Pricing <ul class=\"flexblock plans\">\n================================================= */\n\n.flexblock.plans>li {\n  text-align: center;\n  border-radius: 3px;\n  z-index: 1;\n  margin-bottom: 4.8rem;\n}\n\n.plans li,\n.plans.blink li>a {\n  padding: 0;\n}\n\n.plans.blink li>a div,\n.plans li div {\n  padding-bottom: 3.2rem;\n}\n\n.plans li p,\n.plans li h2 {\n  padding: .8rem 3.2rem;\n}\n\n.plans li h2 {\n  float: left;\n  width: 100%;\n  text-transform: uppercase;\n  letter-spacing: .1rem;\n  font-weight: 400;\n}\n\n.plans .price {\n  font-size: 4.8rem;\n  line-height: 6.2rem;\n  padding: 2.4rem;\n  font-weight: 400;\n  display: block;\n  clear: both;\n}\n\n.price sup {\n  font-size: 1.8rem;\n  margin-right: .4rem;\n}\n\n.plans li ul {\n  margin-bottom: 2.4rem;\n}\n\n\n/* Specs  ----------- */\n\n.flexblock.plans li ul li {\n  width: 100%;\n  padding: .8rem 3.2rem;\n  text-align: left;\n  display: block;\n}\n\n@media (min-width:1024px) {\n  .flexblock.plans {\n    margin-right: -2%;\n    margin-left: -2%;\n  }\n  .flexblock.plans>li {\n    margin-right: 2%;\n    margin-left: 2%;\n    width: 29%;\n  }\n  .plans>li:hover,\n  .plans>li:nth-child(2) {\n    position: relative;\n    z-index: 2;\n    transform: scale(1.08);\n  }\n  .plans:hover li:nth-child(2):not(:hover) {\n    position: relative;\n    z-index: 1;\n    transform: scale(1);\n  }\n}\n\n\n/*===========================================\n6.9 Block Activity <ul class=\"activity\">\nCV / News\n============================================= */\n\n.flexblock.activity {\n  -webkit-flex-direction: column;\n  flex-direction: column;\n}\n\n.activity li {\n  position: relative;\n  -webkit-flex: 1;\n  flex: 1;\n  width: auto;\n}\n\n.activity p {\n  vertical-align: top;\n  margin-bottom: 0;\n}\n\n.activity img {\n  display: block;\n}\n\n.activity .year,\n.activity .title {\n  display: inline;\n  font-weight: 600;\n}\n\n.activity .summary {\n  width: 100%;\n}\n\n.activity .title {\n  margin-left: 1rem;\n}\n\n@media (min-width: 768px) {\n  .activity p {\n    float: left;\n  }\n  .activity .year {\n    width: 15%;\n  }\n  .activity .title {\n    width: 27%;\n    margin-right: 4%;\n    margin-left: 4%;\n  }\n  .activity .summary {\n    width: 50%;\n  }\n}\n\n/*=========================================\n.flexblock sublist\n=========================================== */\n\n.flexblock li li,\n.flexblock.blink li li {\n  padding: 0;\n  width: 100%;\n}\n\n/*.flexblock li li:before {\n  position: absolute;\n  top: 3px;\n  left: 0;\n  content: \"*\";\n  font-weight: 400;\n}\n*/\n\n/*=== Mini container .flexblock li === */\n\n[class*=\"content-\"] .flexblock li p {\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n}\n.content-right .flexblock.features li,\n.content-left .flexblock.features li {\n  width: 46%;\n}\n\n/*=============================================\n7. Promos/Offers (pricing, tagline, CTA...)\n=============================================== */\n\n.cta {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.number,\n.cta .benefit {\n  padding: .8rem;\n  max-width: 100%;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.number {\n  text-align: center;\n}\n\n.cta .benefit {\n  max-width: 100%;\n  text-align: center;\n}\n\n.number span {\n  font-size: 8rem;\n  line-height: 8rem;\n  display: block\n}\n\n.number span sup {\n  font-size: 4rem;\n}\n\n.cta p {\n  margin-bottom: 0;\n}\n\n@media (min-width: 768px) {\n  .number,\n  .cta .benefit {\n    padding: 4.8rem;\n    max-width: 50%;\n  }\n  .cta .benefit {\n    text-align: left;\n  }\n  .number span {\n    font-size: 16rem;\n    line-height: 16rem;\n  }\n  .number span sup {\n    font-size: 6rem;\n    vertical-align: middle;\n  }\n}\n\n\n/* --- Header CTA --- */\n\n.cta-cover {\n  display: table;\n  width: 100%;\n}\n\n.cta-cover h1 strong {\n  font-weight: 400;\n}\n\n@media (min-width: 1024px) {\n  .cta-cover h1 {\n    max-width: 80%;\n    float: left;\n  }\n  .cta-cover h1 strong {\n    display: block;\n  }\n  .cta-cover .button {\n    margin-top: 1.2rem;\n  }\n  .cta-cover .try {\n    text-align: center;\n  }\n}\n\n@media (max-width: 1023px) {\n  .cta-cover .alignright {\n    float: none;\n  }\n}\n\n\n/*=========================================\n8. Work/Resumé/CV <ul class=\"work\">\n=========================================== */\n\nh1 + .work,\nh2 + .work,\nh3 + .work,\np + .work {\n  margin-top: 4.8rem;\n}\n\n.work {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  clear: both;\n  text-align: left;\n}\n\n.work li {\n  position: relative;\n  -webkit-flex: 1;\n  flex: 1;\n  list-style: none;\n  margin: 0;\n\n}\n\n.work-label {\n  float: left;\n  width: 100%;\n  padding: 0 0 2.4rem;\n  font-weight: 600;\n}\n\n.work p {\n  margin-bottom: 0;\n}\n\n.work li a {\n  display: block;\n  float: left;\n  width: 100%;\n  height: 100%;\n  padding: 2.4rem 0;\n}\n\n.work-title {\n  display: block;\n  width: 75%;\n  padding-right: 1.2rem;\n}\n\n.work li a p,\n.work li:first-child a:hover p:first-child {\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n\n.work li p {\n  padding-left: 1.2rem;\n}\n\n.work li.work-label p {\n  padding-left: 0;\n}\n\n.work li a:hover p:first-child {\n  padding-left: 1.6rem;\n}\n\n.work li p:last-child {\n  position: absolute;\n  top: 2.4rem;\n  right: 1.2rem;\n}\n\n.work li.work-label p:last-child {\n  top: 0;\n  right: 0;\n}\n\n@media (min-width: 768px) {\n  .work-label p,\n  .work li p {\n    width: 25%;\n    margin-right: 2%;\n    float: left;\n  }\n  .work li.work-label p:last-child,\n  .work li p:last-child {\n    position: relative;\n    float: right;\n    top: auto;\n    right: auto;\n    margin-right: 0;\n    text-align: right;\n    padding-right: 1.2rem;\n  }\n  .work li p.work-date {\n    width: 120px;\n  }\n}\n\n@media (max-width: 768px) {\n  .work-client,\n  .work-label .work-services {\n    clip: rect(1px, 1px, 1px, 1px);\n    position: absolute !important;\n    height: 1px;\n    width: 1px;\n    overflow: hidden;\n  }\n}\n\n\n/*===========================================\n9. Table of contents\n============================================= */\n\n.toc,\n.toc ol>li:before,\n.chapter {\n  position: relative;\n  z-index: 2;\n}\n\n/*.toc {\n  padding: 2.4rem;\n}\n*/\n\n.toc ol {\n  position: relative;\n  counter-reset: item;\n}\n\n.toc ol>li:before {\n  content: counters(item, \".\") \". \";\n  display: table-cell;\n  width: 2.4rem;\n  padding-right: .8rem;\n}\n\n.toc ol li li:before {\n  content: counters(item, \".\") \" \";\n}\n\n.toc li {\n  width: 100%;\n  display: table;\n  counter-increment: item;\n  font-weight: 400;\n  margin-bottom: .8rem;\n  margin-left: 0;\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n\n.toc li li {\n  font-weight: 300;\n  margin-left: 0;\n  margin-bottom: 0;\n}\n\n.chapter {\n  display: inline-block;\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n  padding-right: .8rem;\n}\n\n.toc-page {\n  float: right;\n}\n\n.toc li .toc-page:before {\n  position: absolute;\n  /* width: 100%; */\n  right: 4rem;\n  left: 0;\n  margin-top: 1.8rem;\n  content: \"\";\n  display: block;\n}\n\n.toc li>a {\n  display: inline-block;\n  width: 100%;\n}\n\n.toc li a:hover span {\n  font-weight: 600;\n}\n\n.toc li a:hover .toc-page:before {\n  border-bottom-width: 2px;\n}\n\n\n/*===========================================\n10. Cards\n============================================= */\n\n[class*=\"card-\"],\n[class*=\"card-\"]>a {\n  position: relative;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: row;\n  flex-direction: row;\n  clear: both;\n  /*width: 100%;*/\n}\n\n.fullscreen [class*=\"card-\"],\n.fullscreen [class*=\"card-\"]>a {\n  min-height: 100vh;\n}\n\n[class*=\"card-\"] figure img,[class*=\"card-\"] figure iframe {\n  margin: 0 auto;\n  display: block;\n}\n\n\n/*==  Images inside container:\nobject-fit to re-frame images rather than just stretch and resize them  === */\n\n@media (min-width: 768px) {\n  [class*=\"card\"][class*=\"bg-\"] figure,\n  .fullscreen [class*=\"card\"] figure {\n    vertical-align: middle;\n    text-align: center;\n    min-width: 380px;\n    max-height: 100%;\n  }\n  /* -- imgs/frames size recommended:800x600 -- */\n  [class*=\"card-\"][class*=\"bg-\"] figure img,\n  [class*=\"card-\"][class*=\"bg-\"] figure iframe,\n  /* -- Make small images/iframes larger -- */\n  .fullscreen [class*=\"card-\"] figure img,\n  .fullscreen [class*=\"card-\"] figure iframe {\n    position: absolute;\n    z-index: 1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n  }\n}\n\n.flex-content,\n[class*=\"card\"] blockquote {\n  position: relative;\n  padding: 2.4rem;\n}\n[class*=\"card-\"] .flex-content,\n[class*=\"card-\"] blockquote {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.flex-content p {\n  position: relative;\n}\n\n@media (min-width: 768px) {\n  /*== Cards (Sizes) - Reference: figure img:-70,60,50,40,30... === */\n  .card-50 figure,\n  .card-50 blockquote,\n  .card-50 .flex-content {\n    width: 50%;\n  }\n  .card-30 figure,\n  .card-70 .flex-content,\n  .card-70 blockquote {\n    width: 30%;\n  }\n  .card-40 figure,\n  .card-60 .flex-content,\n  .card-60 blockquote {\n    width: 40%;\n  }\n  .card-60 figure,\n  .card-40 .flex-content,\n  .card-40 blockquote {\n    width: 60%;\n  }\n  .card-70 figure,\n  .card-30 .flex-content,\n  .card-30 blockquote {\n    width: 70%;\n  }\n  [class*=\"card\"]:nth-child(odd) figure {\n    order: 0\n  }\n  [class*=\"card\"]:nth-child(even) figure {\n    order: 1;\n  }\n  .flex-content,\n  [class*=\"card\"] blockquote {\n    padding: 4.8rem;\n  }\n  .fullscreen [class*=\"card\"] .flex-content,\n  .fullscreen [class*=\"card\"] blockquote {\n    padding: 6.4rem;\n  }\n}\n\n\n/*== Card - Headings === */\n\n@media (max-width: 767px) {\n  [class*=\"card-\"],\n  [class*=\"card-\"]>a {\n    flex-flow: column;\n  }\n  .card figure,\n  .card header {\n    width: 100%\n  }\n}\n\n/*== Ficaption Cards === */\n\n[class*=\"card\"] figure figcaption {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  padding: .8rem 2.4rem;\n  font-size: 1.4rem;\n  line-height: 2.4rem;\n  /* Visibility */\n  z-index: 2;\n}\n\n[class*=\"card\"] figure figcaption svg {\n  font-size: 1rem;\n}\n\n\n/*=========================================\n11. Quotes\n=========================================== */\n\nblockquote {\n  position: relative;\n  display: inline-block;\n}\n\nblockquote p {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\nblockquote p:last-child {\nmargin-bottom: 3.2rem;\n}\n/* -- Interviews dl.text-interview -- */\ndd blockquote p:last-child {\nmargin-bottom: 0;\n}\n.bg-apple blockquote p {\n  font-family: \"San Francisco\", \"Roboto\", helvetica, arial, sans-serif;\n  font-weight: 300;\n}\n\ncite {\n  display: block;\n  text-align: center;\n}\n\ncite span {\n  display: block;\n}\n\ncite:before {\n  content: \"\\2014   \\2009\";\n  margin-right: 6px;\n}\n/* -- Big Blockquote -- */\n/* Info: .wall will be deprecated soon. Use .text-quote ;) */\n\n.text-quote,.wall {\nposition: relative; /* Versatility: blockquote, p, h2... */\n}\n.text-quote:before,.wall:before {\n  position: absolute;\n  top: -4rem;\n  left: -.8rem;\n  content: \"\\201C\";\n  font-family: arial, sans-serif;\n  width: 5.6rem;\n  height: 5.6rem;\n  font-size: 12rem;\n  line-height: 1;\n  text-align: center;\n}\n\n@media (min-width:768px) {\n  .text-quote,.wall {\n    padding-left: 6.4rem;\n  }\n  .text-quote p,.wall p {\n    font-size: 3.2rem;\n    line-height: 4.8rem;\n  }\n  .text-quote:before,.wall:before {\n    top: -1.6rem;\n    left: .8rem;\n  }\n}\n\n/*=========================================\n12. Avatars - uifaces.com\n=========================================== */\n\ncite img,\nimg[class*=\"avatar-\"] {\n  display: inline-block;\n  vertical-align: middle;\n  margin-right: 6px;\n}\n\nimg[class*=\"avatar-\"] {\n  border-radius: 50%\n}\n\nimg.avatar-80 {\n  width: 80px;\n  height: 80px;\n}\nimg.avatar-72 {\n  width: 72px;\n  height: 72px;\n}\nimg.avatar-64 {\n  width: 64px;\n  height: 64px;\n}\n\nimg.avatar-56 {\n  width: 56px;\n  height: 56px;\n}\n\nimg.avatar-48 {\n  width: 48px;\n  height: 48px;\n}\n\nimg.avatar-40 {\n  width: 40px;\n  height: 40px;\n}\n\n/*=========================================\n13. Tables\n=========================================== */\n\ntable {\n  margin-top: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n\ntable td,\nth,\nthead {\n  border-spacing: 0;\n  padding: .7rem 2.4rem;\n}\n\nthead th,\nth {\n  text-align: left;\n  cursor: default;\n  white-space: nowrap;\n  font-weight: 600;\n  text-transform: uppercase;\n}\n\nthead,\ntd.goals {\n  font-weight: 600;\n  text-shadow: none;\n}\n\ntr>td {\n  font-weight: 400;\n}\n\n\n/*.slide tr>td {\n  width: 25%;\n}*/\n\n\n/*=========================================\n14. Forms\n=========================================== */\n\nform {text-align: left;}\n\nform + p,input + p,textarea + p {margin-top: .8rem;\n}\n\ninput[type=text],\ninput[type=email],\ninput[type=tel],\ninput[type=url],\ninput[type=search],\ninput[type=password] {\n  appearance: none;\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  border-radius: 0;\n  -moz-border-radius: 0;\n  -webkit-border-radius: 0;\n}\ninput,\nbutton,\nselect {\n  position: relative;\n  display: inline-block;\n  margin: 0;\n  width: 100%;\n  height: 4.8rem;\n  padding: .7rem;\n  font-weight: 400;\n  font-size: 1.6rem;\n\n}\ninput[type=\"radio\"],\ninput[type=\"checkbox\"] {\n  width: auto;\n  height: auto;\n  padding: 4px;\n}\nbutton[type=\"submit\"],textarea {\n  width: 100%;\n}\ntextarea {\n  padding: .7rem;\n}\n\nbutton {\n  width: auto;\n  text-align: center;\n  cursor: pointer;\n}\n\n.button {\n  display: inline-block;\n  line-height: 4.8rem;\n  /*border-radius:4.8rem;\n  text-transform: uppercase;\n  letter-spacing: .1rem;*/\n  font-size: 1.8rem;\n  font-weight: 400;\n  text-align: center;\n  min-width: 16rem;\n  padding: 0 1.6rem;\n  cursor: pointer;\n}\n\n.button.radius, button.radius,input.radius {border-radius: 2.4rem;}\n\nbutton,\ninput[type=\"submit\"] {\n  text-transform: uppercase;\n  font-weight: 400;\n  letter-spacing: .1rem;\n}\n\n.button svg {\n  font-size: 2.4rem;\n}\n\n.plans .button {\n  width: 50%;\n  margin-right: auto;\n  margin-left: auto;\n}\n\n.try {\n  display: block;\n  font-size: 1.6rem;\n  margin-top: 1.6rem;\n}\n\nfieldset {\n  padding: 2.4rem;\n}\n\nlegend {\n  padding: 1.6rem 2.4rem;\n  border: none;\n  width: 100%;\n  text-align: center;\n  text-transform: uppercase;\n  letter-spacing:.1rem;\n  font-weight: 400;\n}\n/*=== Focus === */\ninput:focus,\ntextarea:focus,\nselect:focus {\n  border-width: 1px;\n}\n\n/*=== App Store Badges === */\n/* Change width and height: 216x64px, 162x48px, 135x40... */\n\n[class*=\"badge-\"] {\n  width: 135px;\n  height: 40px;\n  line-height: 4rem;\n  background-size: cover;\n  background-repeat: no-repeat;\n  display: inline-block;\n  text-indent: -4000px;\n  border-radius: .6rem;\n}\n\n@media (min-width:1024px) {\n  [class*=\"badge-\"] {\n    width: 162px;\n    height: 48px;\n    line-height: 4.8rem;\n  }\n}\n\n\n/* Buttons/Badges - Hover */\n\na.button:hover,\nbutton[type=\"submit\"]:hover,\ninput[type=\"submit\"]:hover {\n  -webkit-transform:scale(1.01);\n  transform: scale(1.01);\n}\n[class*=\"badge-\"]:hover {\n  opacity: 0.7;\n}\n\n/*=== Sign Up/Login Form - Landings === */\n\n.user input {\n  margin-bottom: 0;\n}\n\n.user input[type=\"email\"],\n.user input[type=\"search\"],.user input[type=\"text\"] {\n  width: 100%;\n}\n\n.user button,\n.user input[type=\"submit\"] {\n  left: 0;\n  width: 100%;\n}\n\n@media (min-width:500px) {\n  .user input[type=\"email\"],\n  .user input[type=\"search\"],\n  .user input[type=\"text\"] {\n    width: 70%;\n    float: left;\n  }\n  .user button,\n  .user input[type=\"submit\"] {\n    width: 30%;\n    cursor: pointer;\n  }\n  [class*=\"button\"] + [class*=\"button\"],[class*=\"badge\"] + [class*=\"badge\"] {\n    margin-left: 1.8rem;\n  }\n}\n@media (max-width:499px) {\n\n  [class*=\"button\"] + [class*=\"button\"],[class*=\"badge\"] + [class*=\"badge\"] {\n    margin-top: .8rem;\n\n  }\n}\n\n:disabled,\nbutton:disabled:hover {\n  cursor: not-allowed;\n}\n\n/*=========================================\n15. Longform\n=========================================== */\n\n/* -- Posts = .wrap.longform -- */\n\n.longform {\nwidth: 72rem;\n/* Why 72rem=720px?\n90-95 characters per line = better reading speed */\n}\n.longform .alignleft, .longform .alignright {\n    max-width: 40%;\n}\n.longform img.aligncenter,.longform figure.aligncenter {\n  margin-top: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n.longform ul,.longform ol {\nmargin-bottom: 3.2rem;\n}\n.longform ul ol,.longform ol ul,.longform ul ul,.longform ol ol {\nmargin-bottom: 0;\n}\n.longform figcaption p,.longform [class*=\"text-pull-\"] p{\nline-height: 2.4rem;\nfont-size: 1.6rem;\n}\n/* Mobile: video full width */\n.text-pull.embed {\npadding-bottom: 60.6%; /*without black borders; */\nmargin-right: -2.4rem;\nmargin-left: -2.4rem;\n}\n@media (min-width:1280px) {\n.longform [class*=\"text-pull-\"] {\nmax-width: 32%;\n}\n.longform .text-pull-right {\nmargin-right:-256px;\n}\n.longform .text-pull-left {\nmargin-left:-256px;\n }\n}\n@media (min-width:1024px) {\n.longform .text-quote {\nmargin-right: -4.8rem;\nmargin-left: -4.8rem;\n }\n}\n\n\n/*=========================================\n16. SAFARI BUGS (flex-wrap)\nSolution: stackoverflow.com/questions/34250282/flexbox-safari-bug-flex-wrap\n=========================================== */\n\n.flexblock:before, .flexblock:after,\n.grid:before,.grid:after, .cta:before,.cta:after{\n  width: 0;\n}\n\n/*=========================================\n17. PRINT\n=========================================== */\n\n@media print {\n  @page {\n    size: A4 landscape;\n    margin: 0.5cm;\n  }\n  /* Black prints faster */\n  * {\n    background: transparent !important;\n    color: black !important;\n    text-shadow: none !important;\n    filter: none !important;\n  }\n  html, body, #webslides {\n    width: auto !important;\n    height: auto !important;\n    overflow: auto !important;\n  }\n  #webslides {\n    overflow-x: auto !important;\n    overflow-y: auto !important;\n  }\n  section, .slide {\n    display: flex !important;\n    height: auto !important;\n  }\n  section * {\n    -webkit-animation: none;\n    animation: none;\n  }\n  table, figure {\n    page-break-inside: avoid;\n  }\n  #counter, #navigation {\n    display: none;\n  }\n}\n", ""]);
+exports.push([module.i, "/*---------------------------------------------------------------------------------\n\n\tApp: WebSlides\n\tVersion: 1.3.1\n\tDate: 2017-04-26\n\tDescription: A simple and versatile framework for building HTML presentations, landings, and portfolios.\n\tAuthors: @jlantunez, @belelros, and @luissacristan\n\tAuthor URI: http://twitter.com/webslides\n\tLicense: The MIT License (MIT)\n\tLicense URI: https://opensource.org/licenses/MIT\n\n-----------------------------------------------------------------------------------\n\n\t0. CSS Reset & Normalize\n\t1. Base\n\t\t1.1 Wrap/Container\n\t\t1.2 Animations\n\t\t1.3 Responsive Media (videos, iframe, screenshots...)\n\t\t1.4 Basic Grid (2,3,4 columns)\n\t2. Typography & Lists\n\t\t2.1 Headings with background\n\t\t2.2 Classes: .text-\n\t\t2.3 San Francisco Font (Apple)\n\t3. Header & Footer\n\t\t3.1 Logo\n\t4. Navigation\n\t\t4.1 Navbars\n\t5. SLIDES (vertically and horizontally centered)\n\t\t5.1 Mini container & Alignment\n\t\t5.2 Counter / Navigation Slides\n\t\t5.3 Background Images/Video\n\t6. Magic blocks = .flexblock (Flexible blocks with auto-fill and equal height).\n\t\t6.1 .flexblock.features\n\t\t6.2 .flexblock.clients\n\t\t6.3 .flexblock.steps\n\t\t6.4 .flexblock.metrics\n\t\t6.5 .flexblock.specs\n\t\t6.6 .flexblock.reasons\n\t\t6.7 .flexblock.gallery\n\t\t6.8 .flexblock.plans\n\t\t6.9. flexblock.activity\n\t7. Promos/Offers (pricing, tagline, CTA...)\n\t8. Work / Resume / CV\n\t9. Table of contents\n\t10. Cards\n\t11. Quotes\n\t12. Avatars\n\t13. Tables\n\t14. Forms\n  15. Longform Elements\n\t16. Safari Bug (flex-wrap)\n\t17. Print\n\n----------------------------------------------------------------------------------- */\n\n/*=========================================\n0. CSS Reset & Normalize\n===========================================\n\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { border: 0; font-size: 100%; font: inherit; vertical-align: baseline; margin: 0; padding: 0 }\n\narticle, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {\n  display: block;\n}\nbody {\n  line-height: 1;\n}\n\nblockquote,\nq {\n  quotes: none\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: none\n}\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\nhtml {\n  -webkit-text-size-adjust: 100%;\n  -ms-text-size-adjust: 100%;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n*,\n*::before,\n*::after {\n  -webkit-box-sizing: inherit;\n  -moz-box-sizing: inherit;\n  box-sizing: inherit;\n}\n\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  vertical-align: baseline;\n}\n\nembed,\niframe,\nobject {\n  max-width: 100%;\n}\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n[hidden],\ntemplate {\n  display: none;\n}\n\nul {\n  list-style: square;\n  text-indent: inherit;\n}\n\nol {\n  list-style: decimal;\n}\n\nb,\nstrong {\n  font-weight: 600;\n}\n\na {\n  background-color: transparent;\n}\n\na:active,\na:hover {\n  outline: 0;\n}\n\nsup,\nsub {\n  font-size: 0.75em;\n  line-height: 2.2em;\n  height: 0;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  bottom: 1ex;\n}\n\nsub {\n  top: 0.5ex;\n}\n\nsmall {\n  font-size: 0.75em;\n  line-height: 1.72;\n}\n\nbig {\n  font-size: 1.25em;\n}\n\nhr {\n  border: none;\n  clear: both;\n  display: block;\n  height: 1px;\n  width: 100%;\n  text-align: center;\n  margin: 3.2rem auto;\n}\n\nh2 + hr,\nh3 + hr {\n  margin-bottom: 4.8rem;\n}\n\np + hr {\n  margin-bottom: 4rem;\n}\n\n/*\nhr::after {\n    position: relative;\n    top: -2.4rem;\n    font-size: 2.4rem;\n    content: \"\\00A7\";\n    display: inline-block;\n    border-radius: 50%;\n    width: 4.8rem;\n    height: 4.8rem;\n    line-height: 4.8rem;\n}\ndfn,\ncite,\nem,\ni {\n  font-style: italic;\n}\n\nabbr,\nacronym {\n  cursor: help;\n}\n\nmark,\nins {\n  text-decoration: none;\n  padding: 0 4px;\n  text-shadow: none;\n\n}\n\n::-moz-selection {\n  text-shadow: none;\n}\n\n::-webkit-selection {\n  text-shadow: none;\n}\n\n::selection {\n  text-shadow: none;\n}\n\nimg {\n  /* Make sure images are scaled correctly.\n  border: 0;\n  height: auto;\n  max-width: 100%;\n}\n\nimg:hover {\n  opacity: 0.90;\n  filter: alpha(opacity=90);\n}\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\nfigure {\n  position: relative;\n  margin: 0;\n  line-height: 0;\n}\n\noptgroup {\n  font-weight: bold;\n}\n\ntable {\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n  margin-bottom: 24px;\n}\n\ntd,\nth {\n  padding: 0;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: \"\";\n}\n\nblockquote,\nq {\n  quotes: \"\" \"\";\n}\n\ndt {\n  font-weight: bold;\n}\n\ndd {\n  margin: 0;\n}\n\n\n/*=== Clearing === */\n/*.clear:before, .clear:after, header:before, header:after, main:before, main:after, .wrap:before, .wrap:after, group:before, group:after, section:before, section:after, aside:before, aside:after,footer:before, footer:after{ content: \"\"; display: table; }\n.clear:after, header:after, main:after, .wrap:after, group:after, section:after, aside:after, footer:after { clear: both; }*/\n\n/*=========================================\n1. Base --> Baseline: 8px = .8rem\n=========================================== */\n\n/* -- Disable elastic scrolling/bounce:\nwebslides.js will add .ws-ready automatically. Don't worry :) -- */\n\nhtml.ws-ready,\nhtml.ws-ready body {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n\n}\n\n#webslides {\n  height: 100vh;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  -webkit-overflow-scrolling: touch;\n}\n/* -- Hide scrollbar, but still being able to scroll -- */\n\n#webslides {\n    -ms-overflow-style: none;  /* IE 10+ */\n}\n#webslides::-webkit-scrollbar {\n    display: none;  /* Safari and Chrome */\n}\n\n/* -- Prototype faster - Vertical rhythm  -- */\n\n\n/*\n#webslides.vertical {cursor: s-resize; }\n*/\n\nli li {\n  margin-left: 1.6rem;\n}\n\na,\na:active,\na:focus,\na:visited,\ninput:focus,\ntextarea:focus,\nbutton{\n  text-decoration: none;\n  -webkit-transition: all .3s ease-out;\n  transition: all .3s ease-out;\n}\n\np a:active {\n  position: relative;\n  top: 2px;\n}\n\nnav a[rel=\"external\"] em,\n.hidden {\n  clip: rect(1px, 1px, 1px, 1px);\n  position: absolute !important;\n  height: 1px;\n  width: 1px;\n  overflow: hidden;\n}\n\n/*Layer/Box Shadow*/\n.shadow {\n  position: relative;\n}\n.shadow:before,.shadow:after {\n  z-index: -1;\n  position: absolute;\n  content: \"\";\n  bottom: 1.6rem;\n  left: 2.4rem;\n  width: 50%;\n  top: 80%;\n  max-width:300px;\n  transform: rotate(-3deg);\n}\n.shadow:after\n{\n  -webkit-transform: rotate(3deg);\n  -moz-transform: rotate(3deg);\n  transform: rotate(3deg);\n  right: 2.4rem;\n  left: auto;\n}\n\n/*=== 1.1 WRAP/CONTAINER === */\n\n.wrap,header nav, footer nav {\n  position: relative;\n  width: 100%;\n  max-width: 100%;\n  margin-right:auto;\n  margin-left: auto;\n  z-index: 2;\n}\n@media (min-width: 1024px) {\n.wrap,header nav, footer nav {\nwidth: 90%;\n }\n}\n\n.frame,.shadow {\n  padding: 2.4rem;\n}\n\n.radius {border-radius: .4rem;}\n\n.alignright {\n  float: right;\n}\n\n.alignleft {\n  float: left;\n}\n\n.aligncenter {\n  margin-right: auto;\n  margin-left: auto;\n  text-align: center;\n}\n\nimg.aligncenter,figure.aligncenter {\n  display: block;\n}\n\nimg.alignleft,figure.alignleft,\nimg.alignright,figure.alignright,\nimg.aligncenter,figure.aligncenter {\n  margin-top: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n\nimg.aligncenter,figure.aligncenter {\n  margin-top: .8rem;\n  margin-bottom: .8rem;\n}\nimg.alignright,svg.alignright,figure.alignright {\n  margin: .8rem 0 .8rem 2.4rem\n}\nimg.alignleft,svg.alignleft,figure.alignleft {\n  margin: .8rem 2.4rem .8rem 0;\n}\n\n@media (min-width: 1024px) {\n\n  /*=== div.size-60, img.size-50, h1.size-40, p.size-30... === */\n  .size-80 {\n    width: 80%;\n  }\n  .size-70 {\n    width: 70%;\n  }\n  .size-60 {\n    width: 60%;\n  }\n  .size-50 {\n    width: 50%;\n  }\n  .size-40 {\n    width: 40%;\n  }\n  .size-30 {\n    width: 30%;\n  }\n  .size-20 {\n    width: 20%;\n  }\n}\n\npre,\ncode {\n  font-family: 'Cousine', monospace;\n}\n\npre {\n  font-size: 1.6rem;\n  line-height: 2.4rem;\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  text-align: left;\n  padding: 2.4rem;\n  overflow: auto;\n  width: 100%;\n}\n\npre + p {\n  margin-top: 3.2rem;\n}\n\ncode {\n  padding: .4rem;\n}\n\npre code {\n  padding: 0;\n}\n\n\n/*=== 1.2 Animations ================\nJust 5 basic animations:\n.fadeIn, .fadeInUp, .zoomIn, .slideInLeft, slideInRight\nhttps://github.com/daneden/animate.css*/\n\n/*-- fadeIn -- */\n@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n\n@-moz-keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.fadeIn {\n  -webkit-animation: fadeIn 1s;\n  animation: fadeIn 1s;\n}\n\n/*-- fadeInUp -- */\n@-webkit-keyframes fadeInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n    transform: translate3d(0, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n    transform: none;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n    transform: translate3d(0, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n    transform: none;\n  }\n}\n\n.fadeInUp {\n  -webkit-animation: fadeInUp 1s;\n  animation: fadeInUp 1s;\n}\n\n/*-- zoomIn -- */\n@-webkit-keyframes zoomIn {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n    transform: scale3d(.3, .3, .3);\n  }\n\n  50% {\n    opacity: 1;\n  }\n}\n\n@keyframes zoomIn {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n    transform: scale3d(.3, .3, .3);\n  }\n\n  50% {\n    opacity: 1;\n  }\n}\n\n.zoomIn {\n  -webkit-animation: zoomIn 1s;\n  animation: zoomIn 1s;\n}\n\n/*-- slideInLeft -- */\n\n@keyframes slideInLeft {\n  from {\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    transform: translate3d(0, 0, 0);\n  }\n}\n\n.slideInLeft {\n  -webkit-animation: slideInLeft 1s;\n  animation: slideInLeft 1s;\n  animation-fill-mode: both;\n}\n\n/*-- slideInRight -- */\n\n@keyframes slideInRight {\n  from {\n    transform: translate3d(100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    transform: translate3d(0, 0, 0);\n  }\n}\n\n.slideInRight {\n  -webkit-animation: slideInRight 1s;\n  animation: slideInRight 1s;\n  animation-fill-mode: both;\n}\n\n/* Animated Background (Matrix) */\n@-webkit-keyframes anim {\n  0% {\n    -webkit-transform: translateY(0);\n    transform: translateY(0);\n  }\n  100% {\n    -webkit-transform: translateY(-1200px);\n    transform: translateY(-1200px);\n  }\n}\n\n@keyframes anim {\n  0% {\n    -webkit-transform: translateY(0);\n    transform: translateY(0);\n  }\n  100% {\n    -webkit-transform: translateY(-1200px);\n    transform: translateY(-1200px);\n  }\n}\n/* Duration */\n.slow {\n  -webkit-animation-duration: 4s;\n  animation-duration: 4s;\n}\n.slow + .slow {\n  -webkit-animation-duration: 5s;\n  animation-duration: 5s;\n}\n\n/* Transitions */\n\nheader,\nfooter,\n#navigation {\n  -webkit-transition: all 0.4s ease-in-out;\n  transition: all 0.4s ease-in-out;\n}\n\n/*=== 1.3 Responsive Media (videos, iframe...) === */\n\n.embed {\n  position: relative;\n  height: 0;\n  overflow: hidden;\n  /*aspect ratio:16:9*/\n  padding-bottom: 56.6%;\n  /*aspect ratio: 4:3*/\n  /*padding-bottom: 75%;*/\n}\n\n.embed iframe,\n.embed object,\n.embed embed,.embed video {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n}\n/* -- Responsive background video\nhttps://fvsch.com/code/video-background/ -- */\n\n.fullscreen > .embed {\n  position: fixed;\n  height: auto;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  padding-bottom: 0;\n}\n\n/* 1. No object-fit support: */\n@media (min-aspect-ratio: 16/9) {\n  .fullscreen > .embed > iframe,\n  .fullscreen > .embed > object,\n  .fullscreen > .embed > embed,\n  .fullscreen > .embed > video {\n    height: 300%;\n    top: -100%;\n  }\n}\n@media (max-aspect-ratio: 16/9) {\n  .fullscreen > .embed > iframe,\n  .fullscreen > .embed > object,\n  .fullscreen > .embed > embed,\n  .fullscreen > .embed > video {\n    width: 300%;\n    left: -100%;\n  }\n}\n/* 2. If supporting object-fit, overriding (1): */\n@supports (object-fit: cover) {\n  .fullscreen > .embed > iframe,\n  .fullscreen > .embed > object,\n  .fullscreen > .embed > embed,\n  .fullscreen > .embed > video {\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n  }\n}\n\n/*=== Browser (Screenshots) ================ */\n\nh1 + .browser,\nh2 + .browser,\np + .browser {\n  margin-top: 4.8rem;\n}\n\n\n/* <figure class=\"browser\"> img </figure> */\n\n.browser {\n  overflow: hidden;\n  border-radius: .3rem;\n  max-width: 1024px;\n  margin: 0 auto 3.2rem;\n}\n.browser figcaption {padding: 2.4rem;\n}\nli .browser {margin-bottom: 0;\n}\n\n/*=== Topbar === */\n\n.browser:before {\n  position: absolute;\n  top: 0;\n  left: 0;\n  text-align: left;\n  font-size: .8rem;\n  padding: 1.6rem;\n  width: 100%;\n  line-height: 0;\n  /*copypastecharacter.com/graphic-shapes */\n  content: \"\\25CF   \\25CF   \\25CF\";\n}\n@media (min-width:768px) {\n  .browser:before {\n    font-size: 1.6rem;\n  }\n}\n.browser img {\n  width: 100%;\n  margin-top: 3.2rem;\n}\n\n/*=== 1.4. Basic Grid (Flexible blocks)\nAuto-fill & Equal height === */\n\n.grid {\n  margin-right: auto;\n  margin-left: auto;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  clear: both;\n}\n\n.grid:before {\n  content: \"\";\n  display: table;\n}\n\n.grid:after {\n  clear: both;\n}\n\n.grid > .column {\n  position: relative;\n  width: 100%;\n  display: -webkit-flex;\n  display: flex;\n  flex: auto;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  -webkit-transition: .3s;\n  transition: .3s;\n  padding: 2.4rem;\n}\n\n.grid.vertical-align .column {\n  justify-content: center;\n}\n\n@media (min-width:768px) {\n  .grid > .column {\n    width: 25%;\n  }\n  /* Grid (Sidebar + Main) .grid.sm */\n  .grid.sm .column:nth-child(1) {\n    width: 30%\n  }\n  .grid.sm .column:nth-child(2) {\n    width: 70%;\n  }\n  /* Grid (Main + Sidebar) .grid.ms */\n  .grid.ms .column:nth-child(1) {\n    width: 70%\n  }\n  .grid.ms .column:nth-child(2) {\n    width: 30%;\n  }\n  /* Grid (Sidebar + Main + Sidebar) .grid.sms */\n  .grid.sms .column:nth-child(2) {\n    width: 50%;\n  }\n}\n\n\n/*============================\n2. TYPOGRAPHY & LISTS\n============================== */\nhtml {\n  -webkit-text-size-adjust: 100%;\n  -ms-text-size-adjust: 100%;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n*,\n*::before,\n*::after {\n  -webkit-box-sizing: inherit;\n  -moz-box-sizing: inherit;\n  box-sizing: inherit;\n}\n\nhtml,\nbody {\n  line-height: 1;\n  /*Sometimes fonts don't display optimally on all devices*/\n  /*-moz-osx-font-smoothing: grayscale;*/\n  /*-webkit-font-smoothing: antialiased;*/\n  text-rendering: optimizeLegibility;\n  font-weight: 300;\n\n}\n\nhtml,\nbody,\ninput,\nselect,\ntextarea {\n  font-family: \"Roboto\", \"San Francisco\", helvetica, arial, sans-serif;\n  font-size: 62.5%;\n\n}\n\nbody,\ntextarea {\n  font-size: 1.8rem;\n}\n\np,\nli,\ndt,\ndd,\ntable,\nbig,\n {\n  line-height: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n\nli,p:last-child {\n  margin-bottom: 0;\n}\n\n\nul>li,ol>li {margin-left: 3.2rem;}\nli li {\n  font-size: 100%;\n}\n\n/*== List .description (Product/Specs) === */\n\nul.description {\n  padding: 0;\n}\n\n.description + p{\n  margin-top: 3.2rem;\n}\n\n.description li {\n  position: relative;\n  padding-top:.8rem;\n  padding-bottom: .8rem;\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n.description li:hover{\n  padding-left: .4rem;\n}\nul.description li,.column ul li {list-style: none;margin-left: 0;}\n\n.column ol>li {margin-left: 1.6rem;\n}\n\nh1 svg,\nh2 svg, h3 svg, h4 svg {\n  margin-top: -.8rem;\n}\n.text-intro svg,.text-quote p svg,.wall p svg,.try svg {\n  margin-top: -.4rem;\n}\n.flexblock li h2 svg,.flexblock li h3 svg {margin-top: 0;\n}\n\nh1 {\n  font-size: 4rem;\n  line-height: 5.6rem;\n}\n\nh1 span {\n  font-style: italic;\n}\n\nh2 {\n  font-size: 3.2rem;\n  line-height: 4.8rem;\n}\n\nh3 {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\n\nh4 {\n  font-size: 2.2rem;\n  line-height: 4rem;\n}\n\nh5 {\n  font-size: 2rem;\n  font-weight: 600;\n  line-height: 3.2rem;\n}\n\nh6 {\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n  font-weight: 600;\n}\nh2.alignleft + p.alignright {margin-top: 1.2rem;margin-bottom: 0;}\nh3.alignleft + p.alignright {margin-top: .4rem;margin-bottom: 0;}\n\n@media (min-width: 768px) {\n  h1 {\n    font-size: 5.6rem;\n    line-height: 7.2rem;\n  }\n  h2 {\n    font-size: 4.8rem;\n    line-height: 6.4rem;\n  }\n  h3 {\n    font-size: 4rem;\n    line-height: 5.6rem;\n  }\n  h4 {\n    font-size: 3.2rem;\n    line-height: 4.8rem;\n  }\n}\n\nh1+h1,h1+h2,h1+h3,h1+h4,h1+h5,h1+h6,\nh2+h1,h2+h2,h2+h3,h2+h4,h2+h5,h2+h6,\nh3+h1,h3+h2,h3+h3,h3+h4,h3+h5,h3+h6,\nh4+h1,h4+h2,h4+h3,h4+h4,h4+h5,h4+h6,\nh5+h1,h5+h2,h5+h3,h5+h4,h5+h5,h5+h6,\nh6+h1,h6+h2,h6+h3,h6+h4,h6+h5,h6+h6 {\n  margin-top: .8rem;\n}\n\nh1+img,h2+img,h3+img {\n  margin-top: 4.8rem;\n  margin-bottom: 4.8rem;\n}\n[class*=\"content-\"] > [class*=\"content-\"] h2,\n[class*=\"content-\"] > [class*=\"content-\"] h3,\n[class*=\"content-\"] > [class*=\"content-\"] h4 {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\n/*=========================================\n2.1. Headings with background\n=========================================== */\n\nh1[class*=\"bg-\"],h2[class*=\"bg-\"],h3[class*=\"bg-\"],h4[class*=\"bg-\"],\nh5[class*=\"bg-\"],h6[class*=\"bg-\"],ul[class*=\"bg-\"],ol[class*=\"bg-\"],\nli[class*=\"bg-\"],p[class*=\"bg-\"] {\n  padding: 2.4rem;\n}\n\nh1 [class*=\"bg-\"],h2 [class*=\"bg-\"],h3 [class*=\"bg-\"] {\n  padding: .4rem .8rem;\n}\n\n/*=========================================\n2.2. Typography Classes = .text-\n=========================================== */\n\n.text-intro,[class*=\"content-\"] p {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\n/* -- Serif -- */\n.text-serif, h1 span {\n  font-family: \"Maitree\", times, serif;\n\n}\n\n/* -- h1,h2... Promo/Landings -- */\n.text-landing {\n  /*font-weight: 600;*/\n  letter-spacing: .4rem;\n  text-transform: uppercase;\n}\n@media (min-width: 768px) {\n  .text-landing {\n    letter-spacing: 1.6rem;\n  }\n}\n/* -- Subtitle (Before h1, h2) --\np.subtitle + h1/h2 */\n\np.text-subtitle {\n  font-size: 1.6rem;\n}\np.text-subtitle svg {vertical-align: text-top;}\n\n.text-subtitle {\n  text-transform: uppercase;\n  letter-spacing: .2rem;\n  margin-bottom: 0;\n}\n.text-subtitle + p  {\n  margin-top: 3.2rem;\n}\n\n.text-uppercase {text-transform: uppercase;}\n.text-lowercase {text-transform: lowercase;}\n\n/* -- Emoji (you'll love this) -- */\n\n.text-emoji {\nfont-size: 6.8rem;\nline-height: 8.8rem;\n}\n\n@media (min-width: 768px) {\n.text-emoji {\nfont-size: 12.8rem;\nline-height: 16rem;\n }\n}\n\n/* -- Numbers (results, sales... 23,478,289 iphones) -- */\n\n.text-data {\n  font-size: 6.4rem;\n  line-height: 8rem;\n  margin-bottom: .8rem;\n}\n\n@media (min-width: 768px) {\n  .text-data {\n    font-size: 15.2rem;\n    line-height: 16.8rem;\n  }\n}\n\n.text-label {\n  font-weight: 600;\n  display: inline-block;\n  width: 12.8rem;\n  text-transform: uppercase;\n}\n\n/* -- Magazine Two Columns -- */\n\n@media (min-width: 768px) {\n  .text-cols {\n    -webkit-column-count: 2;\n    -moz-column-count: 2;\n    column-count: 2;\n    -webkit-column-gap: 4.8rem;\n    -moz-column-gap: 4.8rem;\n    column-gap: 4.8rem;\n    text-align: left;\n  }\n  .text-landing + .text-cols{\n    margin-top: 3.2rem;\n  }\n}\n.text-cols p:first-child:first-letter {\n  font-size: 11rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  float: left;\n  padding: 0;\n  margin: -.4rem 1.6rem 0 0;\n  line-height: 1;\n}\n\n/* -- Heading with border -- */\n\n.text-context {\n  position: relative;\n  /*letter-spacing: .1rem;*/\n}\n.text-context.text-uppercase {\n  letter-spacing: .1rem\n}\n\n.text-context:before {\n  content: \"\";\n  display: block;\n  width: 12rem;\n  height: .2rem;\n  margin-bottom: .6rem;\n}\n.column .text-context:before {\n  width:100%;\n}\n\n/* -- Separator/Symbols (stars ***...) -- */\n\n.text-symbols {font-weight: 600; letter-spacing: .8rem;text-align: center;\n}\n\n/* -- Separator -- */\n.text-separator {\n  margin-top:2.4rem;\n}\n.text-separator:before {\n  position: absolute;\n  width: 16%;\n  height: .4rem;\n  content: \"\";\n  margin-top:-1.6rem;\n  left: 0;\n}\n@media (min-width: 568px) {\n  .text-separator {\n    width: 80%;\n    margin-top: 0;\n    margin-left: 20%;\n  }\n  .text-separator:before {\n    margin-top: 1.2rem;\n  }\n}\n\n/* -- Pull Quote (Right/Left)  -- */\n\n[class*=\"text-pull\"] {\n  position: relative;\n  font-size: 2.4rem;\n  line-height: 4rem;\n  font-weight: 400;\n  margin-right: 2.4rem;\n  margin-bottom: 3.2rem;\n  margin-left: 2.4rem;\n}\n\n[class*=\"text-pull-\"] {\n  padding-top: 1.4rem;\n  margin-top: .8rem;\n}\n\n@media (min-width: 1024px) {\n  [class*=\"text-pull\"] {\n    margin-right: -4.8rem;\n    margin-left: -4.8rem;\n  }\n}\n@media (min-width: 568px) {\n  [class*=\"text-pull-\"] {\n    max-width: 40%;\n  }\n  .text-pull-right {\n    float: right;\n    margin-right: -2.4rem;\n    margin-left: 2.4rem;\n  }\n  .text-pull-left {\n    float: left;\n    margin-left: -2.4rem;\n    margin-right: 2.4rem;\n  }\n}\nimg[class*=\"text-pull-\"],figure[class*=\"text-pull-\"] {\n  padding-top:0;\n  margin-top: .8rem;\n}\n\n/* -- Interviews (Questions & Answers)  --- */\n/* -- <dl class=\"text-interview\">\n<dt>name</dt>\n<dd><p>question or answer</p>\n</dd>\n--- */\n\n.text-interview dt {\n    font-weight: 600;\n    text-transform: uppercase;\n    margin-bottom: 0;\n}\n\n@media (min-width: 1024px) {\n.text-interview dt {\n    margin-left: -34%;\n    position: absolute;\n    text-align: right;\n    white-space: nowrap;\n    width: 30%;\n  }\n}\n\n/* -- Info Messages (error, warning, success... -- */\n\n.text-info {font-size: 1.6rem;line-height: 2.4rem;\n}\n/*=========================================\n2.1. San Francisco Font (Apple's new font)\n=========================================== */\n\n.text-apple,.bg-apple {\n  font-family: \"San Francisco\", helvetica, arial, sans-serif;\n}\n\n/* Ultra Light */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: 100;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff2\");\n}\n\n/* Thin */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: 200;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff2\");\n}\n\n\n/* Regular */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: 400;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff2\");\n}\n\n/* Bold */\n\n@font-face {\n  font-family: \"San Francisco\";\n  font-weight: bold;\n  src: url(\"https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff2\");\n}\n\n/*=========================================\n3. Header & Footer\n=========================================== */\n\n/* -- If you want an unique, global header/footer,read this:\nhttps://github.com/webslides/webslides/issues/57 -- */\n\nheader,\nfooter,\n#navigation {\n  width: 100%;\n  padding: 2.4rem;\n}\n\nheader p,\nfooter p {\n  line-height: 4.8rem;\n  margin-bottom: 0;\n}\n\nheader[role=banner] img,\nfooter img {\n  height: 4rem;\n  vertical-align: middle;\n}\nfooter {\n  position: relative;\n}\nheader, footer {\n  /* hover/visibility */\n  z-index: 3;\n}\n\nheader,.ws-ready footer {\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n.ws-ready footer {\n  top: auto;\n  bottom: 0;\n}\n/*=== Hide header[role=banner] === */\n\n/*Remove \"opacity=0\" if you want an unique, visible header on each slide*/\nheader[role=banner] {\n  opacity: 0;\n}\n/*=== Show Header[role=banner] === */\nheader[role=banner]:hover {\n  opacity: 1;\n}\n\n@media (max-width: 767px) {\n  footer .alignleft, footer .alignright {\n    float: none;\n    display: block;\n  }\n}\n\n/*=== 3.1. Logo === */\n\n.logo {\n  text-transform: lowercase;\n  /*float: left;\n  font-size: 4.8rem;*/\n}\n\n.logo a {\n  background-size: 4.8rem;\n  width: 4.8rem;\n  height: 4.8rem;\n  vertical-align: middle;\n  float: left;\n  text-indent: -4000px;\n  /*If you remove text-indent */\n  /*padding-left: 6rem;*/\n}\n\n\n/*@media (max-width: 600px){\n.logo a {text-indent: -4000px;\n }\n}*/\n\n/*=========================================\n4. Navigation\n=========================================== */\n\n/*=== 4.1. Navbars === */\n\nnav ul {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  /*====align left====*/\n  justify-content: flex-start;\n  /* ==== align center ====*/\n  /*justify-content: center; */\n  /*====align right====*/\n  /* justify-content: flex-end; */\n  /*====separated columns li a====*/\n  /* justify-content: space-between; */\n  /*====separated columns centered li a====*/\n  /*justify-content: space-around;*/\n}\n\nnav ul li {\n  position: relative;\n  float: left;\n  list-style: none;\n}\n\nnav ul li:first-child,\nnav[role=navigation] ul li {\n  margin-left: 0;\n}\n\nnav[role=navigation] li a {\n  position: relative;\n  padding: 0 1.6rem;\n  line-height: 4.8rem;\n  text-decoration: none;\n  display: -webkit-flex;\n  display: flex;\n  justify-content: center;\n  max-width: 100%;\n  /*full li>a when you decide*/\n}\nnav[role=navigation] li a svg {margin: 1.5rem .4rem 1.5rem 0;}\n\nheader nav ul {\n  margin: 0;\n  justify-content: flex-end;\n}\n\nnav.aligncenter ul, .aligncenter nav ul {\n  /* ==== align center ====*/\n  justify-content: center;\n}\n\nnav.navbar ul li {\n  /*====full float li a ====*/\n  -webkit-flex: 1 1 auto;\n  flex: 1 1 auto;\n}\n\n@media (max-width: 568px) {\n  nav.navbar ul {\n    -webkit-flex-flow: column wrap;\n    flex-flow: column wrap;\n    padding: 0;\n  }\n  nav.navbar li a {\n    justify-content:flex-start;\n  }\n}\n\n/*============================================\n5. SLIDES (Full Screen)\nVertically and horizontally centered\n============================================== */\n\n/* Fade transition to all slides.\n* = All HTML elements will have those styles.*/\n\nsection * {\n  -webkit-animation: fadeIn 0.6s ease-in-out;\n  animation: fadeIn 0.6s ease-in-out;\n}\nsection .background,section .light,section .dark {\n  -webkit-animation-duration:0s;\n  animation-duration:0s;\n}\n\n/*=== Section = Slide === */\n\nsection,.slide\n{\n  position: relative;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n  /*Fixed/Visible header? padding-top: 12rem; */\n  padding: 2.4rem;\n  word-wrap: break-word;\n  page-break-after: always;\n  min-height: 100vh; /*Fullscreen*/\n  /* Prototyping? min-height: 720px (Baseline: 8px = .8rem)*/\n}\n\n@media (min-width: 1024px) {\n  section, .slide {\n    padding-top: 12rem;\n    padding-bottom: 12rem;\n  }\n}\n/*slide no padding (full card, .embed> youtube video...) */\n.fullscreen {\n  padding: 0;\n  /* Fixed/Visible header?\n  padding:8.2rem 0 0 0;\n  */\n}\n\n/* slide alignment - top */\n.slide-top {\n  justify-content: flex-start;\n}\n\n\n/* slide alignment - bottom */\n.slide-bottom {\n  justify-content: flex-end;\n}\n\n\n/*== 5.1. Mini container width:50%\nAligned items [class*=\"content-\"]=== */\n\n[class*=\"content-\"] {\n  position: relative;\n  /*display: table;*/\n  text-align: left;\n}\n.wrap[class*=\"bg-\"],.wrap.frame,\n[class*=\"content-\"][class*=\"bg-\"],\n[class*=\"content-\"].frame, [class*=\"align\"][class*=\"bg-\"]{\n  padding: 4.8rem;\n}\nform[class*=\"bg-\"] {\npadding: 2.4rem;\n}\n[class*=\"content-\"] > [class*=\"content-\"] p {\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n}\n\n.content-center {\n  margin: 0 auto;\n  text-align: center;\n}\n\n@media (min-width: 768px) {\n  [class*=\"content-\"] {\n    width: 50%;\n  }\n  .content-left {\n    float: left;\n  }\n  .content-right {\n    float: right;\n  }\n  [class*=\"content-\"] + [class*=\"content-\"] {\n    padding-left:2.4rem;\n    margin-bottom: 4.8rem;\n  }\n  [class*=\"content-\"] + [class*=\"size-\"] {\n    margin-top: 6.4rem;\n    clear:both;\n  }\n\n  [class*=\"content-\"]:before,\n  [class*=\"content-\"]:after {\n    content: \"\";\n    display: table;\n  }\n\n  [class*=\"content-\"]:after {\n    clear: both;\n  }\n}\n\n/* === 5.2 Counter / Navigation Slides  === */\n\n#navigation {\n  position: fixed;\n  width: 24.4rem;\n  margin-right: auto;\n  margin-left: auto;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  /* hover/visibility */\n  z-index: 4;\n}\n#navigation  {\n  -webkit-animation: fadeIn 8s;\n  animation: fadeIn 8s;\n  opacity:0;\n}\n#navigation:hover {\n  opacity: 1;\n}\n/* -- navigation arrow always visible? -- */\n\n/*\n#webslides:hover #navigation {\nopacity: 1;\n}\n*/\n\n#counter {\n  position: relative;\n  display: block;\n  width: 10rem;\n  margin-right: auto;\n  margin-left: auto;\n  text-align: center;\n  line-height: 4.8rem;\n}\n#counter a:hover {\npadding: .8rem;\n}\n#navigation p {\n  margin-bottom: 0;\n}\n\na#next,a#previous {\n  position: absolute;\n  width: 4rem;\n  height: 4rem;\n  text-align: center;\n  border-radius: .4rem;\n  text-align: center;\n  font-size: 2.4rem;\n  padding: .8rem;\n  cursor: pointer;\n}\na#next {\n  right: 3.2rem;\n}\n\na#previous {\n  left: 3.2rem;\n}\n@media (max-width:1024px) {\n  #navigation {\n    background: url(" + __webpack_require__(152) + ") no-repeat center top;\n    background-size: 4.8rem;\n    -webkit-animation: fadeIn 6s;\n    animation: fadeIn 6s;\n  }\n  #navigation a, #counter {display: none;\n  }\n}\n\n/*=== 5.3 Slides - Background Images/Videos === */\n\n.background,\n[class*=\"background-\"] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.background,\n[class*=\"background-\"]{\n  background-repeat: no-repeat;\n}\n.background {\n  background-position: center;\n  background-size: cover\n}\n.background-top {\n  background-position: top;\n  background-size: cover;\n}\n.background-bottom {\n  background-position: bottom;\n  background-size: cover;\n}\n\n\n/*fullscreen video\n  <video class=\"background-video\">\n*/\n\n.background-video {\n  width: 100%;\n  height: 100%;\n  object-fit: fill;\n}\n\n/*=== BG Positions === */\n\n.background-center {\n  background-position: center;\n}\n\n.background-center-top {\n  background-position: center top;\n}\n.background-right-top {\n  background-position: right top;\n}\n.background-left-top {\n  background-position: left top;\n}\n.background-center-bottom,\n.background-left-bottom,\n.background-right-bottom,\n.background-left,.background-right {\n  background-position: center bottom;\n}\n\n@media (min-width:1024px) {\n  .background-left-bottom {\n    background-position: left bottom;\n  }\n  .background-right-bottom {\n    background-position: right bottom;\n  }\n  .background-right {\n    background-position: right;\n  }\n  .background-left {\n    background-position: left;\n  }\n}\n\n/*=== bg image/video overlay === */\n/*-- [class*=\"bg-\"] .background.dark, [class*=\"bg-\"] .embed.dark...  -- */\n\n[class*=\"bg-\"] .light,\n[class*=\"bg-\"] .light {\n  filter: alpha(opacity=8000);\n  opacity: 0.80;\n  filter: alpha(opacity=8);\n}\n\n[class*=\"bg-\"] .dark,\n[class*=\"bg-\"] .dark {\n  filter: alpha(opacity=2000);\n  opacity: 0.20;\n  filter: alpha(opacity=2);\n}\n[class*=\"bg-\"] .background-video.dark {\n  filter: alpha(opacity=5000);\n  opacity: 0.50;\n  filter: alpha(opacity=5);\n}\n@media (max-width:1023px) {\n  [class*=\"background-\"] {\n    opacity: 0.20;\n    -webkit-animation: fadeIn ease-in 0.20;\n    animation: fadeIn ease-in 0.20;\n  }\n  .background-video {\n    opacity: 0.80;\n  }\n}\n/*=== Animated Background Image === */\n\n.background.anim {\n  height: 200%;\n  background-size: 100%;\n  background-repeat: repeat;\n  background-position: center top;\n  -webkit-animation: anim 80s linear infinite;\n  animation: anim 80s linear infinite;\n\n}\n/*=== Background with a frame === */\n/*<span class=\"background\" style=\"background-image:url('image.jpg')\"></span>\n<span class=\"background frame\"></span>*/\n\n[class*=\"background\"].frame {\nmargin: 2.4rem;\n}\n\n/*===============================================================\n6. Magic blocks with flexbox (Auto-fill & Equal Height)\nBlocks Links li>a = .flexblock.blink (.blink required)\n================================================================= */\n\n.flexblock {\n  margin-right: auto;\n  margin-left: auto;\n  padding: 0;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  clear: both;\n}\n\n.flexblock:before {\n  content: \"\";\n  display: table;\n}\n\n.flexblock:after {\n  clear: both;\n}\n\n.flexblock li,\n.flexblock.blink li>a {\n  position: relative;\n  display: -webkit-flex;\n  display: flex;\n  /*making paragraphs and linked block*/\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  margin: 0;\n  padding: 2.4rem;\n\n}\n\n.flexblock li {\n  flex: auto;\n  text-align: left;\n  /*float: left;*/\n  width: 100%;/* more control */\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n.flexblock li:hover{\n  -webkit-transform: translateY(-.2rem);\n  transform: translateY(-.2rem);\n}\n.flexblock.aligncenter li {text-align: center;}\n\n.flexblock.vertical-align li {\n  justify-content: center;\n}\n\n.flexblock.blink li {\n  padding: 0;\n}\n\n@media (min-width:600px) {\n  .flexblock li {\n    width: 50%;\n  }\n}\n\n@media (min-width:1024px) {\n  .flexblock li {\n    width: 25%;\n  }\n}\n\nh1 + .flexblock,\nh2 + .flexblock,\nh3 + .flexblock,\ndiv + ul, div + ol{\n  margin-top: 3.2rem;\n}\n\n.flexblock li h2,\n.flexblock li h3,footer .column h2,footer .column h3 {\n  margin-bottom: 0;\n  font-size: 1.8rem;\n  font-weight: 600;\n  line-height: 3.2rem;\n}\n\n/*====================================================================\n6.1 Features <ul class=\"flexblock features\">\n====================================================================== */\n\n.flexblock.features>li {\n  width: 100%;\n  border-radius: .4rem;\n  margin-bottom: 4.8rem;\n}\n\n\n@media (min-width:768px) {\n  .flexblock.features {\n    margin-right: -2%;\n    margin-left: -2%;\n  }\n  .flexblock.features>li {\n    margin-right: 2%;\n    margin-left: 2%;\n    width: 29%;\n  }\n  .size-50 .flexblock.features>li{\n    width: 46%;\n  }\n  .column .flexblock.features>li{width: 100%;}\n\n  footer .flexblock.features>li {margin-bottom: 0;\n  }\n}\n\n.features li h2 {\n  text-transform: uppercase;\n}\n\n.features li span {\n  font-weight: 300;\n}\n\n.features li p {\n  margin: 0;\n}\n\n.features li p em {\n  display: block;\n}\n.features li span,.features li svg {\n  font-size: 6.4rem;\n  line-height: 1;\n  display: block;\n  margin: 0;\n}\n.features li img {width: 6.4rem;}\n\n.features li span sup {\n  font-size: 3rem;\n}\n\n@media (min-width:1200px) {\n  .features li span,\n  .features li svg,.features li img {\n    float: left;\n    margin-right: .8rem;\n  }\n}\n\n/*=====================================================================\n6.2 Clients Logos <ul class=\"flexblock clients\">\n======================================================================= */\n\n.flexblock.clients.blink li>a,.flexblock.clients li {\n  padding: 0;\n}\n\n.flexblock.clients li figcaption {\n  padding: 0 2.4rem 2.4rem;\n}\n.flexblock.clients.border li figcaption {\n  padding-top: 2.4rem;\n}\n\n.clients.blink li>a,\n.clients li {\n  justify-content: inherit;\n}\n\n.clients li img,.clients li svg {\n  display: block;\n  padding: 2.4rem;\n}\n\n.clients.border li img,.clients.border li svg {\n  margin-right: auto;\n  margin-left: auto;\n  display: block;\n}\n\n.clients li:hover  {\n  z-index: 1;\n}\n/*==================================================\n6.3 flexblock.steps <ul class=\"flexblock steps\">\nAbout, Philosophy...\n=================================================== */\n\n.steps li {\n  width: 100%;\n}\n\n.steps li img,\n.steps li span {\n  margin: 0 auto .8rem;\n  display: block;\n}\n\n.steps li span {\n  font-size: 6.4rem;\n}\n\n@media (min-width: 768px) {\n  .steps li {\n    width: 50%;\n  }\n}\n\n@media (min-width: 1024px) {\n  .steps li {\n    width: 25%;\n    /*width: 33.3333%;*/\n  }\n  .process {\n    position: absolute;\n    top: 60px;\n    left: 0;\n    width: 0;\n    height: 0;\n    border-left-style: solid;\n    border-left-width: 15px;\n  }\n}\n\n\n/*=================================================\n6.4 Block Numbers - <ul class=\"flexblock metrics\">\n=================================================== */\n\n.metrics li {\n  text-align: center;\n  width: 100%;\n}\n\n.metrics li strong {\n  display: block;\n}\n\n.metrics li span,.metrics li svg {\n  font-size: 6.4rem;\n  line-height: 7.2rem;\n  display: block;\n  margin: 0 auto;\n}\n\n@media (min-width: 568px) {\n  .metrics li {\n    width: 50%;\n  }\n}\n\n@media (min-width: 1024px) {\n  .metrics li {\n    width: 25%;\n  }\n}\n.card-50 .metrics li {\n  width: 50%;\n}\n\n/*=====================================================\n6.5 Specs/Items: <ul class=\"flexblock specs\">\n======================================================= */\n\n.specs li {\n  width: 100%;\n  text-align: left;\n}\n\n.specs li:after {\n  content: \"\";\n  height: 1px;\n  display: block;\n  position: relative;\n  bottom: -2.4rem;\n}\n\n.specs li:hover {\n  -webkit-transform: translateX(.2rem);\n  transform: translateX(.2rem);\n}\n\n.specs li span,.specs li svg {\n  font-size: 6.4rem;\n  line-height: 1;\n  display: block;\n  margin: 0;\n}\n.specs li img {width: 6.4rem;}\n\n.specs li span  {\n  font-weight: 300;\n\n}\n.specs li span sup {\n  font-size: 3rem;\n\n}\n\n@media (min-width:1024px) {\n  .specs li span,\n  .specs li svg,.specs li img {\n    float: left;\n    margin-right: 2.4rem;\n  }\n}\n/*=================================================\n6.6 Reasons/Why/Numbers (counter-increment)\n<ul class=\"flexblock reasons\">\n=================================================== */\n\n.flexblock.reasons li {\n  text-align: left;\n  width: 100%;\n  counter-increment: list;\n}\n.reasons li:hover{\n  -webkit-transform: translateY(-.2rem);\n  transform: translateY(-.2rem);\n}\n.reasons li:before {\n  content: counter(list)'.';\n  font-size: 6.4rem;\n  line-height: 1;\n}\n.reasons li:after {\n  position: relative;\n  bottom: -2.4rem;\n  content: \"\";\n  height: 1px;\n  display: block;\n}\n@media (min-width: 768px) {\n  .reasons li {\n    padding-left: 8.8rem;\n    /* You need two digits? (1-10)*/\n    /*padding-left: 12rem; */\n  }\n  .reasons li:before {\n    position: absolute;\n    left: 2.4rem;\n  }\n}\n\n/*=================================================\n6.7 Gallery - <ul class=\"flexblock gallery\">\nBlock Thumbnails li+.overlay+image\nimg size recommended:800x600px\n=================================================== */\n\n.flexblock.gallery li {\n  margin-bottom: 4.8rem;\n}\n.flexblock.gallery li:nth-child(n+4) {\n  -webkit-flex:inherit;\n  flex:inherit;\n}\n.flexblock.gallery li,\n.flexblock.gallery.blink li>a {\n  padding: 0;\n}\n.gallery h2 {text-transform: uppercase;}\n\n.gallery h2 + p,.gallery h3 + p {\n  margin-top: .8rem;\n}\n.gallery p {\n  font-size: 1.6rem;\n  line-height: 2.4rem;\n  margin-bottom: 0;\n}\n\n.flexblock.gallery li figcaption {\n  position: relative;\n  padding: 1.6rem;\n}\n/*Arrow */\n\n.gallery li figcaption:before {\n  content: \"\";\n  position: absolute;\n  width: 0;\n  height: 0;\n  margin-left: -0.5em;\n  top: .4rem;\n  left: 20%;\n  transform-origin: 0 0;\n  transform: rotate(135deg);\n  -webkit-transition: .1s;\n  transition: .1s;\n}\n.gallery li:hover figcaption:before {\n  top:.3rem;\n}\n.aligncenter .gallery li figcaption:before {\n  margin-left: 0;\n  left: 55%;\n}\n\n.gallery li footer {\n  position: relative;\n  padding:1.2rem 0 0;\n  margin-top: .8rem;\n}\n@media (min-width:600px) {\n  .flexblock.gallery {\n    margin-right: -2%;\n    margin-left: -2%;\n  }\n  .flexblock.gallery li {\n    margin-right: 2%;\n    margin-left: 2%;\n    width: 46%;\n  }\n}\n\n@media (min-width:1024px) {\n  .flexblock.gallery li {\n    width: 21%;\n  }\n  .grid.sm .flexblock.gallery li,.grid.ms .flexblock.gallery li {\n    width: 29%;\n  }\n  .grid.sms .flexblock.gallery li {\n    width: 46%;\n  }\n}\n\n.gallery li img {\n  margin-right: auto;\n  margin-left: auto;\n  display: block;\n}\n/* Overlay */\n\n.overlay {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  opacity: 1;\n  z-index: 2;\n  width: 100%;\n  height: 100%;\n  cursor: pointer;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n  transition: all 0.3s linear;\n}\nli .overlay {\n  align-items: center;\n}\nli .overlay h2 {\n  text-transform: uppercase;\n  margin: 0;\n  padding: 0 2.4rem;\n  letter-spacing: .2rem;\n  width: 100%;\n  text-align: center;\n}\n\n.overlay p,\n.overlay time {\n  margin-bottom: 0;\n}\n\nli:hover .overlay {\n  cursor: pointer;\n}\n\n/*===============================================\n6.8 Plans / Pricing <ul class=\"flexblock plans\">\n================================================= */\n\n.flexblock.plans>li {\n  text-align: center;\n  border-radius: 3px;\n  z-index: 1;\n  margin-bottom: 4.8rem;\n}\n\n.plans li,\n.plans.blink li>a {\n  padding: 0;\n}\n\n.plans.blink li>a div,\n.plans li div {\n  padding-bottom: 3.2rem;\n}\n\n.plans li p,\n.plans li h2 {\n  padding: .8rem 3.2rem;\n}\n\n.plans li h2 {\n  float: left;\n  width: 100%;\n  text-transform: uppercase;\n  letter-spacing: .1rem;\n  font-weight: 400;\n}\n\n.plans .price {\n  font-size: 4.8rem;\n  line-height: 6.2rem;\n  padding: 2.4rem;\n  font-weight: 400;\n  display: block;\n  clear: both;\n}\n\n.price sup {\n  font-size: 1.8rem;\n  margin-right: .4rem;\n}\n\n.plans li ul {\n  margin-bottom: 2.4rem;\n}\n\n\n/* Specs  ----------- */\n\n.flexblock.plans li ul li {\n  width: 100%;\n  padding: .8rem 3.2rem;\n  text-align: left;\n  display: block;\n}\n\n@media (min-width:1024px) {\n  .flexblock.plans {\n    margin-right: -2%;\n    margin-left: -2%;\n  }\n  .flexblock.plans>li {\n    margin-right: 2%;\n    margin-left: 2%;\n    width: 29%;\n  }\n  .plans>li:hover,\n  .plans>li:nth-child(2) {\n    position: relative;\n    z-index: 2;\n    transform: scale(1.08);\n  }\n  .plans:hover li:nth-child(2):not(:hover) {\n    position: relative;\n    z-index: 1;\n    transform: scale(1);\n  }\n}\n\n\n/*===========================================\n6.9 Block Activity <ul class=\"activity\">\nCV / News\n============================================= */\n\n.flexblock.activity {\n  -webkit-flex-direction: column;\n  flex-direction: column;\n}\n\n.activity li {\n  position: relative;\n  -webkit-flex: 1;\n  flex: 1;\n  width: auto;\n}\n\n.activity p {\n  vertical-align: top;\n  margin-bottom: 0;\n}\n\n.activity img {\n  display: block;\n}\n\n.activity .year,\n.activity .title {\n  display: inline;\n  font-weight: 600;\n}\n\n.activity .summary {\n  width: 100%;\n}\n\n.activity .title {\n  margin-left: 1rem;\n}\n\n@media (min-width: 768px) {\n  .activity p {\n    float: left;\n  }\n  .activity .year {\n    width: 15%;\n  }\n  .activity .title {\n    width: 27%;\n    margin-right: 4%;\n    margin-left: 4%;\n  }\n  .activity .summary {\n    width: 50%;\n  }\n}\n\n/*=========================================\n.flexblock sublist\n=========================================== */\n\n.flexblock li li,\n.flexblock.blink li li {\n  padding: 0;\n  width: 100%;\n}\n\n/*.flexblock li li:before {\n  position: absolute;\n  top: 3px;\n  left: 0;\n  content: \"*\";\n  font-weight: 400;\n}\n*/\n\n/*=== Mini container .flexblock li === */\n\n[class*=\"content-\"] .flexblock li p {\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n}\n.content-right .flexblock.features li,\n.content-left .flexblock.features li {\n  width: 46%;\n}\n\n/*=============================================\n7. Promos/Offers (pricing, tagline, CTA...)\n=============================================== */\n\n.cta {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.number,\n.cta .benefit {\n  padding: .8rem;\n  max-width: 100%;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.number {\n  text-align: center;\n}\n\n.cta .benefit {\n  max-width: 100%;\n  text-align: center;\n}\n\n.number span {\n  font-size: 8rem;\n  line-height: 8rem;\n  display: block\n}\n\n.number span sup {\n  font-size: 4rem;\n}\n\n.cta p {\n  margin-bottom: 0;\n}\n\n@media (min-width: 768px) {\n  .number,\n  .cta .benefit {\n    padding: 4.8rem;\n    max-width: 50%;\n  }\n  .cta .benefit {\n    text-align: left;\n  }\n  .number span {\n    font-size: 16rem;\n    line-height: 16rem;\n  }\n  .number span sup {\n    font-size: 6rem;\n    vertical-align: middle;\n  }\n}\n\n\n/* --- Header CTA --- */\n\n.cta-cover {\n  display: table;\n  width: 100%;\n}\n\n.cta-cover h1 strong {\n  font-weight: 400;\n}\n\n@media (min-width: 1024px) {\n  .cta-cover h1 {\n    max-width: 80%;\n    float: left;\n  }\n  .cta-cover h1 strong {\n    display: block;\n  }\n  .cta-cover .button {\n    margin-top: 1.2rem;\n  }\n  .cta-cover .try {\n    text-align: center;\n  }\n}\n\n@media (max-width: 1023px) {\n  .cta-cover .alignright {\n    float: none;\n  }\n}\n\n\n/*=========================================\n8. Work/Resumé/CV <ul class=\"work\">\n=========================================== */\n\nh1 + .work,\nh2 + .work,\nh3 + .work,\np + .work {\n  margin-top: 4.8rem;\n}\n\n.work {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  clear: both;\n  text-align: left;\n}\n\n.work li {\n  position: relative;\n  -webkit-flex: 1;\n  flex: 1;\n  list-style: none;\n  margin: 0;\n\n}\n\n.work-label {\n  float: left;\n  width: 100%;\n  padding: 0 0 2.4rem;\n  font-weight: 600;\n}\n\n.work p {\n  margin-bottom: 0;\n}\n\n.work li a {\n  display: block;\n  float: left;\n  width: 100%;\n  height: 100%;\n  padding: 2.4rem 0;\n}\n\n.work-title {\n  display: block;\n  width: 75%;\n  padding-right: 1.2rem;\n}\n\n.work li a p,\n.work li:first-child a:hover p:first-child {\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n\n.work li p {\n  padding-left: 1.2rem;\n}\n\n.work li.work-label p {\n  padding-left: 0;\n}\n\n.work li a:hover p:first-child {\n  padding-left: 1.6rem;\n}\n\n.work li p:last-child {\n  position: absolute;\n  top: 2.4rem;\n  right: 1.2rem;\n}\n\n.work li.work-label p:last-child {\n  top: 0;\n  right: 0;\n}\n\n@media (min-width: 768px) {\n  .work-label p,\n  .work li p {\n    width: 25%;\n    margin-right: 2%;\n    float: left;\n  }\n  .work li.work-label p:last-child,\n  .work li p:last-child {\n    position: relative;\n    float: right;\n    top: auto;\n    right: auto;\n    margin-right: 0;\n    text-align: right;\n    padding-right: 1.2rem;\n  }\n  .work li p.work-date {\n    width: 120px;\n  }\n}\n\n@media (max-width: 768px) {\n  .work-client,\n  .work-label .work-services {\n    clip: rect(1px, 1px, 1px, 1px);\n    position: absolute !important;\n    height: 1px;\n    width: 1px;\n    overflow: hidden;\n  }\n}\n\n\n/*===========================================\n9. Table of contents\n============================================= */\n\n.toc,\n.toc ol>li:before,\n.chapter {\n  position: relative;\n  z-index: 2;\n}\n\n/*.toc {\n  padding: 2.4rem;\n}\n*/\n\n.toc ol {\n  position: relative;\n  counter-reset: item;\n}\n\n.toc ol>li:before {\n  content: counters(item, \".\") \". \";\n  display: table-cell;\n  width: 2.4rem;\n  padding-right: .8rem;\n}\n\n.toc ol li li:before {\n  content: counters(item, \".\") \" \";\n}\n\n.toc li {\n  width: 100%;\n  display: table;\n  counter-increment: item;\n  font-weight: 400;\n  margin-bottom: .8rem;\n  margin-left: 0;\n  -webkit-transition: .3s;\n  transition: .3s;\n}\n\n.toc li li {\n  font-weight: 300;\n  margin-left: 0;\n  margin-bottom: 0;\n}\n\n.chapter {\n  display: inline-block;\n  font-size: 1.8rem;\n  line-height: 3.2rem;\n  padding-right: .8rem;\n}\n\n.toc-page {\n  float: right;\n}\n\n.toc li .toc-page:before {\n  position: absolute;\n  /* width: 100%; */\n  right: 4rem;\n  left: 0;\n  margin-top: 1.8rem;\n  content: \"\";\n  display: block;\n}\n\n.toc li>a {\n  display: inline-block;\n  width: 100%;\n}\n\n.toc li a:hover span {\n  font-weight: 600;\n}\n\n.toc li a:hover .toc-page:before {\n  border-bottom-width: 2px;\n}\n\n\n/*===========================================\n10. Cards\n============================================= */\n\n[class*=\"card-\"],\n[class*=\"card-\"]>a {\n  position: relative;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: row;\n  flex-direction: row;\n  clear: both;\n  /*width: 100%;*/\n}\n\n.fullscreen [class*=\"card-\"],\n.fullscreen [class*=\"card-\"]>a {\n  min-height: 100vh;\n}\n\n[class*=\"card-\"] figure img,[class*=\"card-\"] figure iframe {\n  margin: 0 auto;\n  display: block;\n}\n\n\n/*==  Images inside container:\nobject-fit to re-frame images rather than just stretch and resize them  === */\n\n@media (min-width: 768px) {\n  [class*=\"card\"][class*=\"bg-\"] figure,\n  .fullscreen [class*=\"card\"] figure {\n    vertical-align: middle;\n    text-align: center;\n    min-width: 380px;\n    max-height: 100%;\n  }\n  /* -- imgs/frames size recommended:800x600 -- */\n  [class*=\"card-\"][class*=\"bg-\"] figure img,\n  [class*=\"card-\"][class*=\"bg-\"] figure iframe,\n  /* -- Make small images/iframes larger -- */\n  .fullscreen [class*=\"card-\"] figure img,\n  .fullscreen [class*=\"card-\"] figure iframe {\n    position: absolute;\n    z-index: 1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n  }\n}\n\n.flex-content,\n[class*=\"card\"] blockquote {\n  position: relative;\n  padding: 2.4rem;\n}\n[class*=\"card-\"] .flex-content,\n[class*=\"card-\"] blockquote {\n  display: -webkit-flex;\n  display: flex;\n  -webkit-flex-direction: column;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.flex-content p {\n  position: relative;\n}\n\n@media (min-width: 768px) {\n  /*== Cards (Sizes) - Reference: figure img:-70,60,50,40,30... === */\n  .card-50 figure,\n  .card-50 blockquote,\n  .card-50 .flex-content {\n    width: 50%;\n  }\n  .card-30 figure,\n  .card-70 .flex-content,\n  .card-70 blockquote {\n    width: 30%;\n  }\n  .card-40 figure,\n  .card-60 .flex-content,\n  .card-60 blockquote {\n    width: 40%;\n  }\n  .card-60 figure,\n  .card-40 .flex-content,\n  .card-40 blockquote {\n    width: 60%;\n  }\n  .card-70 figure,\n  .card-30 .flex-content,\n  .card-30 blockquote {\n    width: 70%;\n  }\n  [class*=\"card\"]:nth-child(odd) figure {\n    order: 0\n  }\n  [class*=\"card\"]:nth-child(even) figure {\n    order: 1;\n  }\n  .flex-content,\n  [class*=\"card\"] blockquote {\n    padding: 4.8rem;\n  }\n  .fullscreen [class*=\"card\"] .flex-content,\n  .fullscreen [class*=\"card\"] blockquote {\n    padding: 6.4rem;\n  }\n}\n\n\n/*== Card - Headings === */\n\n@media (max-width: 767px) {\n  [class*=\"card-\"],\n  [class*=\"card-\"]>a {\n    flex-flow: column;\n  }\n  .card figure,\n  .card header {\n    width: 100%\n  }\n}\n\n/*== Ficaption Cards === */\n\n[class*=\"card\"] figure figcaption {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  padding: .8rem 2.4rem;\n  font-size: 1.4rem;\n  line-height: 2.4rem;\n  /* Visibility */\n  z-index: 2;\n}\n\n[class*=\"card\"] figure figcaption svg {\n  font-size: 1rem;\n}\n\n\n/*=========================================\n11. Quotes\n=========================================== */\n\nblockquote {\n  position: relative;\n  display: inline-block;\n}\n\nblockquote p {\n  font-size: 2.4rem;\n  line-height: 4rem;\n}\nblockquote p:last-child {\nmargin-bottom: 3.2rem;\n}\n/* -- Interviews dl.text-interview -- */\ndd blockquote p:last-child {\nmargin-bottom: 0;\n}\n.bg-apple blockquote p {\n  font-family: \"San Francisco\", \"Roboto\", helvetica, arial, sans-serif;\n  font-weight: 300;\n}\n\ncite {\n  display: block;\n  text-align: center;\n}\n\ncite span {\n  display: block;\n}\n\ncite:before {\n  content: \"\\2014   \\2009\";\n  margin-right: 6px;\n}\n/* -- Big Blockquote -- */\n/* Info: .wall will be deprecated soon. Use .text-quote ;) */\n\n.text-quote,.wall {\nposition: relative; /* Versatility: blockquote, p, h2... */\n}\n.text-quote:before,.wall:before {\n  position: absolute;\n  top: -4rem;\n  left: -.8rem;\n  content: \"\\201C\";\n  font-family: arial, sans-serif;\n  width: 5.6rem;\n  height: 5.6rem;\n  font-size: 12rem;\n  line-height: 1;\n  text-align: center;\n}\n\n@media (min-width:768px) {\n  .text-quote,.wall {\n    padding-left: 6.4rem;\n  }\n  .text-quote p,.wall p {\n    font-size: 3.2rem;\n    line-height: 4.8rem;\n  }\n  .text-quote:before,.wall:before {\n    top: -1.6rem;\n    left: .8rem;\n  }\n}\n\n/*=========================================\n12. Avatars - uifaces.com\n=========================================== */\n\ncite img,\nimg[class*=\"avatar-\"] {\n  display: inline-block;\n  vertical-align: middle;\n  margin-right: 6px;\n}\n\nimg[class*=\"avatar-\"] {\n  border-radius: 50%\n}\n\nimg.avatar-80 {\n  width: 80px;\n  height: 80px;\n}\nimg.avatar-72 {\n  width: 72px;\n  height: 72px;\n}\nimg.avatar-64 {\n  width: 64px;\n  height: 64px;\n}\n\nimg.avatar-56 {\n  width: 56px;\n  height: 56px;\n}\n\nimg.avatar-48 {\n  width: 48px;\n  height: 48px;\n}\n\nimg.avatar-40 {\n  width: 40px;\n  height: 40px;\n}\n\n/*=========================================\n13. Tables\n=========================================== */\n\ntable {\n  margin-top: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n\ntable td,\nth,\nthead {\n  border-spacing: 0;\n  padding: .7rem 2.4rem;\n}\n\nthead th,\nth {\n  text-align: left;\n  cursor: default;\n  white-space: nowrap;\n  font-weight: 600;\n  text-transform: uppercase;\n}\n\nthead,\ntd.goals {\n  font-weight: 600;\n  text-shadow: none;\n}\n\ntr>td {\n  font-weight: 400;\n}\n\n\n/*.slide tr>td {\n  width: 25%;\n}*/\n\n\n/*=========================================\n14. Forms\n=========================================== */\n\nform {text-align: left;}\n\nform + p,input + p,textarea + p {margin-top: .8rem;\n}\n\ninput[type=text],\ninput[type=email],\ninput[type=tel],\ninput[type=url],\ninput[type=search],\ninput[type=password] {\n  appearance: none;\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  border-radius: 0;\n  -moz-border-radius: 0;\n  -webkit-border-radius: 0;\n}\ninput,\nbutton,\nselect {\n  position: relative;\n  display: inline-block;\n  margin: 0;\n  width: 100%;\n  height: 4.8rem;\n  padding: .7rem;\n  font-weight: 400;\n  font-size: 1.6rem;\n\n}\ninput[type=\"radio\"],\ninput[type=\"checkbox\"] {\n  width: auto;\n  height: auto;\n  padding: 4px;\n}\nbutton[type=\"submit\"],textarea {\n  width: 100%;\n}\ntextarea {\n  padding: .7rem;\n}\n\nbutton {\n  width: auto;\n  text-align: center;\n  cursor: pointer;\n}\n\n.button {\n  display: inline-block;\n  line-height: 4.8rem;\n  /*border-radius:4.8rem;\n  text-transform: uppercase;\n  letter-spacing: .1rem;*/\n  font-size: 1.8rem;\n  font-weight: 400;\n  text-align: center;\n  min-width: 16rem;\n  padding: 0 1.6rem;\n  cursor: pointer;\n}\n\n.button.radius, button.radius,input.radius {border-radius: 2.4rem;}\n\nbutton,\ninput[type=\"submit\"] {\n  text-transform: uppercase;\n  font-weight: 400;\n  letter-spacing: .1rem;\n}\n\n.button svg {\n  font-size: 2.4rem;\n}\n\n.plans .button {\n  width: 50%;\n  margin-right: auto;\n  margin-left: auto;\n}\n\n.try {\n  display: block;\n  font-size: 1.6rem;\n  margin-top: 1.6rem;\n}\n\nfieldset {\n  padding: 2.4rem;\n}\n\nlegend {\n  padding: 1.6rem 2.4rem;\n  border: none;\n  width: 100%;\n  text-align: center;\n  text-transform: uppercase;\n  letter-spacing:.1rem;\n  font-weight: 400;\n}\n/*=== Focus === */\ninput:focus,\ntextarea:focus,\nselect:focus {\n  border-width: 1px;\n}\n\n/*=== App Store Badges === */\n/* Change width and height: 216x64px, 162x48px, 135x40... */\n\n[class*=\"badge-\"] {\n  width: 135px;\n  height: 40px;\n  line-height: 4rem;\n  background-size: cover;\n  background-repeat: no-repeat;\n  display: inline-block;\n  text-indent: -4000px;\n  border-radius: .6rem;\n}\n\n@media (min-width:1024px) {\n  [class*=\"badge-\"] {\n    width: 162px;\n    height: 48px;\n    line-height: 4.8rem;\n  }\n}\n\n\n/* Buttons/Badges - Hover */\n\na.button:hover,\nbutton[type=\"submit\"]:hover,\ninput[type=\"submit\"]:hover {\n  -webkit-transform:scale(1.01);\n  transform: scale(1.01);\n}\n[class*=\"badge-\"]:hover {\n  opacity: 0.7;\n}\n\n/*=== Sign Up/Login Form - Landings === */\n\n.user input {\n  margin-bottom: 0;\n}\n\n.user input[type=\"email\"],\n.user input[type=\"search\"],.user input[type=\"text\"] {\n  width: 100%;\n}\n\n.user button,\n.user input[type=\"submit\"] {\n  left: 0;\n  width: 100%;\n}\n\n@media (min-width:500px) {\n  .user input[type=\"email\"],\n  .user input[type=\"search\"],\n  .user input[type=\"text\"] {\n    width: 70%;\n    float: left;\n  }\n  .user button,\n  .user input[type=\"submit\"] {\n    width: 30%;\n    cursor: pointer;\n  }\n  [class*=\"button\"] + [class*=\"button\"],[class*=\"badge\"] + [class*=\"badge\"] {\n    margin-left: 1.8rem;\n  }\n}\n@media (max-width:499px) {\n\n  [class*=\"button\"] + [class*=\"button\"],[class*=\"badge\"] + [class*=\"badge\"] {\n    margin-top: .8rem;\n\n  }\n}\n\n:disabled,\nbutton:disabled:hover {\n  cursor: not-allowed;\n}\n\n/*=========================================\n15. Longform\n=========================================== */\n\n/* -- Posts = .wrap.longform -- */\n\n.longform {\nwidth: 72rem;\n/* Why 72rem=720px?\n90-95 characters per line = better reading speed */\n}\n.longform .alignleft, .longform .alignright {\n    max-width: 40%;\n}\n.longform img.aligncenter,.longform figure.aligncenter {\n  margin-top: 3.2rem;\n  margin-bottom: 3.2rem;\n}\n.longform ul,.longform ol {\nmargin-bottom: 3.2rem;\n}\n.longform ul ol,.longform ol ul,.longform ul ul,.longform ol ol {\nmargin-bottom: 0;\n}\n.longform figcaption p,.longform [class*=\"text-pull-\"] p{\nline-height: 2.4rem;\nfont-size: 1.6rem;\n}\n/* Mobile: video full width */\n.text-pull.embed {\npadding-bottom: 60.6%; /*without black borders; */\nmargin-right: -2.4rem;\nmargin-left: -2.4rem;\n}\n@media (min-width:1280px) {\n.longform [class*=\"text-pull-\"] {\nmax-width: 32%;\n}\n.longform .text-pull-right {\nmargin-right:-256px;\n}\n.longform .text-pull-left {\nmargin-left:-256px;\n }\n}\n@media (min-width:1024px) {\n.longform .text-quote {\nmargin-right: -4.8rem;\nmargin-left: -4.8rem;\n }\n}\n\n\n/*=========================================\n16. SAFARI BUGS (flex-wrap)\nSolution: stackoverflow.com/questions/34250282/flexbox-safari-bug-flex-wrap\n=========================================== */\n\n.flexblock:before, .flexblock:after,\n.grid:before,.grid:after, .cta:before,.cta:after{\n  width: 0;\n}\n\n/*=========================================\n17. PRINT\n=========================================== */\n\n@media print {\n  @page {\n    size: A4 landscape;\n    margin: 0.5cm;\n  }\n  /* Black prints faster */\n  * {\n    background: transparent !important;\n    color: black !important;\n    text-shadow: none !important;\n    filter: none !important;\n  }\n  html, body, #webslides {\n    width: auto !important;\n    height: auto !important;\n    overflow: auto !important;\n  }\n  #webslides {\n    overflow-x: auto !important;\n    overflow-y: auto !important;\n  }\n  section, .slide {\n    display: flex !important;\n    height: auto !important;\n  }\n  section * {\n    -webkit-animation: none;\n    animation: none;\n  }\n  table, figure {\n    page-break-inside: avoid;\n  }\n  #counter, #navigation {\n    display: none;\n  }\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "assets/fonts/swipe.svg";
