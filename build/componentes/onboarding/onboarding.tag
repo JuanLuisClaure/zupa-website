@@ -71,32 +71,26 @@ import intlTelInput from '../intCountry/intinput'
 
     <div class="flexContainer-center">
 
-      <legend>
-        <h3 if={ listo } id="mensaje"></h3>
+      <legend if={ !abierto }>
+        <h3  id="mensaje"></h3>
+        <button type="button" name="button" onclick={ openSub  }>subscribe</button>
+        <button type="button" name="button" onclick={ entrarWeb }>Comprar(BETA)</button>
       </legend>
 
 
-        <div class="mdl-card mdl-shadow--4dp text-center"  style="background-color:rgba(210, 210, 210, 0.47)!important;width:92%;">
+        <div class="mdl-card mdl-shadow--4dp text-center"  style="background-color:rgba(210, 210, 210, 0.47)!important;width:92%;" if={ abierto }>
           <div class="mdl-card__supporting-text" style="word-wrap: break-word;">
-
             <h3 id="sobre"></h3>
-
             <hr>
-
           </div>
-          <div class="mdl-card__supporting-text" if={ abierto }>
-            <button type="button" name="button" onclick={ openSub  }>subscribe</button>
-            <button type="button" name="button" onclick={ entrarWeb }>Comprar(BETA)</button>
+          <div class="mdl-card__supporting-text">
+            <intlTelInput opts={ this.necesidad }/>
           </div>
-          <div class="mdl-card__supporting-text" if={ !abierto }>
 
-            <intlTelInput/>
-
-          </div>
         </div>
 
 
-  </div>
+        </div>
 
   </div>
 
@@ -118,6 +112,10 @@ import intlTelInput from '../intCountry/intinput'
 
 
 <script>
+this.necesidad =  {
+  puerta: this.abierto,
+  veramo: this.openSub
+}
 this.abierto = false
 this.listo = true
 this.imgBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backTwo.jpg)'

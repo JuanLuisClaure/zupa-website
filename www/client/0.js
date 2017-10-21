@@ -1,28 +1,28 @@
 webpackJsonp([0],{
 
-/***/ 154:
+/***/ 157:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(158);
-
-__webpack_require__(160);
-
-__webpack_require__(166);
-
-__webpack_require__(167);
-
 __webpack_require__(161);
 
-__webpack_require__(170);
+__webpack_require__(163);
 
-__webpack_require__(171);
+__webpack_require__(168);
 
-__webpack_require__(162);
+__webpack_require__(169);
+
+__webpack_require__(164);
 
 __webpack_require__(172);
+
+__webpack_require__(173);
+
+__webpack_require__(165);
+
+__webpack_require__(174);
 
 const riot = __webpack_require__(15);
 
@@ -30,7 +30,7 @@ riot.tag2('index', '<navheader></navHeader> <headroom></headroom> <div id="main"
 
 /***/ }),
 
-/***/ 157:
+/***/ 160:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63,13 +63,13 @@ riot.tag2('tiendasdb', '<div class="flexcontainer"> <div each="{x in tiendas}"> 
 
 /***/ }),
 
-/***/ 158:
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(159);
+__webpack_require__(162);
 
 const riot = __webpack_require__(15);
 
@@ -77,7 +77,7 @@ riot.tag2('navheader', '<onscroll> <div class="container-full flex-container {(p
 
 /***/ }),
 
-/***/ 159:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -215,7 +215,7 @@ riot.tag2('onscroll', '<yield></yield>', '', '', function (opts) {
 
 /***/ }),
 
-/***/ 160:
+/***/ 163:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -227,13 +227,13 @@ riot.tag2('navfooter', '<div id="footer-dos" class="container-full flex-containe
 
 /***/ }),
 
-/***/ 161:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(157);
+__webpack_require__(160);
 
 const riot = __webpack_require__(15);
 
@@ -264,7 +264,7 @@ riot.tag2('headroom', '<div id="fh5co-header" riot-style="background-attachment:
 
 /***/ }),
 
-/***/ 162:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -276,7 +276,7 @@ riot.tag2('infofooter', '<footer class="mdl-mega-footer asisehace"> <div class="
 
 /***/ }),
 
-/***/ 166:
+/***/ 168:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -401,17 +401,17 @@ riot.tag2('review', '<div class="fh5co-testimonial"> <div class="container"> <di
 
 /***/ }),
 
-/***/ 167:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(157);
+__webpack_require__(160);
 
-__webpack_require__(168);
+__webpack_require__(170);
 
-__webpack_require__(169);
+__webpack_require__(171);
 
 const riot = __webpack_require__(15);
 
@@ -419,7 +419,7 @@ riot.tag2('feactures', '<div id="features"> <div class="container mdl-tabs mdl-j
 
 /***/ }),
 
-/***/ 168:
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -450,15 +450,38 @@ riot.tag2('promosdb', '<div each="{x in promos}"> <div class="col-4-xl col-4-l c
 
 /***/ }),
 
-/***/ 169:
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _dispatcher = __webpack_require__(28);
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const riot = __webpack_require__(15);
+
+riot.tag2('productosdb', '<div each="{x in productos}"> <div class="col-4-xl col-4-l col-4-m animateBox"> <div class="feature-center"> <p>{x.title}</p> <p>{x.price}</p> </div> </div> </div>', 'productosdb .animateBox,[data-is="productosdb"] .animateBox{ -webkit-animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both; animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both; }', '', function (opts) {
+  this.productos = [];
+  this.on('mount', () => {
+    _dispatcher2.default.trigger('read', 'Items');
+
+    _dispatcher2.default.on('Items_returned', this.renderizar);
+  });
+
+  this.renderizar = data => {
+    console.log(data, 'esto es productos');
+    this.productos = data;
+    this.update();
+  };
+});
+
 /***/ }),
 
-/***/ 170:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -484,7 +507,7 @@ riot.tag2('abrir-modal', '<div class="flexcontainer" if="{entrar}"> <h1>hola mun
 
 /***/ }),
 
-/***/ 171:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -496,7 +519,7 @@ riot.tag2('tabsfeactures', '<div id="features"> <div class="container mdl-tabs m
 
 /***/ }),
 
-/***/ 172:
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

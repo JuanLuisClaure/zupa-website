@@ -161,7 +161,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.assertionError = exports.assert = undefined;
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(21);
 
 /**
  * Throws an error if the provided assertion is falsy
@@ -246,7 +246,7 @@ var _utf = __webpack_require__(29);
 
 var _json = __webpack_require__(7);
 
-var _storage = __webpack_require__(20);
+var _storage = __webpack_require__(22);
 
 var _environment = __webpack_require__(13);
 
@@ -1341,13 +1341,13 @@ exports.PRIORITY_INDEX = exports.PriorityIndex = undefined;
 exports.setNodeFromJSON = setNodeFromJSON;
 exports.setMaxNode = setMaxNode;
 
-var _Index = __webpack_require__(22);
+var _Index = __webpack_require__(24);
 
 var _util = __webpack_require__(1);
 
 var _Node = __webpack_require__(6);
 
-var _LeafNode = __webpack_require__(23);
+var _LeafNode = __webpack_require__(25);
 
 /**
 * Copyright 2017 Google Inc.
@@ -1490,7 +1490,7 @@ var _KeyIndex = __webpack_require__(16);
 
 var _IndexMap = __webpack_require__(47);
 
-var _LeafNode = __webpack_require__(23);
+var _LeafNode = __webpack_require__(25);
 
 var _comparators = __webpack_require__(49);
 
@@ -2586,7 +2586,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.attachDummyErrorHandler = exports.Deferred = exports.PromiseImpl = undefined;
 
-var _globalScope = __webpack_require__(38);
+var _globalScope = __webpack_require__(37);
 
 var PromiseImpl = exports.PromiseImpl = _globalScope.globalScope.Promise || __webpack_require__(76);
 /**
@@ -2704,7 +2704,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                                                                                                                                                                                                                                                               */
 
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(21);
 
 /**
  * Returns navigator.userAgent string or '' if it's not defined.
@@ -5807,7 +5807,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.KEY_INDEX = exports.KeyIndex = undefined;
 
-var _Index = __webpack_require__(22);
+var _Index = __webpack_require__(24);
 
 var _Node = __webpack_require__(6);
 
@@ -5956,7 +5956,7 @@ exports.nodeFromJSON = nodeFromJSON;
 
 var _ChildrenNode = __webpack_require__(5);
 
-var _LeafNode = __webpack_require__(23);
+var _LeafNode = __webpack_require__(25);
 
 var _Node = __webpack_require__(6);
 
@@ -6045,7 +6045,9 @@ function nodeFromJSON(json, priority) {
 
 
 /***/ }),
-/* 18 */
+/* 18 */,
+/* 19 */,
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6088,7 +6090,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6137,7 +6139,7 @@ var CONSTANTS = exports.CONSTANTS = {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6204,7 +6206,7 @@ var SessionStorage = exports.SessionStorage = createStoragefor('sessionStorage')
 
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6245,7 +6247,7 @@ var LONG_POLLING = exports.LONG_POLLING = 'long_polling';
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6319,7 +6321,7 @@ exports.Index = Index;
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6584,7 +6586,7 @@ exports.LeafNode = LeafNode;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7135,7 +7137,7 @@ exports.Repo = Repo;
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7225,8 +7227,6 @@ exports.CacheNode = CacheNode;
 
 
 /***/ }),
-/* 26 */,
-/* 27 */,
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7377,7 +7377,7 @@ var _NextPushId = __webpack_require__(88);
 
 var _Query = __webpack_require__(44);
 
-var _Repo = __webpack_require__(24);
+var _Repo = __webpack_require__(26);
 
 var _Path = __webpack_require__(3);
 
@@ -8895,7 +8895,7 @@ exports.RepoManager = undefined;
 
 var _obj = __webpack_require__(2);
 
-var _Repo = __webpack_require__(24);
+var _Repo = __webpack_require__(26);
 
 var _util = __webpack_require__(1);
 
@@ -9031,33 +9031,6 @@ exports.RepoManager = RepoManager;
 /***/ }),
 /* 36 */,
 /* 37 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9100,7 +9073,34 @@ if (typeof global !== 'undefined') {
 var globalScope = exports.globalScope = scope;
 //# sourceMappingURL=globalScope.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)))
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ }),
 /* 39 */
@@ -9406,7 +9406,7 @@ var _promise = __webpack_require__(12);
 
 var _Reference = __webpack_require__(30);
 
-var _Repo = __webpack_require__(24);
+var _Repo = __webpack_require__(26);
 
 var _RepoManager = __webpack_require__(35);
 
@@ -9706,9 +9706,9 @@ var _assert = __webpack_require__(0);
 
 var _obj = __webpack_require__(2);
 
-var _storage = __webpack_require__(20);
+var _storage = __webpack_require__(22);
 
-var _Constants = __webpack_require__(21);
+var _Constants = __webpack_require__(23);
 
 /**
  * A class that holds metadata about a Repo object
@@ -10389,7 +10389,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.VALUE_INDEX = exports.ValueIndex = undefined;
 
-var _Index = __webpack_require__(22);
+var _Index = __webpack_require__(24);
 
 var _Node = __webpack_require__(6);
 
@@ -10893,7 +10893,7 @@ var _assert = __webpack_require__(0);
 
 var _util = __webpack_require__(1);
 
-var _Index = __webpack_require__(22);
+var _Index = __webpack_require__(24);
 
 var _ChildrenNode = __webpack_require__(5);
 
@@ -11227,7 +11227,7 @@ var _Path = __webpack_require__(3);
 
 var _SparseSnapshotTree = __webpack_require__(53);
 
-var _LeafNode = __webpack_require__(23);
+var _LeafNode = __webpack_require__(25);
 
 var _nodeFromJSON = __webpack_require__(17);
 
@@ -11684,7 +11684,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SyncPoint = undefined;
 
-var _CacheNode = __webpack_require__(25);
+var _CacheNode = __webpack_require__(27);
 
 var _ChildrenNode = __webpack_require__(5);
 
@@ -11940,7 +11940,7 @@ exports.ViewCache = undefined;
 
 var _ChildrenNode = __webpack_require__(5);
 
-var _CacheNode = __webpack_require__(25);
+var _CacheNode = __webpack_require__(27);
 
 /**
  * Stores the data we have cached for a view.
@@ -12109,7 +12109,7 @@ exports.PersistentConnection = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _app = __webpack_require__(18);
+var _app = __webpack_require__(20);
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -12131,7 +12131,7 @@ var _jwt = __webpack_require__(109);
 
 var _Connection = __webpack_require__(61);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(21);
 
 var _environment = __webpack_require__(13);
 
@@ -13001,9 +13001,9 @@ exports.Connection = undefined;
 
 var _util = __webpack_require__(1);
 
-var _storage = __webpack_require__(20);
+var _storage = __webpack_require__(22);
 
-var _Constants = __webpack_require__(21);
+var _Constants = __webpack_require__(23);
 
 var _TransportManager = __webpack_require__(110);
 
@@ -13489,7 +13489,7 @@ var _StatsManager = __webpack_require__(34);
 
 var _PacketReceiver = __webpack_require__(111);
 
-var _Constants = __webpack_require__(21);
+var _Constants = __webpack_require__(23);
 
 var _json = __webpack_require__(7);
 
@@ -14088,7 +14088,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.WebSocketConnection = undefined;
 exports.setWebSocketImpl = setWebSocketImpl;
 
-var _app = __webpack_require__(18);
+var _app = __webpack_require__(20);
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -14098,11 +14098,11 @@ var _util = __webpack_require__(1);
 
 var _StatsManager = __webpack_require__(34);
 
-var _Constants = __webpack_require__(21);
+var _Constants = __webpack_require__(23);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(21);
 
-var _storage = __webpack_require__(20);
+var _storage = __webpack_require__(22);
 
 var _json = __webpack_require__(7);
 
@@ -14721,7 +14721,7 @@ const OptsMixins = {
   }
 };
 (0, _riotRoute2.default)('/', () => {
-  __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 153)).then(module => {
+  __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 156)).then(module => {
     renderHere.innerHTML = '<welcome></welcome>';
     riot.mount('welcome');
     riot.mixin(OptsMixins);
@@ -14730,7 +14730,7 @@ const OptsMixins = {
   });
 });
 (0, _riotRoute2.default)('/conoces?', () => {
-  __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 154)).then(module => {
+  __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 157)).then(module => {
     renderHere.innerHTML = '<index></index>';
     riot.mount('index');
     riot.mixin(OptsMixins);
@@ -14739,7 +14739,7 @@ const OptsMixins = {
   });
 });
 (0, _riotRoute2.default)('/presentacion', () => {
-  __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 155)).then(module => {
+  __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 158)).then(module => {
     renderHere.innerHTML = '<slides></slides>';
     riot.mount('slides');
   }).catch(err => {
@@ -14747,7 +14747,7 @@ const OptsMixins = {
   });
 });
 (0, _riotRoute2.default)('/contacto', () => {
-  __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 156)).then(module => {
+  __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 159)).then(module => {
     renderHere.innerHTML = '<contactPage></contactPage>';
     riot.mount('contactPage');
     riot.mixin(OptsMixins);
@@ -15272,7 +15272,7 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const firebase = __webpack_require__(18);
+const firebase = __webpack_require__(20);
 
 __webpack_require__(80);
 
@@ -16533,7 +16533,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37), __webpack_require__(39)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38), __webpack_require__(39)))
 
 /***/ }),
 /* 79 */
@@ -16668,7 +16668,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.registerDatabase = registerDatabase;
 
-var _app = __webpack_require__(18);
+var _app = __webpack_require__(20);
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -16750,7 +16750,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.base64 = undefined;
 
-var _globalScope = __webpack_require__(38);
+var _globalScope = __webpack_require__(37);
 
 var stringToByteArray = function stringToByteArray(str) {
     var output = [],
@@ -19110,7 +19110,7 @@ var _ViewProcessor = __webpack_require__(96);
 
 var _ChildrenNode = __webpack_require__(5);
 
-var _CacheNode = __webpack_require__(25);
+var _CacheNode = __webpack_require__(27);
 
 var _ViewCache = __webpack_require__(57);
 
@@ -19949,7 +19949,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WriteTreeCompleteChildSource = exports.NO_COMPLETE_CHILD_SOURCE = exports.NoCompleteChildSource_ = undefined;
 
-var _CacheNode = __webpack_require__(25);
+var _CacheNode = __webpack_require__(27);
 
 /**
  * An implementation of CompleteChildSource that never returns any additional children
@@ -23093,7 +23093,7 @@ var _nodeFromJSON = __webpack_require__(17);
 
 var _ChildrenNode = __webpack_require__(5);
 
-var _Repo = __webpack_require__(24);
+var _Repo = __webpack_require__(26);
 
 // TODO: This is pretty messy.  Ideally, a lot of this would move into FirebaseData, or a transaction-specific
 // component used by FirebaseData, but it has ties to user callbacks (transaction update and onComplete) as well
