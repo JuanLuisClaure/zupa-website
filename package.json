@@ -1,7 +1,7 @@
 {
-  "name": "zupa-website",
-  "version": "0.0.0",
-  "description": "zupa.delivery <3",
+  "name": "Zupa",
+  "version": "2.6.0",
+  "description": "Delivery decentralizado de comida rapida",
   "main": "./www/index.js",
   "engines": {
     "node": "7.7.4",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./www/index.js",
-    "iniciar": "gulp"
+    "iniciar": "gulp arrancar"
   },
   "babel": {
     "presets": [
@@ -25,6 +25,11 @@
         }
       ]
     ]
+  },
+  "now": {
+    "env": {
+      "NODE_ENV": "production"
+    }
   },
   "devDependencies": {
     "babel-core": "7.0.0-beta.0",
@@ -58,7 +63,6 @@
     "koa-router": "next",
     "koa-static": "next",
     "node-pre-gyp": "latest",
-    "paper": "^0.11.5",
     "pug": "latest",
     "socket.io": "latest",
     "socket.io-client": "latest"

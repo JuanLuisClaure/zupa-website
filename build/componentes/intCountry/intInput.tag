@@ -165,7 +165,7 @@ input[type=text]:focus, textarea:focus {
     </div>
     <div class="clear">
       <input id="nombre"/>
-      <button type="button" name="button" onclick={ parent.openSub && this.needhelp }>Mandar</button>
+      <button type="button" name="button" onclick={ this.needhelp }>Mandar</button>
     </div>
 </div>
 
@@ -193,12 +193,12 @@ this.verValor = () => {
 }
 
 this.needhelp = () => {
-
+  parent.openSub
   let othe = document.getElementById('country')
   let elem = document.getElementById('number')
   let name = document.getElementById('nombre')
   console.log(othe.value + elem.value + ' from ' +name.value)
-  
+
 }
 
 

@@ -1,22 +1,7 @@
-script(src='./server/util/dynamics.js')
-script(src='./socket.io/socket.io.js')
 script(src='./server/util/offline.js')
-script(src='./server/util/typer.js')
+script(src='./socket.io/socket.io.js')
 script(src='./client/www.js')
 script(src='./client/app.js')
 
-
 script.
   var socket = io('/', {'forceNew': true})
-
-  socket.on('solicitud', function(n){
-    var canvas = {
-      elm:document.getElementById('myCanvas'),
-      width:window.innerWidth,
-      height:window.innerHeight
-    }
-    canvas.elm.width  = window.innerWidth
-    canvas.elm.height = window.innerHeight
-
-    socket.emit('join', canvas)
-  })
