@@ -25,6 +25,11 @@
     $back-title-grey: #636363;
     $title-black:     rgb(58, 58, 58);
     $buy-green:       #3ec300;
+
+    $titulo:         #4b6584;
+    $subtitulo:       #778ca3;
+    $parrafo:          #a5b1c2;
+    $qoute:           #d1d8e0;
 //
 //
 
@@ -323,9 +328,67 @@
   @media screen and (max-width: 5120px) and (max-height: 2880px) {@content};
 }
 
+@keyframes AnimationName {
+    0%{background-position:94% 0%}
+    50%{background-position:7% 100%}
+    100%{background-position:94% 0%}
+}
 
-
-
+// INCLUDE  IN YOU SCSS FILE  AND HAVE FUN PLAYING
+//
+// @include w272h340{}
+// @include w280h280{}
+// @include w312h390{}
+// @include w320h290{}
+// @include w320h320{}
+// @include w320h325{}
+// @include w320h330{}
+// @include w320h480{}
+// @include w480h854{}
+// @include w640h960{}
+// @include w640h1136{}
+// @include w720h1280{}
+// @include w750h1334{}
+// @include w768h1024{}
+// @include w768h1280{}
+// @include w800h1280{}
+// @include w1366h768{}
+// @include w1440h900{}
+// @include w1080h1920{}
+// @include w1440h2560{}
+// @include w1536h2048{}
+// @include w1600h2560{}
+// @include w1920h1200{}
+// @include w1920h1080{}
+// @include w2048h1536{}
+// @include w2160h1440{}
+// @include w2304h1440{}
+// @include w2560h1700{}
+// @include w2560h1700{}
+// @include w2560h1440{}
+// @include w2560h1600{}
+// @include w2732h2048{}
+// @include w2736h1824{}
+// @include w2880h1800{}
+// @include w3000h2000{}
+// @include w5120h2880{}
+// @include w320h480--p{}
+// @include w640h960--p{}
+// @include w480h854--p{}
+// @include w640h1136--p{}
+// @include w720h1280--p{}
+// @include w750h1334--p{}
+// @include w768h1024--p{}
+// @include w768h1280--p{}
+// @include w800h1280--p{}
+// @include w1080h1920--p{}
+// @include w1440h2560--p{}
+// @include w1536h2048--p{}
+// @include w1600h2560--p{}
+// @include w1920h1200--p{}
+// @include w2048h1536--p{}
+// @include w2560h1600--p{}
+// @include w2732h2048--p{}
 
 
 
@@ -409,3 +472,4 @@
 
 // Componentes scss module
 @import "./componentes/nav-header";
+@import "./componentes/welcome-page";

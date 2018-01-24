@@ -1,0 +1,128 @@
+welcome{
+
+
+
+  .grid-container{
+    display: grid;
+    background: linear-gradient(47deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #e96262, #e96262, #fc5c65, #fc5c65);
+ background-size: 4800% 4800%;
+
+ animation: AnimationName 17s ease infinite;
+
+    }
+
+  .grid-container[data-medida="single"]{
+    grid-template-columns:repeat(1, 1fr);
+    grid-template-rows: 17vh 66vh 17vh;
+  }
+
+  .estilos-prueba{
+    background-color: rgba(74, 211, 215, 0.62);
+
+
+  }
+  .flex_item--header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .flex_item--body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .flex_item--footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+.flex_item--footer[data-color="transparente"]{
+  background-color:linear-gradient(47deg,rgba(237, 237, 237, 0.81),rgb(249, 130, 72))
+}
+.flex_item--header[data-color="transparente"]{
+  background-color:rgba(236, 238, 235, 0.77)
+}
+.flex_item--body[data-color="transparente"]{
+  background-color: rgba(17, 2, 11, 0.45)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @include w272h340{
+    .grid-container{background: black;}
+  }
+  @include w280h280{}
+  @include w312h390{}
+  @include w320h290{}
+  @include w320h320{}
+  @include w320h325{}
+  @include w320h330{}
+  @include w320h480{}
+  @include w480h854{}
+  @include w640h960{}
+  @include w640h1136{}
+  @include w720h1280{}
+  @include w750h1334{}
+  @include w768h1024{}
+  @include w768h1280{}
+  @include w800h1280{}
+  @include w1366h768{}
+  @include w1440h900{}
+  @include w1080h1920{}
+  @include w1440h2560{}
+  @include w1536h2048{}
+  @include w1600h2560{}
+  @include w1920h1200{}
+  @include w1920h1080{}
+  @include w2048h1536{}
+  @include w2160h1440{}
+  @include w2304h1440{}
+  @include w2560h1700{}
+  @include w2560h1700{}
+  @include w2560h1440{}
+  @include w2560h1600{}
+  @include w2732h2048{}
+  @include w2736h1824{}
+  @include w2880h1800{}
+  @include w3000h2000{}
+  @include w5120h2880{}
+  @include w320h480--p{}
+  @include w640h960--p{}
+  @include w480h854--p{}
+  @include w640h1136--p{}
+  @include w720h1280--p{}
+  @include w750h1334--p{}
+  @include w768h1024--p{}
+  @include w768h1280--p{}
+  @include w800h1280--p{}
+  @include w1080h1920--p{}
+  @include w1440h2560--p{}
+  @include w1536h2048--p{}
+  @include w1600h2560--p{}
+  @include w1920h1200--p{}
+  @include w2048h1536--p{}
+  @include w2560h1600--p{}
+  @include w2732h2048--p{}
+
+
+}
