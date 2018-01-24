@@ -90,100 +90,263 @@
 
 
 
-@mixin w1024h1366{
-  //iPad Pro         screen and (min-width: 800px) and (max-height: 1280px)
-  @media screen and (max-width: 1024px) and (max-height: 1366px) {@content};
+@mixin w272h340{
+  //IOS apple watch 38mm,  1.5cm screen, 0.9x1.2cm dimension, 5:4 aspect ratio, 136 x 170 dp, 272 x 340px, 2.0 xhdpi density
+  @media screen and (max-width: 272px) and (max-height: 340px) {@content};
 }
-@mixin w800h1280{
-  //Nexus 10                  screen and (min-width: 800px) and (max-height: 1280px)
-  // Galaxy Tab 3 10"         screen and (min-width: 800px) and (max-height: 1280px)
-  // Galaxy Tab 2 10"         screen and (min-width: 800px) and (max-height: 1280px)
-  // Galaxy Tab (8.9")        screen and (min-width: 800px) and (max-height: 1280px)
-  @media screen and (max-width: 800px) and (max-height: 1280px) {@content};
+@mixin w280h280{
+  //ANDROID LG G watch , 1.7cm screen, 1.2x1.2cm dimension, 1:1 aspect ratio, 187 x 187 dp, 272 x 340px, 1.5 xhdpi density
+  @media screen and (max-width: 280px) and (max-height: 280px) {@content};
 }
-@mixin w768h1024{
-  //Ipad              screen and (min-width: 768px) and (max-height: 1024px)
-  //HTC Nexus 9       screen and (min-width: 768px) and (max-height: 1024px)
-  @media screen and (max-width: 768px) and (max-height: 1024px) {@content};
+@mixin w312h390{
+  //IOS apple watch 42mm,  1.7cm screen, 1.0x1.3cm dimension, 5:4 aspect ratio, 156 x 195 dp, 312 x 390px, 2.0 xhdpi density
+  @media screen and (max-width: 312px) and (max-height: 390px) {@content};
 }
-@mixin w720h1280{
-  //samsung J7 2016   screen and (min-width: 720px) and (max-height: 1280px)
-  @media screen and (max-width: 720px) and (max-height: 1280px) {@content};
+
+@mixin w320h290{
+  //ANDROID Moto 360,  1.6cm screen, 1.6x1.4cm dimension, 32:29 aspect ratio, 241 x 218 dp, 320 x 290px, 1.3 tvdpi density
+  @media screen and (max-width: 320px) and (max-height: 290px) {@content};
 }
-@mixin w720h1080{
-//samsung J7   			screen and (min-width: 720px) and (max-height: 1080px)
-  @media screen and (max-width: 720px) and (max-height: 1080px) {@content};
+@mixin w320h320{
+  //ANDROID asus zen watch,  1.6cm screen, 1.2x1.2cm dimension, 1:1 aspect ratio, 213 x 213 dp, 320 x 320px, 1.5 xhdpi density
+  //ANDROID LG G watch R,  1.8cm screen, 1.3x1.3cm dimension, 1:1 aspect ratio, 213 x 213 dp, 320 x 320px, 1.0 xhdpi density
+  //ANDROID Samsumng Gear Live 46mm,  1.7cm screen, 1.2x1.2cm dimension, 1:1 aspect ratio, 213 x 213 dp, 320 x 320px, 1.5 hddpi density
+  //ANDROID Sonny Smartwatch 3,  1.6cm screen, 1.1x1.1cm dimension, 1:1 aspect ratio, 213 x 213 dp, 320 x 320px, 1.5 hdpi density
+  @media screen and (max-width: 320px) and (max-height: 320px) {@content};
 }
-@mixin w600h1024{
-  //Galaxy Tab 2 (7") screen and (min-width: 600px) and (max-height: 1024px)
-  @media  screen and (max-width: 600px) and (max-height: 1024px) {@content};
+@mixin w320h325{
+  //ANDROID moto 360 v2 42mm,  1.4cm screen, 1.2x1.2cm dimension, 65:64 aspect ratio, 241 x 244 dp, 320 x 325px, 1.3 tvdpi density
+  @media screen and (max-width: 320px) and (max-height: 325px) {@content};
 }
-@mixin w600h960{
-  //Nexus 7           screen and (min-width: 600px) and (max-height: 960px)
-  @media  screen and (max-width: 600px) and (max-height: 960px) {@content};
-}
-@mixin w414h736{
-  //Iphone 6 plus     screen and (min-width: 414px) and (max-height: 736px)
-  @media screen and (max-width: 414px) and (max-height: 736px) {@content};
-}
-@mixin w412h732{
-  //Nexus 6P          screen and (min-width: 412px) and (max-height: 732px)
-  //Nexus 6           screen and (min-width: 412px) and (max-height: 732px)
-  @media screen and (max-width: 412px) and (max-height: 732px) {@content};
-}
-@mixin w412h723{
-   //Nexus 5X          screen and (min-width: 412px) and (max-height: 723px)
-  @media screen and (max-width: 412px) and (max-height: 723px) {@content};
-}
-@mixin w412h690{
-  //Motorola Nexus 6   screen and (min-width: 412px) and (max-height: 723px)
-  @media screen and (max-width: 412px) and (max-height: 690px) {@content};
-}
-@mixin w384h640{
-  //Nexus 4           screen and (min-width: 384px) and (max-height: 640px)
-  @media screen and (max-width: 384px) and (max-height: 640px) {@content};
-}
-@mixin w375h667{
-  //Iphone 6          screen and (min-width: 375px) and (max-height: 667px)
-  //Iphone 7          screen and (min-width: 375px) and (max-height: 667px)
-  @media screen and (max-width: 375px) and (max-height: 667px) {@content};
-}
-@mixin w360h698{
-  //Sony Xperia Z3     screen and (min-width: 360px) and (max-height: 598px)
-  //Nexus 5           screen and (min-width: 360px) and (max-height: 640px) por que es un poquito mas chico entra en este caso. solucionar
-  @media screen and (max-width: 360px) and (max-height: 698px) {@content};
-}
-@mixin w360h640{
-  //Galaxy S5         screen and (min-width: 360px) and (max-height: 640px)
-  //Galaxy S3         screen and (min-width: 360px) and (max-height: 640px)
-  //Galaxy Note       screen and (min-width: 360px) and (max-height: 640px)
-  //HTC one           screen and (min-width: 360px) and (max-height: 640px)
-  // Galaxy S4         screen and (min-width: 360px) and (max-height: 640px)
-  // Galaxy S5         screen and (min-width: 360px) and (max-height: 640px)
-  // Galaxy S6         screen and (min-width: 360px) and (max-height: 640px)
-  // Galaxy S7,S7edge  screen and (min-width: 360px) and (max-height: 640px)
-  // Sony Xperia P     screen and (min-width: 360px) and (max-height: 640px)
-  // Sony Xperia S     screen and (min-width: 360px) and (max-height: 640px)
-  // Sony Xperia Z     screen and (min-width: 360px) and (max-height: 640px)
-  @media screen and (max-width: 360px) and (min-height: 640px) {@content};
-}
-@mixin w320h668{
-  //Iphone 5          screen and (min-width: 320px) and (max-height: 668px)
-  @media screen and (max-width: 320px) and (max-height: 668px) {@content};
-}
-@mixin w320h553{
-  //Galaxy S          screen and (min-width: 320px) and (max-height: 668px)
-  //Galaxy S2          screen and (min-width: 320px) and (max-height: 668px)
-  //Galaxy S3 mini     screen and (min-width: 320px) and (max-height: 668px)
-  @media screen and (max-width: 320px) and (max-height: 533px) {@content};
+@mixin w320h330{
+  //ANDROID moto 360 v2 46mm,  1.6cm screen, 1.4x1.4cm dimension, 33:32 aspect ratio, 241 x 248 dp, 320 x 330px, 1.3 tvdpi density
+  @media screen and (max-width: 320px) and (max-height: 330px) {@content};
 }
 @mixin w320h480{
-  //Iphone 4          screen and (min-width: 320px) and (max-height: 480px)
-  //HTC 8x            screen and (min-width: 320px) and (max-height: 480px)
-  //Lumia 1020        screen and (min-width: 320px) and (max-height: 480px)
-  //Lumia every       screen and (min-width: 320px) and (max-height: 480px)
+  //IOS iphone,  3.5cm screen, 1.9x1.9cm dimension, 3:2 aspect ratio, 320 x 480 dp, 320 x 480px, 1.0 xhdpi density
   @media screen and (max-width: 320px) and (max-height: 480px) {@content};
 }
+@mixin w320h480--p{
+  @media screen and (max-width: 480px) and (max-height: 320px) {@content};
+}
+@mixin w480h854{
+  //Android Android One,  4.5cm screen, 2.2x3.9cm dimension, 16:9 aspect ratio, 320 x 569 dp, 480 x 854px, 1.5 hdpi density
+  @media screen and (max-width: 480px) and (max-height: 854px) {@content};
+}
+@mixin w480h854--p{
+  @media screen and (max-width: 854px) and (max-height: 480px) {@content};
+}
+@mixin w640h960{
+  //IOS Iphone 4,  3.5cm screen, 2.0x2.9cm dimension, 3:2 aspect ratio, 320 x 480 dp, 640 x 960px, 2.0 xhdpi density
+  @media screen and (max-width: 640px) and (max-height: 960px) {@content};
+}
+@mixin w640h960--p{
+  @media screen and (max-width: 960px) and (max-height: 640px) {@content};
+}
+@mixin w640h1136{
+  //IOS Iphone 5,  4.0cm screen, 2.0x3.5cm dimension, 16:9 aspect ratio, 320 x 568 dp, 640 x 1136px, 2.0 xhdpi density
+  @media screen and (max-width: 640px) and (max-height: 1136px) {@content};
+}
+@mixin w640h1136--p{
+  @media screen and (max-width: 1136px) and (max-height: 640px) {@content};
+}
+@mixin w720h1280{
+  //Android Moto G,  4.5cm screen, 2.2x3.9cm dimension, 16:9 aspect ratio, 360 x 640 dp, 720 x 1280px, 2.0 xhdpi density
+  //Android Moto X,  4.6cm screen, 2.3x4.0cm dimension, 16:9 aspect ratio, 360 x 640 dp, 720 x 1280px, 2.0 xhdpi density
+  //Android Sony Xperia Z1 Compact ,  4.3cm screen, 2.1x3.7cm dimension, 16:9 aspect ratio, 360 x 640 dp, 720 x 1280px, 2.0 xhdpi density
+  //Android Sony Xperia Z3 Compact ,  4.6cm screen, 2.3x4.0cm dimension, 16:9 aspect ratio, 360 x 640 dp, 720 x 1280px, 2.0 xhdpi density
+
+  @media screen and (max-width: 720px) and (max-height: 1280px) {@content};
+}
+@mixin w720h1280--p{
+  @media screen and (max-width: 1280px) and (max-height: 720px) {@content};
+}
+@mixin w750h1334{
+  //IOS Iphone 6 ,  4.7cm screen, 2.3x4.1cm dimension, 16:9 aspect ratio, 375 x 667 dp, 750 x 1334px, 2.0 xhdpi density
+  @media screen and (max-width: 750px) and (max-height: 1334px) {@content};
+}
+@mixin w750h1334--p{
+  @media screen and (max-width: 1334px) and (max-height: 750px) {@content};
+}
+@mixin w768h1024{
+  //IOS Ipad ,  9.7cm screen, 5.8x7.8cm dimension, 4:3 aspect ratio, 768 x 1024 dp, 768 x 1024px, 1.0 mdpi density
+  //IOS Ipad mini,  7.9cm screen, 4.7x6.3cm dimension, 4:3 aspect ratio, 768 x 1024 dp, 768 x 1024px, 1.0 mdpi density
+  @media screen and (max-width: 768px) and (max-height: 1024px) {@content};
+}
+@mixin w768h1024--p{
+  @media screen and (max-width: 1024px) and (max-height: 768px) {@content};
+}
+@mixin w768h1280{
+  //ANDROID Nexus 4 ,  4.7cm screen, 3.2x4.0cm dimension, 5:3 aspect ratio, 384 x 640 dp, 768 x 1280px, 2.0 xhpi density
+  @media screen and (max-width: 768px) and (max-height: 1280px) {@content};
+}
+@mixin w768h1280--p{
+  @media screen and (max-width: 1280px) and (max-height: 768px) {@content};
+}
+@mixin w800h1280{
+  //ANDROID Nexus 7 (´12),  7.0cm screen, 3.7x5.9cm dimension, 16:10 aspect ratio, 600 x 960 dp, 800 x 1280px, 1.3 xhpi density
+  //ANDROID Samsumng Galaxy Tab 10,  10.1cm screen, 5.4x8.6cm dimension, 16:10 aspect ratio, 800 x 1280 dp, 800 x 1280px, 1 mdpi density
+  @media screen and (max-width: 800px) and (max-height: 1280px) {@content};
+}
+@mixin w800h1280--p{
+  @media screen and (max-width: 1280px) and (max-height: 800px) {@content};
+}
+@mixin w1080h1920{
+  //ANDROID Google Pixel ,  5.0cm screen, 2.5x4.4cm dimension, 16:9 aspect ratio, 411 x 731 dp, 1080 x 1920px, 2.6 xxhpi density
+  //ANDROID HTC One M8 ,  5.0cm screen, 2.5x4.4cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID HTC One M9 ,  5.0cm screen, 2.5x4.4cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1080 x 1920px, 3.0 xxhpi density(115.00%)
+  //ANDROID Iphone 6 Plus ,  5.5cm screen, 2.7x4.8cm dimension, 16:9 aspect ratio, 414 x 736 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID LG G2 ,  5.2cm screen, 2.5x4.5cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID Moto X (2gen) ,  5.2cm screen, 2.5x4.5cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID Nexus 5  ,  5.0cm screen, 2.4x4.3cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID Samsmng Galaxy S5  ,  5.1cm screen, 2.9x5.6cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID Sony Xperia Z C4  ,  5.5cm screen, 2.7x4.8cm dimension, 16:9 aspect ratio, 540 x 960 dp, 1080 x 1920px, 2.0 xxhpi density
+  //ANDROID Sony Xperia Z Ultra  ,  6.4cm screen, 3.1x5.6cm dimension, 16:9 aspect ratio, 540 x 960 dp, 1080 x 1920px, 2.0 xxhpi density
+  //ANDROID Sony Xperia Z2/Z3  ,  5.2cm screen, 2.5x4.5cm dimension, 16:9 aspect ratio, 540 x 940 dp, 1080 x 1920px, 3.0 xxhpi density
+  //ANDROID Nexus 7 (´13)  ,  7.0cm screen, 3.7x6.0cm dimension, 16:9 aspect ratio, 600 x 960 dp, 1080 x 1920px, 2.0 xxhpi density
+  @media screen and (max-width: 1080px) and (max-height: 1920px) {@content};
+}
+@mixin w1080h1920--p{
+  @media screen and (max-width: 1920px) and (max-height: 1080px) {@content};
+}
+@mixin w1366h768{
+  //CHROME Chromebook 11  ,  11.6cm screen, 10.1x5.7cm dimension, 16:9 aspect ratio, 1366 x 768 dp, 1366 x 768px, 1.0 mdpi density
+  //OS X  MacBook Air 11  ,  11.6cm screen, 10.1x5.7cm dimension, 16:9 aspect ratio, 1366 x 768 dp, 1366 x 768px, 1.0 mdpi density
+  //WINDOWS  Surface  ,  10.6cm screen, 9.2x5.2cm dimension, 16:9 aspect ratio, 1366 x 768 dp, 1366 x 768px, 1.0 mdpi density
+  @media screen and (max-width: 1366px) and (max-height: 768px) {@content};
+}
+@mixin w1440h900{
+  //OS X  MacBook Air 13  ,  13.3cm screen, 11.3x7.0cm dimension, 16:9 aspect ratio, 1440 x 900 dp, 1440 x 900px, 1.0 mdpi density
+  @media screen and (max-width: 1440px) and (max-height: 900px) {@content};
+}
+@mixin w1440h2560{
+  //ANDROID GooglePixel XL  ,  5.5cm screen, 2.7x4.8cm dimension, 16:9 aspect ratio, 411 x 731 dp, 1440 x 2560px, 3.5 xxhpi density
+  //ANDROID LG G3  ,  5.5cm screen, 2.7x4.8cm dimension, 16:9 aspect ratio, 480 x 853 dp, 1440 x 2560px, 3.0 xxhpi density
+  //ANDROID  Nexus 6   ,  6.0cm screen, 2.9x5.2cm dimension, 16:9 aspect ratio, 411 x 731 dp, 1440 x 2560px, 3.5 mdpi density
+  //ANDROID  Nexus 6P   ,  6.0cm screen, 2.9x5.2cm dimension, 16:9 aspect ratio, 411 x 731 dp, 1440 x 2560px, 3.5 mdpi density
+  //ANDROID  Samsumng Galaxy Note 4  ,  5.7cm screen, 2.8x5.0cm dimension, 16:9 aspect ratio, 480 x 853 dp, 1440 x 2560px, 3.0 mdpi density
+  //ANDROID  Samsumng Galaxy S6  ,  5.1cm screen, 2.5x4.4cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1440 x 2560px, 4.0 xxxhpi density
+  //ANDROID  Samsumng Galaxy S7  ,  5.1cm screen, 2.5x4.4cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1440 x 2560px, 4.0 xxxhpi density
+  //ANDROID  Samsumng Galaxy S7 Edge  ,  5.5cm screen, 2.7x4.8cm dimension, 16:9 aspect ratio, 360 x 640 dp, 1440 x 2560px, 4.0 xxxhpi density
+  //ANDROID  Samsumng Galaxy S8  ,  5.8cm screen, 2.5x5.2cm dimension, 18.5:9 aspect ratio, 360 x 740 dp, 1440 x 2560px, 4.0 xxxhpi density
+  //ANDROID  Samsumng Galaxy S8 + ,  6.2 cm screen, 2.7x5.6cm dimension, 18.5:9 aspect ratio, 360 x 740 dp, 1440 x 2560px, 4.0 xxxhpi density
+  @media screen and (max-width: 1440px) and (max-height: 2560px) {@content};
+}
+@mixin w1440h2560--p{
+  @media screen and (max-width: 2560px) and (max-height: 1440px) {@content};
+}
+@mixin w1536h2048{
+  //IOS Ipad Mini Retina ,  7.9cm screen, 4.7x6.3cm dimension, 4:3 aspect ratio, 768 x 1024 dp, 1536 x 2048px, 2.0 xhpi density
+  //IOS Ipad Retina ,  9.7cm screen, 5.8x7.8cm dimension, 4:3 aspect ratio, 768 x 1024 dp, 1536 x 2048px, 2.0 xhpi density
+  @media screen and (max-width: 1536px) and (max-height: 2048px) {@content};
+}
+@mixin w1536h2048--p{
+  @media screen and (max-width: 2048px) and (max-height: 1536px) {@content};
+}
+@mixin w1600h2560{
+  //ANDROID Dell Venue 8 ,  8.4cm screen, 4.5x7.1cm dimension, 16:10 aspect ratio, 800 x 1280 dp, 1600 x 2560px, 2.0 xhpi density
+  @media screen and (max-width: 1600px) and (max-height: 2560px) {@content};
+}
+@mixin w1600h2560--p{
+  @media screen and (max-width: 2560px) and (max-height: 1600px) {@content};
+}
+@mixin w1920h1200{
+  //ANDROID Zony Xperia Z3 Tablet ,  8.0cm screen, 6.8x4.2cm dimension, 16:9 aspect ratio, 1280 x 720 dp, 1920 x 1200px, 2.0 xhpi density
+  @media screen and (max-width: 1920px) and (max-height: 1200px) {@content};
+}
+@mixin w1920h1200--p{
+  @media screen and (max-width: 1200px) and (max-height: 1920px) {@content};
+}
+@mixin w1920h1080 {
+  //WINDOWS Surface 2 ,  10.6cm screen, 9.2x5.2cm dimension, 16:9 aspect ratio, 1280 x 720 dp, 1920 x 1080px, 1.5 xhpi density
+  //WINDOWS Surface 3 ,  10.8cm screen, 9.4x5.3cm dimension, 16:9 aspect ratio, 1280 x 720 dp, 1920 x 1080px, 1.5 xhpi density
+  //WINDOWS Surface Pro ,  10.6cm screen, 9.2x5.2cm dimension, 16:9 aspect ratio, 1280 x 720 dp, 1920 x 1080px, 1.5 xhpi density
+  @media screen and (max-width: 1920px) and (max-height: 1080px) {@content};
+}
+@mixin w2048h1536{
+  //ANDROID Nexus 9 ,  8.9cm screen, 7.1x5.3cm dimension, 4:3 aspect ratio, 1024 x 768 dp, 2048 x 1536px, 2.0 xhpi density
+  @media screen and (max-width: 2048px) and (max-height: 1536px) {@content};
+}
+@mixin w2048h1536--p{
+  @media screen and (max-width: 1536px) and (max-height: 2048px) {@content};
+}
+@mixin w2160h1440{
+  //WINDOWS Surface Pro 3 ,  12.0cm screen, 10.4x6.7cm dimension, 3:2 aspect ratio, 1440 x 960 dp, 2160 x 1440px, 1.5 hdpi density
+  @media screen and (max-width: 2160px) and (max-height: 1440px) {@content};
+}
+@mixin w2304h1440{
+  //OS X MacBook 12,  12.0cm screen, 10.2x6.4cm dimension, 16:10 aspect ratio, 1280 x 800 dp, 2304 x 1440px, 2.0 hdpi density(111.11%)
+  @media screen and (max-width: 2304px) and (max-height: 1440px) {@content};
+}
+@mixin w2560h1700{
+  //CHROME Chromebook Pixel,  12.9cm screen, 10.7x7.1cm dimension, 3:2 aspect ratio, 1280 x 850 dp, 2560 x 1700px, 2.0 hdpi density
+  @media screen and (max-width: 2560px) and (max-height: 1700px) {@content};
+}
+@mixin w2560h1700{
+  //CHROME Chromebox 30,  30.0cm screen, 25.4x15.9cm dimension, 16:10 aspect ratio, 2560 x 1600 dp, 2560 x 1600px, 1.0 hdpi density
+  @media screen and (max-width: 2560px) and (max-height: 1600px) {@content};
+}
+@mixin w2560h1440{
+  //OS X iMac 27,  27.0cm screen, 23.5x13.2cm dimension, 16:9 aspect ratio, 2560 x 1440 dp, 2560 x 1440px, 1.0 hdpi density
+  @media screen and (max-width: 2560px) and (max-height: 1440px) {@content};
+}
+@mixin w2560h1600{
+  //OS X MacBook Pro 13,  13.3cm screen, 11.3x7.0cm dimension, 16:10 aspect ratio, 1200 x 800 dp, 2560 x 1600px, 2.0 hdpi density
+  //ANDROID Nexus 10,  10.1cm screen, 8.6x5.4cm dimension, 16:10 aspect ratio, 1200 x 800 dp, 2560 x 1600px, 2.0 hdpi density
+  //ANDROID Sony Xperia Z4 tablet,  10.1cm screen, 8.6x5.4cm dimension, 16:10 aspect ratio, 1200 x 800 dp, 2560 x 1600px, 2.0 hdpi density
+  @media screen and (max-width: 2560px) and (max-height: 1600px) {@content};
+}
+@mixin w2560h1600--p{
+  @media screen and (max-width: 1600px) and (max-height: 2560px) {@content};
+}
+@mixin w2732h2048{
+  //iOS Ipad Pro,  12.9cm screen, 10.3x7.7cm dimension, 4:3 aspect ratio, 1366 x 1024 dp, 2732 x 2048px, 2.0 hdpi density
+  @media screen and (max-width: 2732px) and (max-height: 2048px) {@content};
+}
+@mixin w2732h2048--p{
+  @media screen and (max-width: 2048px) and (max-height: 2732px) {@content};
+}
+@mixin w2736h1824{
+  //WINDOWS Surface Pro 4,  12.4cm screen, 10.3x6.9cm dimension, 3:2 aspect ratio, 1368 x 912 dp, 2736 x 1824px, 2.0 xhdpi density
+  @media screen and (max-width: 2736px) and (max-height: 1824px) {@content};
+}
+@mixin w2880h1800{
+  //OS X MacBook Pro 15,  15.4cm screen, 13.1x8.9cm dimension, 3:2 aspect ratio, 1440 x 900 dp, 2880 x 1800px, 2.0 xhdpi density
+  @media screen and (max-width: 2880px) and (max-height: 1800px) {@content};
+}
+@mixin w3000h2000{
+    //  WINDOWS  Surface Book,  13.5cm screen, 11.2x7.5cm dimension, 3:2 aspect ratio, 1500 x 1000 dp, 3000 x 2000px, 2.0 xhdpi density
+  @media screen and (max-width: 3000px) and (max-height: 2000px) {@content};
+}
+@mixin w5120h2880{
+    // OS X  iMac 5K,  27.0cm screen, 23.5x13.2cm dimension, 16:9 aspect ratio, 2560 x 1440 dp, 5120 x 2880px, 2.0 xhdpi density
+  @media screen and (max-width: 5120px) and (max-height: 2880px) {@content};
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

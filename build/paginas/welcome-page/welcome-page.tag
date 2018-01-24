@@ -58,10 +58,10 @@ import dispatcher from '../../app/dispatcher'
 </style>
 <div class="grid-container" data-medida="single">
       <div class="flex_item--header" data-color="transparente">
-        <a href="#">La app!</a>
+        <a href="#">sobre nosotros</a>
         <a href="#">contacto</a>
-          <figure>
-            <img src="./client/assets/img/zupa.png" class="img-fluid">
+          <figure style="text-align: center;">
+            <img src="./client/assets/img/zupa.png" class="img-fluid" width="55%">
           </figure>
         <a href="#">restaurants</a>
         <a href="#">repartidores</a>
