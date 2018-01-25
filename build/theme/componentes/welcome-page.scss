@@ -4,16 +4,21 @@ welcome{
 
   .grid-container{
     display: grid;
-    background: linear-gradient(47deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #e96262, #e96262, #fc5c65, #fc5c65);
- background-size: 4800% 4800%;
-
- animation: AnimationName 17s ease infinite;
-
-    }
+    background: linear-gradient(47deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #fa8231, #fa8231, #ee8434, #ee8434, #e96262, #e96262, #fc5c65, #fc5c65);
+    background-size: 4800% 4800%;
+    animation-name: AnimationName;
+    animation-duration: 25s;
+    animation-timing-function: cubic-bezier(.55,.92,.55,.92);
+    animation-delay: 0s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-fill-mode: none;
+    animation-play-state: running;
+  }
 
   .grid-container[data-medida="single"]{
     grid-template-columns:repeat(1, 1fr);
-    grid-template-rows: 17vh 66vh 17vh;
+    grid-template-rows: 4vh 92vh 4vh;
   }
 
   .estilos-prueba{
@@ -38,15 +43,15 @@ welcome{
     align-items: center;
   }
 
-.flex_item--footer[data-color="transparente"]{
-  background-color:linear-gradient(47deg,rgba(237, 237, 237, 0.81),rgb(249, 130, 72))
-}
-.flex_item--header[data-color="transparente"]{
-  background-color:rgba(236, 238, 235, 0.77)
-}
-.flex_item--body[data-color="transparente"]{
-  background-color: rgba(17, 2, 11, 0.45)
-}
+  .flex_item--footer[data-color="transparente"]{
+    background-color:rgba(255, 255, 255, 0.25);
+  }
+  .flex_item--header[data-color="transparente"]{
+    background-color:rgba(238, 238, 238, 0.82);
+  }
+  .flex_item--body[data-color="transparente"]{
+    background-color: rgba(238, 238, 238, 0.82);
+  }
 
 
 

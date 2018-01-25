@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const riot = __webpack_require__(10);
 
-riot.tag2('welcome', '<div class="grid-container" data-medida="single"> <div class="flex_item--header" data-color="transparente"> <a href="#">sobre nosotros</a> <a href="#">contacto</a> <a href="#">restaurants</a> <a href="#">repartidores</a> </div> <div class="flex_item--body" data-color="transparente"> <figure style="text-align: center;"> <img src="./client/assets/img/zupa.png" class="img-fluid" width="25%"> </figure> <h1>ZUPAMENTE FACIL</h1> <h6>Lorem ipsum dolor sit amet, consectetur adipisicing elit</h6> </div> <div class="flex_item--footer" data-color="transparente"> <button type="button" name="button">Descargar App</button> <button type="button" name="button">Presentacion</button> </div> </div>', '', '', function (opts) {
+riot.tag2('welcome', '<div class="grid-container" data-medida="single"> <div class="flex_item--header" data-color="transparente"> <a href="#">subscribete a las noticias semanales </a> </div> <div class="flex_item--body" data-color="transparente"> <figure style="text-align: center;"> <img src="./client/assets/img/zupa.png" class="img-fluid" width="25%"> </figure> <h6>DESDE AHORA PEDIR COMIDA ES DIVERTIDO.CONOCE EL MENU DE TUS TIENDAS FAVORITAS.</h6> <a href="#">sobre nosotros</a> <a href="#">contacto</a> <a href="#">restaurants</a> <a href="#">repartidores</a> </div> </div> <div class="flex_item--footer" data-color="transparente"> <a href="#">Conoce como funciona</a> </div> </div>', '', '', function (opts) {
   const tag = this;
   tag.cards = [{
     name: "Real",
@@ -51,7 +51,7 @@ var _dispatcher = __webpack_require__(23);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _intinput = __webpack_require__(181);
+var _intinput = __webpack_require__(173);
 
 var _intinput2 = _interopRequireDefault(_intinput);
 
@@ -177,7 +177,7 @@ riot.tag2('onboarding', '<div class="flexContainer-main" riot-style="background-
 
 /***/ }),
 
-/***/ 181:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
