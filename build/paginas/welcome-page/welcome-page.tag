@@ -11,7 +11,7 @@ import dispatcher from '../../app/dispatcher'
         <figure style="text-align: center;">
           <img src="./client/assets/img/zupa.png" class="img-fluid" width="25%">
         </figure>
-        <h6>DESDE AHORA PEDIR COMIDA ES DIVERTIDO.CONOCE EL MENU DE TUS TIENDAS FAVORITAS.</h6>
+        <h6 id="mensaje"></h6>
           <a href="#">sobre nosotros</a>
           <a href="#">contacto</a>
           <a href="#">restaurants</a>
@@ -26,15 +26,45 @@ import dispatcher from '../../app/dispatcher'
 <script>
 
 const tag = this
-tag.cards = [
-  {name:"Real",id:"181", img:"./client/assets/img/welcome_card.jpg",title:"Holavida", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",},
-  {name:"Amistoso",id:"182", img:"./client/assets/img/welcome_card.jpg",title:"ComoEstas?", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",},
-  {name:"Amable",id:"182", img:"./client/assets/img/welcome_card.jpg",title:"SiguesPensandoEnMi?", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",}
-  // {name:"Sincero",id:"181", img:"./client/assets/img/welcome_card.jpg",title:"vivesMisExperiencias", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",},
-  // {name:"Correcto",id:"182", img:"./client/assets/img/welcome_card.jpg",title:"otanSolodejaste", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",},
-  // {name:"Trabajador",id:"182", img:"./client/assets/img/welcome_card.jpg",title:"AlTiempoRealiceSu", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",},
-  // {name:"Amoroso",id:"181", img:"./client/assets/img/welcome_card.jpg",title:"TrabajoCosechandoMiVida", parrafo:"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",}
-]
+
+tag.isFuncionarMensajero = (domElement, mensaje) => {
+
+
+  let typewriter = new Typewriter(domElement);
+
+
+    typewriter.deleteAll()
+        .pauseFor(1000)
+        .typeString(mensaje)
+        .pauseFor(3000)
+        .start();
+
+}
+
+tag.isMensajero = (domElement, mensaje) => {
+
+
+  let typewriter = new Typewriter(domElement, {
+        loop: true
+    });
+
+
+    typewriter.deleteAll()
+        .pauseFor(1000)
+        .deleteAll()
+        .typeString('Compra rapido y facil')
+        .pauseFor(3000)
+        .deleteAll()
+        .typeString('Descarga la app')
+        .pauseFor(3000)
+        .deleteAll()
+        .typeString('yeahasha')
+        .pauseFor(3000)
+        .deleteAll()
+        .start();
+
+}
+
 
 </script>
 
