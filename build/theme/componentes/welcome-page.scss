@@ -5,9 +5,9 @@ welcome{
   .grid-container{
     display: grid;
     background: linear-gradient(47deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #fa8231, #fa8231, #ee8434, #ee8434, #e96262, #e96262, #fc5c65, #fc5c65);
-    background-size: 4800% 4800%;
+    background-size: 4200% 4200%;
     animation-name: AnimationName;
-    animation-duration: 25s;
+    animation-duration: 55s;
     animation-timing-function: cubic-bezier(.55,.92,.55,.92);
     animation-delay: 0s;
     animation-direction: normal;
@@ -27,18 +27,17 @@ welcome{
 
   }
   .flex_item--header{
-    display: flex;
+    display: inline-flex;
     justify-content: space-around;
     align-items: center;
   }
   .flex_item--body{
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   .flex_item--footer{
-    display: flex;
+    display: inline-grid;
     justify-content: space-around;
     align-items: center;
   }

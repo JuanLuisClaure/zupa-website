@@ -333,6 +333,10 @@
     50%{background-position:7% 100%}
     100%{background-position:94% 0%}
 }
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
 
 // INCLUDE  IN YOU SCSS FILE  AND HAVE FUN PLAYING
 //

@@ -3,12 +3,31 @@ import '../../componentes/onboarding/onboarding'
 import dispatcher from '../../app/dispatcher'
 <welcome>
 <style media="screen">
-  .flex_item--faq{
+  /* .flex_item--faq{
       justify-content: flex-start;
+      flex-basis: 25%;
   }
   .flex_item--question{
     flex-wrap: nowrap;
-  }
+    flex-basis: 85%;
+    justify-content: space-between;
+    align-items: center;
+  } */
+  .marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    text-indent: 0;
+    animation: marquee 20s linear infinite;
+}
+.marquee span:hover {
+    animation-play-state: paused
+}
 </style>
 <div class="grid-container" data-medida="single">
       <div class="flex_item--header" data-color="transparente">
@@ -25,17 +44,9 @@ import dispatcher from '../../app/dispatcher'
           <a href="#">repartidores</a>
       </div>
       <div class="flex_item--footer">
-          <h5 class="flex_item--faq">FAQ</h5>
-          <div class="flex_item--question">
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-            <a href="#">Conoce como funciona</a>
-          </div>
+
+            <p class="marquee"><span>Forex: USDX, EURUSD, GBPUSD, AUDUSD, NZDUSD, USDCAD, USDNOK,USDSGD, USDSEK, USDJPY , GBPJPY ,EURJPY, AUDJPY, CADJPY, NZDJPY,EURAUD, EURGBP, EURCAD, EURNZD, GBPAUD, GBPNZD, GBPCAD,AUDCAD, AUDNZD / Indexes: S&P, ES_F, DJIA, Nasdaq, Russell, AAPL, FTSE, DAX, IBEX, Eurostoxx50,NIKKEI, ASX ,HangSeng, TASI, NIFTY </span></p>
+
       </div>
 </div>
 <script>
