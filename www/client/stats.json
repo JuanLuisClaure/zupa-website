@@ -1,12 +1,12 @@
 {
   "assetsByChunkName": {
-    "app": [
-      "app.js",
-      "app.map"
-    ],
     "www": [
       "www.js",
       "www.map"
+    ],
+    "app": [
+      "app.js",
+      "app.map"
     ]
   }
 }

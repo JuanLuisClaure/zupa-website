@@ -2,7 +2,14 @@ const riot = require('riot')
 import '../../componentes/onboarding/onboarding'
 import dispatcher from '../../app/dispatcher'
 <welcome>
-
+<style media="screen">
+  .flex_item--faq{
+      justify-content: flex-start;
+  }
+  .flex_item--question{
+    flex-wrap: nowrap;
+  }
+</style>
 <div class="grid-container" data-medida="single">
       <div class="flex_item--header" data-color="transparente">
         <a href="#">subscribete a las noticias semanales </a>
@@ -16,13 +23,21 @@ import dispatcher from '../../app/dispatcher'
           <a href="#">contacto</a>
           <a href="#">restaurants</a>
           <a href="#">repartidores</a>
-        </div>
       </div>
-      <div class="flex_item--footer" data-color="transparente">
-          <a href="#">Conoce como funciona</a>
+      <div class="flex_item--footer">
+          <h5 class="flex_item--faq">FAQ</h5>
+          <div class="flex_item--question">
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+            <a href="#">Conoce como funciona</a>
+          </div>
       </div>
 </div>
-
 <script>
 
 const tag = this

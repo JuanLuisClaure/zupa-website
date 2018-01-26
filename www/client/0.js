@@ -1,48 +1,48 @@
 webpackJsonp([0],{
 
-/***/ 163:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(167);
+__webpack_require__(55);
 
-__webpack_require__(169);
+__webpack_require__(57);
 
-__webpack_require__(174);
+__webpack_require__(62);
 
-__webpack_require__(175);
+__webpack_require__(63);
 
-__webpack_require__(170);
+__webpack_require__(58);
 
-__webpack_require__(178);
+__webpack_require__(66);
 
-__webpack_require__(179);
+__webpack_require__(67);
 
-__webpack_require__(171);
+__webpack_require__(59);
 
-__webpack_require__(180);
+__webpack_require__(68);
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('index', '<navheader></navHeader> <headroom></headroom> <div id="main"> <div class="container"> <h1 id="idUno"> este el id Uno</h1> <tabsfeactures></tabsfeactures> </div> </div> <review></review> <div id="get-started" style="background:#e96262;"> <div class="container"> <abrir-modal></abrir-modal> </div> </div> <infofooter></infoFooter> <navfooter></navFooter>', '', '', function (opts) {});
 
 /***/ }),
 
-/***/ 166:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dispatcher = __webpack_require__(23);
+var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('tiendasdb', '<div class="flexcontainer"> <div each="{x in tiendas}"> <div class="mdl-card mdl-shadow--3dp"> <div class="mdl-card__title mdl-card--expand" riot-style="color: #fff;height: 176px;background:url({x.image}) center / cover;"> <h4> Featured event:<br> May 24, 2016<br> 7-11pm </h4> </div> </div> </div> </div>', 'tiendasdb .flexcontainer,[data-is="tiendasdb"] .flexcontainer{ display: flex; flex-direction: row; align-items: center; justify-content: center; position: absolute; bottom: 20%; }', '', function (opts) {
   this.tiendas = [];
@@ -63,33 +63,33 @@ riot.tag2('tiendasdb', '<div class="flexcontainer"> <div each="{x in tiendas}"> 
 
 /***/ }),
 
-/***/ 167:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(168);
+__webpack_require__(56);
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('navheader', '<onscroll> <div class="container-full flex-container {(pos.top>-333)? \'header-state-one\':\'header-state-two\'}"> <div class="flex-size-header"> <div class="{(pos.top>-333)? \'nav-img\':\'nav-burguer\'}" onclick="{abrirSideBar}"> <i class="{(pos.top>-333)? \'hide\':\'material-icons\'}">menu</i> <img src="./client/assets/img/zupa.png" alt="zupa.delivery" id="img-logo" class="img-fluid {(pos.top>-333)? \'img-flip\':\'hide\'}"> </div> <div class="{(pos.top>-333)? \'nav-title\':\'nav-title-two\'}"> <h4 class="{(pos.top>-333)? \'hide\':\'show\'}">Zupa</h4> </div> <div class="{(pos.top>-333)? \'nav-space\':\'nav-space-two\'}"></div> <div class="nav-links"> <ul class="box"> <li><a href="#/conoces?">Sobre Nosotros</a></li> <li><a href="#/presentacion">Restaurantes</a></li> <li><a href="#/contacto">Contactanos!</a></li> </ul> </div> <div class="{(pos.top>-333)? \'nav-button\':\'nav-button-two\'}"> <button class="mdl-button mdl-js-button mdl-button--raised" id="{(pos.top>-333)? \'boton-descargar-white\':\'boton-descargar-red\'}" onclick="{descargarApp}">Descargar La app</button> </div> </div> </div> <aside class="sidebar-abrir" role="navigation" if="{abierto}"> <div class="mdl-card"> <div class="mdl-card__title"> <h2 class="mdl-card__title-text">Bienvenido a Zupa</h2> </div> <div class="mdl-card__supporting-text"> <span class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">file_download</i> ¡Descargar la App! </span> <p> Somos una empresa enfocada en ofrecer la mejor y la mas facil forma de pedir comida a travez de una App. Encuentra tus negocios de comida Favoritos y pide desde la comodidad de tu sillon.</p> <ul class="demo-list-icon mdl-list"> <li class="mdl-list__item"> <a href="ww.facebook.com/zupadelivery" class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">chat_bubble_outline</i> Snapchat </a> </li> <li class="mdl-list__item"> <a href="ww.facebook.com/zupadelivery" class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">photo</i> Instagram </a> </li> <li class="mdl-list__item"> <a href="ww.facebook.com/zupadelivery" class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">people</i> Facebook </a> </li> <li class="mdl-list__item"> <a href="ww.facebook.com/zupadelivery" class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">mail</i> Correo </a> </li> </ul> </div> <div class="mdl-card__actions mdl-card--border"> </div> <div class="mdl-card__menu"> <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">share</i> </button> </div> </div> </aside> <div class="sidebar-overlay" if="{abierto}" onclick="{abrirSideBar}"> </div> </onscroll>', '', '', function (opts) {});
 
 /***/ }),
 
-/***/ 168:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dispatcher = __webpack_require__(23);
+var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('onscroll', '<yield></yield>', '', '', function (opts) {
   this.on('before-mount', function () {
@@ -215,27 +215,27 @@ riot.tag2('onscroll', '<yield></yield>', '', '', function (opts) {
 
 /***/ }),
 
-/***/ 169:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('navfooter', '<div id="footer-dos" class="container-full flex-container none-m none-l none-xl"> <div class="flex-size-footer"> <div class="incio-link text-center"> <a href="#/conoces?"> <i class="material-icons">mail</i> <p>inicio</p> </a> </div> <div class="incio-link text-center"> <a href="#/conoces?"> <i class="material-icons">person</i> <p>delivery</p> </a> </div> <div class="presentacion-link text-center"> <a href="#/presentacion"> <i class="material-icons">send</i> <p>empresas</p> </a> </div> <div class="contactanos-link text-center"> <a href="#/contacto"> <i class="material-icons">people</i> <p>contacto</p> </a> </div> </div> </div>', 'navfooter #footer-dos,[data-is="navfooter"] #footer-dos{ z-index: 9; position: fixed; bottom: 0; width: 100%; background-color: #fff; box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.85); padding: 1% 0%; } navfooter .flex-size-footer,[data-is="navfooter"] .flex-size-footer{ display:flex; flex-flow: row; align-items: baseline; justify-content:space-around; }', '', function (opts) {});
 
 /***/ }),
 
-/***/ 170:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(166);
+__webpack_require__(54);
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('headroom', '<div id="fh5co-header" riot-style="background-attachment:fixed;background-position: center;background-repeat: no-repeat;background-size: cover;background-blend-mode: color;background-image:{colorBackground};"> <div class="container" if="{panelUno}"> </div> <div class="container" if="{panelDos}"> </div> <div class="container" if="{panelTres}"> </div> </div>', '', '', function (opts) {
   this.location = window.location.href;
@@ -264,25 +264,25 @@ riot.tag2('headroom', '<div id="fh5co-header" riot-style="background-attachment:
 
 /***/ }),
 
-/***/ 171:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('infofooter', '<footer class="mdl-mega-footer asisehace"> <div class="mdl-mega-footer__top-section"> <div class="mdl-mega-footer__left-section"> <div class="mdl-logo"> <div class="mdl-logo" style="background-position:center;background-repeat:no-repeat;background-size:contain;background-blend-mode: color;background-image:linear-gradient(#eee, #eee), url(./client/assets/img/zupa.png);"> <p style="color:transparent;">zupa</p> </div> </div> </div> <div class="mdl-mega-footer__right-section"> <button class="mdl-mega-footer__social-btn"> <i class="material-icons">keyboard_arrow_up</i> </button> </div> </div> <div class="mdl-mega-footer__middle-section"> <hr> <div class="mdl-mega-footer__drop-down-section" style="background-color:#434A48;margin:0px 40px 0px 40px;"> <h4 class="mdl-mega-footer__heading">Tiendas</h4> <ul class="mdl-mega-footer__link-list"> <li><a href="#">Presentacion</a></li> <li><a href="#">Help Center</a></li> <li><a href="#">Community</a></li> </ul> </div> <div class="mdl-mega-footer__drop-down-section" style="background-color:#434A48;margin:0px 40px 0px 40px;"> <h4 class="mdl-mega-footer__heading">Tiendas</h4> <ul class="mdl-mega-footer__link-list"> <li><a href="#">Presentacion</a></li> <li><a href="#">Help Center</a></li> <li><a href="#">Community</a></li> </ul> </div> <div class="mdl-mega-footer__drop-down-section" style="background-color:#434A48;margin:0px 40px 0px 40px;"> <h4 class="mdl-mega-footer__heading">Tiendas</h4> <ul class="mdl-mega-footer__link-list"> <li><a href="#">Presentacion</a></li> <li><a href="#">Help Center</a></li> <li><a href="#">Community</a></li> </ul> </div> <div class="mdl-mega-footer__drop-down-section" style="background-color:#434A48;margin:0px 40px 0px 40px;"> <h4 class="mdl-mega-footer__heading">Tiendas</h4> <ul class="mdl-mega-footer__link-list"> <li><a href="#">Presentacion</a></li> <li><a href="#">Help Center</a></li> <li><a href="#">Community</a></li> </ul> </div> </div> <div class="mdl-mega-footer__bottom-section"> <hr> <div class="mdl-mega-footer__left-section"> <p>Made with Love</p> </div> <div class="mdl-mega-footer__right-section"> <ul class="mdl-mini-footer__link-list"> <li><a href="#">Help</a></li> <li><a href="#">Derechos</a></li> <li><a href="#">Content Marketing</a></li> </ul> </div> </div> </footer>', 'infofooter .asisehace,[data-is="infofooter"] .asisehace{ position:fixed; bottom:0; left:0; width:100%; height:50%; background:#000; color:#fff; z-index:-1; }', '', function (opts) {});
 
 /***/ }),
 
-/***/ 174:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('review', '<div class="fh5co-testimonial"> <div class="container"> <div class="col-8-xl col-8-l col-8-m"> <div each="{x in reviews}"> <div class="mdl-card mdl-shadow--3dp {(x.state)? \'entrar\':\'none\'}" if="{x.state}" style="width:70%;"> <div class="mdl-card__title mdl-card--expand" riot-style="color: #fff;height: 176px;background:url({x.img}) center / cover;"> <h2 class="mdl-card__title-text">{x.autor}</h2> </div> <div class="mdl-card__supporting-text"> <blockquote class="text-left"> {x.review} </blockquote> </div> <div class="mdl-card__actions mdl-card--border text-right"> <span class="review" each="{star in x.stars}"> <i class="material-icons">{star}</i> </span> </div> </div> </div> </div> <div class="col-4-xl col-4-l col-4-m"> <div class="row text-center fh5co-heading"> <h2>Customer Review</h2> </div> <p>ksadkaskdaskdasdsadasdasssda sadasdasdasdas sa jska kasj kasj asaslasjca as asdjasjdasñ asideklsajdlas onloadedmetadata="datalist" sakldjaslkdjaslsa askalsd saldje cdsñlcks ceñslckes cac askdasldkjsad aslkdasidw </p> </div> <div class="row text-center"> <button class="col-6 mdl-button mdl-js-button mdl-button--icon" onclick="{atras}"> <i class="material-icons">keyboard_arrow_left</i> </button> <button class="col-6 mdl-button mdl-js-button mdl-button--icon" onclick="{adelante}"> <i class="material-icons">keyboard_arrow_right</i> </button> </div> </div> </div>', 'review .entrar,[data-is="review"] .entrar{ -webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) ; animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) ; }', '', function (opts) {
   this.reviews = [{
@@ -401,37 +401,37 @@ riot.tag2('review', '<div class="fh5co-testimonial"> <div class="container"> <di
 
 /***/ }),
 
-/***/ 175:
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(166);
+__webpack_require__(54);
 
-__webpack_require__(176);
+__webpack_require__(64);
 
-__webpack_require__(177);
+__webpack_require__(65);
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('feactures', '<div id="features"> <div class="container mdl-tabs mdl-js-tabs mdl-js-ripple-effect"> <div class="row text-center fh5co-heading"> <div class="col-md-8 col-md-offset-2"> <h2>Podras Encontrar</h2> <hr> <div class="mdl-tabs__tab-bar"> <a href="#tiendas-panel" class="mdl-tabs__tab is-active"> <i class="material-icons">store</i> </a> <a href="#promos-panel" class="mdl-tabs__tab"> <i class="material-icons">local_atm</i> </a> <a href="#productos-panel" class="mdl-tabs__tab"> <i class="material-icons">shopping_cart</i> </a> </div> </div> </div> <div class="mdl-tabs__panel is-active" id="tiendas-panel"> <div class="row"> <h5 class="col-full text-center">Tiendas</h5> <tiendasdb></tiendasDb> </div> </div> <div class="mdl-tabs__panel" id="promos-panel"> <div class="row"> <h5 class="col-full text-center">Promos</h5> <promosdb></promosDb> </div> </div> <div class="mdl-tabs__panel" id="productos-panel"> <div class="row"> <h5 class="col-full text-center">Productos</h5> <productosdb></productosDb> </div> </div> </div> </div>', '', '', function (opts) {});
 
 /***/ }),
 
-/***/ 176:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dispatcher = __webpack_require__(23);
+var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('promosdb', '<div each="{x in promos}"> <div class="col-4-xl col-4-l col-4-m animateBox"> <div class="feature-center"> <p>{x.title}</p> <p>{x.url}</p> </div> </div> </div>', 'promosdb .animateBox,[data-is="promosdb"] .animateBox{ -webkit-animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both; animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both; }', '', function (opts) {
   this.promos = [];
@@ -450,19 +450,19 @@ riot.tag2('promosdb', '<div each="{x in promos}"> <div class="col-4-xl col-4-l c
 
 /***/ }),
 
-/***/ 177:
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dispatcher = __webpack_require__(23);
+var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('productosdb', '<div each="{x in productos}"> <div class="col-4-xl col-4-l col-4-m animateBox"> <div class="feature-center"> <p>{x.title}</p> <p>{x.price}</p> </div> </div> </div>', 'productosdb .animateBox,[data-is="productosdb"] .animateBox{ -webkit-animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both; animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both; }', '', function (opts) {
   this.productos = [];
@@ -481,19 +481,19 @@ riot.tag2('productosdb', '<div each="{x in productos}"> <div class="col-4-xl col
 
 /***/ }),
 
-/***/ 178:
+/***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dispatcher = __webpack_require__(23);
+var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('abrir-modal', '<div class="flexcontainer" if="{entrar}"> <h1>hola mundo</h1> <h4>si no encuentras tu tienda en Zupa te animamos a llenar este formulario</h4> <button onclick="{abrirModal}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"> Button </button> </div>', 'abrir-modal .flexcontainer,[data-is="abrir-modal"] .flexcontainer{ display: flex; flex-direction: column; align-items: center; justify-content: center; }', '', function (opts) {
   this.entrar = true;
@@ -507,31 +507,31 @@ riot.tag2('abrir-modal', '<div class="flexcontainer" if="{entrar}"> <h1>hola mun
 
 /***/ }),
 
-/***/ 179:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('tabsfeactures', '<div id="features"> <div class="container mdl-tabs mdl-js-tabs mdl-js-ripple-effect"> <div class="row text-center fh5co-heading"> <div class="col-md-8 col-md-offset-2"> <h2>Podras Encontrar</h2> <hr> <div class="mdl-tabs__tab-bar"> <a href="#one-panel" class="mdl-tabs__tab is-active"> <i class="material-icons">store</i> </a> <a href="#two-panel" class="mdl-tabs__tab"> <i class="material-icons">local_atm</i> </a> <a href="#three-panel" class="mdl-tabs__tab"> <i class="material-icons">shopping_cart</i> </a> </div> </div> </div> <div class="mdl-tabs__panel is-active" id="one-panel"> <div class="row"> <h5 class="col-full text-center">Tiendas</h5> <div class="row fh5co-feature"> <div class="col-md-6 col-md-push-6"> <div class="fh5co-copy"> <div class="fh5co-copy-inner"> <h2>Keep It Simple</h2> <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> </div> </div> </div> <div class="col-md-6 col-md-pull-6"> <div class="fh5co-img"> <figure class="fh5co-figure animate-box"> <img class="img-2" src="./client/assets/img/screenshot_1.jpg" alt="Free Website Template by FreeHTML5.co"> </figure> </div> </div> </div> </div> </div> <div class="mdl-tabs__panel" id="two-panel"> <div class="row"> <h5 class="col-full text-center">Promos</h5> <div class="row fh5co-feature fh5co-reverse"> <div class="col-md-6"> <div class="fh5co-copy"> <div class="fh5co-copy-inner"> <h2>Pixel Perfect</h2> <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> </div> </div> </div> <div class="col-md-6"> <div class="fh5co-img"> <figure class="fh5co-figure animate-box"> <img class="img-2" src="./client/assets/img/screenshot_2.jpg" alt="Free Website Template by FreeHTML5.co"> </figure> </div> </div> </div> </div> </div> <div class="mdl-tabs__panel" id="three-panel"> <div class="row"> <h5 class="col-full text-center">Productos</h5> <div class="row fh5co-feature "> <div class="col-md-6 col-md-push-6"> <div class="fh5co-copy"> <div class="fh5co-copy-inner"> <h2>Beautiful Design</h2> <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> </div> </div> </div> <div class="col-md-6 col-md-pull-6"> <div class="fh5co-img"> <figure class="fh5co-figure animate-box"> <img class="img-2" src="./client/assets/img/screenshot_3.jpg" alt="Free Website Template by FreeHTML5.co"> </figure> </div> </div> </div> </div> </div> </div> </div>', '', '', function (opts) {});
 
 /***/ }),
 
-/***/ 180:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dispatcher = __webpack_require__(23);
+var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const riot = __webpack_require__(10);
+const riot = __webpack_require__(1);
 
 riot.tag2('storeform', '<div> <div class="container mdl-tabs mdl-js-tabs mdl-js-ripple-effect"> <div class="row text-center fh5co-heading"> <div class="mdl-tabs__tab-bar"> <a href="#soytienda-panel" class="mdl-tabs__tab is-active"> Soy una tienda </a> <a href="#sugerencia-panel" class="mdl-tabs__tab"> conozco una tienda </a> </div> </div> <div class="mdl-tabs__panel is-active" id="soytienda-panel"> <div class="flexcontainer"> <form ref="login" onsubmit="{submit}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="sample4" ref="username"> <label class="mdl-textfield__label" for="sample4">algo</label> </div> <button ref="submit"> </form> </div> </div> <div class="mdl-tabs__panel" id="sugerencia-panel"> <div class="flexcontainer"> <form onsubmit="{enviar}"> <div if="{activo}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="sample3" onkeyup="{agarrarNombre}" riot-value="{mensaje.nombre}"> <label class="mdl-textfield__label" for="sample3">Nombre y apellido</label> </div> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="{pasoDos}"> Next </button> </div> <div if="{activoDos}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="sample4" onkeyup="{agarrarTelefono}" riot-value="{mensaje.telefono}"> <label class="mdl-textfield__label" for="sample4">Telefono</label> </div> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="{pasoTres}"> Next </button> </div> <div if="{activoTres}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="sample5" onkeyup="{agarrarNombreTienda}" riot-value="{mensaje.nombreTienda}"> <label class="mdl-textfield__label" for="sample5">nombre tienda</label> </div> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="{pasoTres}"> Back </button> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="{pasoCuatro}"> Next </button> </div> <div if="{activoCuatro}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="sample6" onkeyup="{agarrarDireccion}" riot-value="{mensaje.direccion}"> <label class="mdl-textfield__label" for="sample6">¿Porque?</label> </div> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="{enviar}"> Enviar </button> </div> </form> </div> </div> </div> </div>', 'storeform .flexcontainer,[data-is="storeform"] .flexcontainer{ display: flex; flex-direction: row; align-items: center; justify-content: center; }', '', function (opts) {
   this.mensaje = {
