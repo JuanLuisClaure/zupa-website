@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const riot = __webpack_require__(1);
 
-riot.tag2('welcome', '<div class="grid-container" data-medida="single"> <div class="flex_item--header" data-color="transparente"> <a href="#">subscribete a las noticias semanales </a> </div> <div class="flex_item--body" data-color="transparente"> <figure style="text-align: center;"> <img src="./client/assets/img/zupa.png" class="img-fluid" width="25%"> </figure> <h6 id="mensaje"></h6> <a href="#">sobre nosotros</a> <a href="#">contacto</a> <a href="#">restaurants</a> <a href="#">repartidores</a> </div> <div class="flex_item--footer"> <p class="marquee"><span>Forex: USDX, EURUSD, GBPUSD, AUDUSD, NZDUSD, USDCAD, USDNOK,USDSGD, USDSEK, USDJPY , GBPJPY ,EURJPY, AUDJPY, CADJPY, NZDJPY,EURAUD, EURGBP, EURCAD, EURNZD, GBPAUD, GBPNZD, GBPCAD,AUDCAD, AUDNZD / Indexes: S&P, ES_F, DJIA, Nasdaq, Russell, AAPL, FTSE, DAX, IBEX, Eurostoxx50,NIKKEI, ASX ,HangSeng, TASI, NIFTY </span></p> </div> </div>', 'welcome .marquee,[data-is="welcome"] .marquee{ white-space: nowrap; overflow: hidden; box-sizing: border-box; } welcome .marquee span,[data-is="welcome"] .marquee span{ display: inline-block; padding-left: 100%; text-indent: 0; animation: marquee 20s linear infinite; } welcome .marquee span:hover,[data-is="welcome"] .marquee span:hover{ animation-play-state: paused }', '', function (opts) {
+riot.tag2('welcome', '<div class="grid-container" data-medida="single"> <div class="flex_item--header"> <div class="flex_item--links"> <a href="#">subscribirse</a> </div> <div class="flex_item--other"> <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> <i class="material-icons">restaurant_menu</i> </button> </div> </div> <div class="flex_item--body" data-color="transparente"> <figure style="text-align: center;"> <img src="./client/assets/img/zupa.png" class="img-fluid" width="25%"> </figure> <div class="flex_item--accion"> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Descargar App</button> <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Presentacion</button> </div> <div class="flex_item--nav"> <a href="#">sobre nosotros</a> <a href="#">contacto</a> <a href="#">restaurants</a> <a href="#">repartidores</a> </div> </div> <div class="flex_item--footer" style="align-content: center;"> <div class="flex_item--faq "> <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> <i class="material-icons">live_help</i> </button> </div> <div class="flex_item--links"> <div class="lista"> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> <a href="#">alguna pregunta</a> </div> </div> </div> </div>', '', '', function (opts) {
   const tag = this;
 
   tag.isFuncionarMensajero = (domElement, mensaje) => {
@@ -44,7 +44,7 @@ var _dispatcher = __webpack_require__(4);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _intinput = __webpack_require__(61);
+var _intinput = __webpack_require__(69);
 
 var _intinput2 = _interopRequireDefault(_intinput);
 
@@ -170,7 +170,7 @@ riot.tag2('onboarding', '<div class="flexContainer-main" riot-style="background-
 
 /***/ }),
 
-/***/ 61:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

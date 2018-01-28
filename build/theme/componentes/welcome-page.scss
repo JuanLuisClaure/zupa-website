@@ -5,7 +5,7 @@ welcome{
   .grid-container{
     display: grid;
     background: linear-gradient(47deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #fa8231, #fa8231, #ee8434, #ee8434, #e96262, #e96262, #fc5c65, #fc5c65);
-    background-size: 4200% 4200%;
+    background-size: 4800% 4800%;
     animation-name: AnimationName;
     animation-duration: 55s;
     animation-timing-function: cubic-bezier(.55,.92,.55,.92);
@@ -18,7 +18,7 @@ welcome{
 
   .grid-container[data-medida="single"]{
     grid-template-columns:repeat(1, 1fr);
-    grid-template-rows: 4vh 92vh 4vh;
+    grid-template-rows: 5vh 90vh 5vh;
   }
 
   .estilos-prueba{
@@ -27,19 +27,25 @@ welcome{
 
   }
   .flex_item--header{
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
   }
   .flex_item--body{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color:rgba(238, 238, 238, 0.82);
+
   }
   .flex_item--footer{
-    display: inline-grid;
+    display: flex;
+    flex-direction: row;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-end;
+
   }
 
   .flex_item--footer[data-color="transparente"]{
@@ -52,7 +58,89 @@ welcome{
     background-color: rgba(238, 238, 238, 0.82);
   }
 
+  .flex_item--faq{
+    display: flex;
+    flex-basis: 11%;
+    min-height: 100%;
+    align-items: center;
+    justify-content: center;//esto no sale bien en celular. cambiar
+    background: linear-gradient(270deg, transparent, rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82));
 
+
+
+  }
+  .material-icons{
+    color:#e96262!important;
+  }
+  .flex_item--other{
+    display: flex;
+    flex-basis: 11%;
+    min-height: 100%;
+    align-items: center;
+    justify-content: center;//esto no sale bien en celular. cambiar
+    background: linear-gradient(90deg, transparent, rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82));
+  }
+  .flex_item--links{
+    background-color: transparent;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 89%;
+    width: 11vw;
+    overflow: hidden;
+    box-sizing: content-box;
+    flex-direction: row-reverse;
+    text-indent: 0;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  .flex_item--nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .flex_item--accion{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .lista:hover{
+    animation-play-state: paused
+  }
+
+  .lista{
+    display: flex;
+    animation:marquee 55s cubic-bezier(1,1.15,0,.23) infinite;
+  }
+  .flex_item--links a{
+    text-decoration: none;
+    font-size: 11px;
+  }
+  .flex_item--nav a{
+    text-decoration: none;
+    margin: 1px 10px;
+    font-size: 11px;
+  }
+  .flex_item--accion button{
+    text-decoration: none;
+    margin: 1px 10px;
+    font-size: 11px;
+    align-content: stretch;
+  }
+  .lista a{
+    text-decoration: none;
+    margin: 10px 100px;
+    font-size: 11px;
+  }
+  .boton-faq{
+    display: flex;
+  }
+  .boton-faq a{
+    text-decoration: none;
+    margin: 10px 10px
+  }
 
 
 

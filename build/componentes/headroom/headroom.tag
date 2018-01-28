@@ -4,7 +4,7 @@ import '../tiendasDb/tiendasDb'
 
 <div id="fh5co-header" style="background-attachment:fixed;background-position: center;background-repeat: no-repeat;background-size: cover;background-blend-mode: color;background-image:{ colorBackground };">
   <div class="container" if={ panelUno }>
-  
+
   </div>
   <div class="container" if={ panelDos }>
 
@@ -22,7 +22,7 @@ import '../tiendasDb/tiendasDb'
 
   if (this.location == this.full + '/#/conoces?') {
 
-    this.colorBackground = 'linear-gradient(#e96262, #e96262), url(./client/assets/img/backOne.jpg)'
+    this.colorBackground = 'linear-gradient(#e96262, #e96262), url(./client/assets/img/backTwo.jpg)'
     this.panelUno = true
     this.panelDos = false
     this.panelTres = false
@@ -30,7 +30,7 @@ import '../tiendasDb/tiendasDb'
 
   }else if (this.location == this.full + '/#/contacto') {
 
-    this.colorBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backThree.jpg)'
+    this.colorBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backTwo.jpg)'
     this.panelUno = false
     this.panelDos = false
     this.panelTres = true

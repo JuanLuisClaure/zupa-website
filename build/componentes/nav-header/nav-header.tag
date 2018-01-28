@@ -79,7 +79,7 @@ import '../../componentes/onscroll/onscroll'
           </div>
           <div class="mdl-card__menu">
           <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-          <i class="material-icons">share</i>
+          <i class="material-icons" >share</i>
           </button>
           </div>
           </div>

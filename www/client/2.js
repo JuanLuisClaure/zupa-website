@@ -247,13 +247,13 @@ riot.tag2('headroom', '<div id="fh5co-header" riot-style="background-attachment:
   this.full = window.location.protocol + "//" + window.location.host;
 
   if (this.location == this.full + '/#/conoces?') {
-    this.colorBackground = 'linear-gradient(#e96262, #e96262), url(./client/assets/img/backOne.jpg)';
+    this.colorBackground = 'linear-gradient(#e96262, #e96262), url(./client/assets/img/backTwo.jpg)';
     this.panelUno = true;
     this.panelDos = false;
     this.panelTres = false;
     this.update();
   } else if (this.location == this.full + '/#/contacto') {
-    this.colorBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backThree.jpg)';
+    this.colorBackground = 'linear-gradient(#EE8434, #EE8434), url(./client/assets/img/backTwo.jpg)';
     this.panelUno = false;
     this.panelDos = false;
     this.panelTres = true;

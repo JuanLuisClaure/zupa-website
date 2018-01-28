@@ -334,10 +334,23 @@
     100%{background-position:94% 0%}
 }
 @keyframes marquee {
-    0%   { transform: translate(0, 0); }
-    100% { transform: translate(-100%, 0); }
+    0%  { transform: translate(125%, 0); }
+   100% { transform: translate(-100%, 0); }
 }
-
+@keyframes color_fill {
+    0%  { color:#e96262; }
+    10%  { color:#fc5c65; }
+    20%  { color:#fa8231; }
+    30%  { color:#ee8434; }
+    40%  { color:#2bcbba; }
+    50%  { color:#0fb9b1; }
+    60%  { color:#2d98da; }
+    75%  { color:#07a0c3; }
+    80%  { color:#8854d0; }
+    90%  { color:#fa8231; }
+    100%  { color:#ee8434; }
+}
+// #, #fa8231, #, #ee8434, #, #e96262, #fc5c65, #fc5c65
 // INCLUDE  IN YOU SCSS FILE  AND HAVE FUN PLAYING
 //
 // @include w272h340{}
