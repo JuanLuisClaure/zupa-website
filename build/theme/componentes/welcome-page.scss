@@ -99,11 +99,13 @@ welcome{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-grow: 2;
   }
   .flex_item--accion{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-grow: 1;
   }
 
   .lista:hover{

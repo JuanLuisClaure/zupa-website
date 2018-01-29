@@ -10,19 +10,19 @@ __webpack_require__(55);
 
 __webpack_require__(57);
 
-__webpack_require__(61);
-
 __webpack_require__(62);
+
+__webpack_require__(63);
 
 __webpack_require__(58);
 
-__webpack_require__(65);
-
 __webpack_require__(66);
+
+__webpack_require__(67);
 
 __webpack_require__(59);
 
-__webpack_require__(67);
+__webpack_require__(68);
 
 const riot = __webpack_require__(1);
 
@@ -276,7 +276,7 @@ riot.tag2('infofooter', '<footer class="mdl-mega-footer asisehace"> <div class="
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -401,7 +401,7 @@ riot.tag2('review', '<div class="fh5co-testimonial"> <div class="container"> <di
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -409,9 +409,9 @@ riot.tag2('review', '<div class="fh5co-testimonial"> <div class="container"> <di
 
 __webpack_require__(54);
 
-__webpack_require__(63);
-
 __webpack_require__(64);
+
+__webpack_require__(65);
 
 const riot = __webpack_require__(1);
 
@@ -419,7 +419,7 @@ riot.tag2('feactures', '<div id="features"> <div class="container mdl-tabs mdl-j
 
 /***/ }),
 
-/***/ 63:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -450,7 +450,7 @@ riot.tag2('promosdb', '<div each="{x in promos}"> <div class="col-4-xl col-4-l c
 
 /***/ }),
 
-/***/ 64:
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -481,7 +481,7 @@ riot.tag2('productosdb', '<div each="{x in productos}"> <div class="col-4-xl col
 
 /***/ }),
 
-/***/ 65:
+/***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -507,7 +507,7 @@ riot.tag2('abrir-modal', '<div class="flexcontainer" if="{entrar}"> <h1>hola mun
 
 /***/ }),
 
-/***/ 66:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,7 +519,7 @@ riot.tag2('tabsfeactures', '<div id="features"> <div class="container mdl-tabs m
 
 /***/ }),
 
-/***/ 67:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

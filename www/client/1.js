@@ -10,7 +10,7 @@ __webpack_require__(55);
 
 __webpack_require__(57);
 
-__webpack_require__(68);
+__webpack_require__(69);
 
 __webpack_require__(58);
 
@@ -295,7 +295,7 @@ riot.tag2('infofooter', '<footer class="mdl-mega-footer asisehace"> <div class="
 
 /***/ }),
 
-/***/ 68:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

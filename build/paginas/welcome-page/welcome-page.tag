@@ -8,35 +8,37 @@ import dispatcher from '../../app/dispatcher'
       <div class="flex_item--links">
         <a href="#">subscribirse</a>
       </div>
-      <div class="flex_item--other">
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+      <button class="flex_item--other mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+
           <i class="material-icons">restaurant_menu</i>
+
       </button>
-      </div>
     </div>
     <div class="flex_item--body" data-color="transparente">
-      <figure style="text-align: center;">
-        <img src="./client/assets/img/zupa.png" class="img-fluid" width="25%">
-      </figure>
-      <div class="flex_item--accion">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Descargar App</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Presentacion</button>
-      </div>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="text-align: center;flex-grow: 3; width:100vw;">
+      <figure>
+          <img src="./client/assets/img/backTwo.jpg" class="img-fluid" width="25%">
+        </figure>
+      </button>
       <div class="flex_item--nav">
         <a href="#">sobre nosotros</a>
         <a href="#">contacto</a>
         <a href="#">restaurants</a>
         <a href="#">repartidores</a>
       </div>
+      <div class="flex_item--accion">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Descargar App</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Presentacion</button>
+      </div>
     </div>
     <div class="flex_item--footer" style="align-content: center;">
-      <div class="flex_item--faq ">
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+      <button class="flex_item--faq mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        <div type="button" >
           <i class="material-icons">live_help</i>
-      </button>
-
-
       </div>
+
+
+      </button>
       <div class="flex_item--links">
         <div class="lista">
 
