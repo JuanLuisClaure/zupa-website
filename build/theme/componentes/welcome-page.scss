@@ -4,7 +4,7 @@ welcome{
 
   .grid-container{
     display: grid;
-    background: linear-gradient(47deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #fa8231, #fa8231, #ee8434, #ee8434, #e96262, #e96262, #fc5c65, #fc5c65);
+    background: linear-gradient(55deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #fa8231, #fa8231, #ee8434, #ee8434, #e96262, #e96262, #fc5c65, #fc5c65);
     background-size: 4800% 4800%;
     animation-name: AnimationName;
     animation-duration: 55s;
@@ -37,7 +37,6 @@ welcome{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color:rgba(238, 238, 238, 0.82);
 
   }
   .flex_item--footer{
@@ -78,10 +77,12 @@ welcome{
     min-height: 100%;
     align-items: center;
     justify-content: center;//esto no sale bien en celular. cambiar
-    background: linear-gradient(90deg, transparent, rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82));
+    // background: linear-gradient(90deg, transparent, rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82), rgba(238, 238, 238, 0.82));
+    background-color: rgba(238,238,238,0.82);
+
   }
   .flex_item--links{
-    background-color: transparent;
+    background-color: rgba(238,238,238,0.3);
     min-height: 100%;
     display: flex;
     align-items: center;
@@ -97,15 +98,15 @@ welcome{
   }
   .flex_item--nav{
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-grow: 2;
+    flex-grow: 0.123;
+    align-items: stretch;
   }
   .flex_item--accion{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-grow: 1;
+    flex-grow: 0.9;
   }
 
   .lista:hover{
@@ -120,9 +121,27 @@ welcome{
     text-decoration: none;
     font-size: 11px;
   }
+  .links_style{
+    width: 25vw!important;
+    text-align: center;
+    min-height: auto!important;
+    justify-content: center;
+    background-color:rgba(238,238,238,0.82)!important;
+    background: linear-gradient(55deg, #e96262, #e96262, #fc5c65, #fc5c65, #fa8231, #fa8231, #ee8434, #ee8434, #2bcbba, #2bcbba, #0fb9b1, #0fb9b1, #2d98da, #2d98da, #07a0c3, #07a0c3, #8854d0, #8854d0, #a55eea, #a55eea, #fa8231, #fa8231, #ee8434, #ee8434, #e96262, #e96262, #fc5c65, #fc5c65);
+    background-size: 4800% 4800%;
+    animation-name: AnimationName;
+    animation-duration: 55s;
+    animation-timing-function: cubic-bezier(.55,.92,.55,.92);
+    animation-delay: 0s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-fill-mode: none;
+    animation-play-state: running;
+  }
+
   .flex_item--nav a{
     text-decoration: none;
-    margin: 1px 10px;
+    margin: 1% 8%;
     font-size: 11px;
   }
   .flex_item--accion button{
@@ -130,6 +149,7 @@ welcome{
     margin: 1px 10px;
     font-size: 11px;
     align-content: stretch;
+
   }
   .lista a{
     text-decoration: none;
@@ -147,14 +167,10 @@ welcome{
 
 
 
-
-
-
-
-
-
-
-
+.links_style[data-s="entrada"]{animation:rotate-scale-up-diag-2 0.7s linear both;}
+.links_style[data-s="mientras"]{animation: pulsate-fwd 0.5s ease-in-out infinite both}
+.links_style[data-s="salida"]{animation: roll-out-right 0.6s ease-in both;}
+.links_style[data-s="fin"]{animation: unset;}
 
 
 
